@@ -29,3 +29,23 @@
 3003 ! Theorem compatVersionChangeMaxRefl
 3004 ! Theorem compatVersionChangeMaxComm
 3005 ! Theorem compatVersionChangeMaxAssoc
+
+4000 ! Inductive keyAssignment : Set
+4001 ! Inductive keyEvaluation : Set
+4002 ! Definition keyAssignmentMatches
+4003 ! Theorem keyAssignmentMatchesDecidable :
+4004 ! Definition between
+4005 ! Theorem betweenNorm :
+4006 ! Definition keyAssignmentEvaluateAmplitudeForKey
+4007 ! Theorem keyAssignmentEvaluateAmplitudeForKeyNormalized
+4008 ! Definition keyAssignmentEvaluateAmplitudeForVelocity
+4009 ! Theorem keyAssignmentEvaluateAmplitudeForVelocityNormalized
+4010 ! Definition keyAssignmentEvaluateRate
+4011 ! Theorem keyAssignmentEvaluateRateNonNegative
+4012 ! Definition keyAssignmentEvaluateFull
+4013 ! Inductive keyAssignments : Set
+4014 ! Inductive keyAssignmentListIsSorted :
+4015 ! Fixpoint keyAssignmentForId
+4016 ! Fixpoint keyAssignmentsRemoved
+4017 ! Definition keyAssignmentsCompatCompare
+4018 ! Theorem keyAssignmentsCompatCompareMajor0

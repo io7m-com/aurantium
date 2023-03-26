@@ -20,11 +20,15 @@
         </Item>
         <Item>
           A strict, unambiguous, mathematical specification of the structure and semantics of the
-          format.
+          format. This means that, long after the <Term type="package">aurantium</Term> software
+          has died, developers of the future can write new implementations with behaviour that they
+          <Term type="term">know</Term> correctly handles the format.
         </Item>
         <Item>
           An exact and precise description of which changes are considered to be "compatible" changes,
-          and which changes are considered to be "incompatible".
+          and which changes are considered to be "incompatible". This means that new versions of files
+          cannot be released that will silently break compatibility with existing consumers; the tools
+          around the file format will catch these mistakes before publication.
         </Item>
         <Item>
           The inclusion of unique identifiers and version numbers into each file; once an audio
@@ -74,9 +78,13 @@
       version number for the file. When a <Term type="term">compatible</Term> change is made to a file,
       the next version of the file that is released must increment the minor version number.
     </Paragraph>
+    <Paragraph>
+      Implementations may choose to relax these rules for major version <Term type="term">0</Term>; files
+      with major version <Term type="term">0</Term> should be considered unstable development versions.
+    </Paragraph>
   </Subsection>
 
-  <Subsection title="Changes">
+  <Subsection title="Changes" id="182551bb-fc49-4b0c-8da0-f075810ebdb2">
     <Paragraph>
       When a <Term type="term">change</Term> is made to a file, the nature of that change dictates whether
       the <Link target="ba4a7b71-196a-4a06-bb2f-d7a073365f87">major</Link> or

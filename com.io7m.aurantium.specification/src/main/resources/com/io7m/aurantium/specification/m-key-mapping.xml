@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Key Mappings"
+         id="31ea3dcf-0dd7-4653-929b-295a33775f4f"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      The <Term type="package">aurantium</Term> format is intended to be used in
+      <LinkExternal target="https://en.wikipedia.org/wiki/Sampler_(musical_instrument)">sampler</LinkExternal>
+      applications. As such, it provides a means to map <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clips</Link>
+      to <Term type="term">keyboard input</Term>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Keys" id="b287d57e-9fb4-41c3-ae00-f7443380752d">
+    <Subsection title="Numbering">
+      <Paragraph>
+        The <Term type="package">aurantium</Term> format assumes an abstract model of keyboard
+        input where keys are simply assigned ascending natural numbers. This aligns with
+        instrument control protocols such as <LinkExternal target="https://en.wikipedia.org/wiki/MIDI">MIDI</LinkExternal>
+        and <LinkExternal target="https://en.wikipedia.org/wiki/Open_Sound_Control">OSC</LinkExternal>.
+        There is no direct correspondence between MIDI or OSC keys in the <Term type="package">aurantium</Term> format;
+        applications are expected to perform their own mapping to
+        <Term type="package">aurantium</Term> keys as needed. Keys are assumed to use the
+        <LinkExternal target="https://en.wikipedia.org/wiki/12_equal_temperament">12-TET</LinkExternal>
+        tuning system; applications requiring different tuning systems will have to calculate their
+        own clip playback rates.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="Velocity" id="3feb0a5a-a425-4a12-8a7f-2987f1415f0d">
+      <Paragraph>
+        The <Term type="package">aurantium</Term> format assumes the existence of per-key
+        <Term type="term">velocity</Term> values. A velocity value is a value of type
+        <Term type="constant">ℝ</Term> in the range <Term type="expression">[0, 1]</Term> and
+        can be understood to be a measure of the dynamics of a given note. A velocity value of
+        <Term type="expression">0</Term> indicates that a note was played as softly as possible,
+        whilst a velocity value of <Term type="expression">1</Term> indicates that a note was
+        played as hard as possible. Velocity values can be used to interpolate between different
+        <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clips</Link> assigned to a key in
+        order to change the timbre of the resulting sound in response to dynamics.
+      </Paragraph>
+    </Subsection>
+  </Subsection>
+
+  <Subsection title="Key Assignments">
+    <Subsection title="Description">
+      <Paragraph>
+        A <Term type="term">key assignment</Term> associates a
+        <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clip</Link> with
+        a range of <Link target="b287d57e-9fb4-41c3-ae00-f7443380752d">keys</Link>, over a configurable
+        <Link target="3feb0a5a-a425-4a12-8a7f-2987f1415f0d">velocity range</Link>. Key assignments
+        allow for relatively complex control over the amplitude of each assigned clip, where amplitude
+        can be dependent on both the position of the key within a specified range, and the velocity of
+        the played note. An arbitrary number of clips can be assigned to overlapping ranges, allowing
+        for complex layering of clips.
+      </Paragraph>
+      <Paragraph>
+        A <Term type="term">key assignment</Term> is described by the following type:
+      </Paragraph>
+      <FormalItem title="Key Assignment">
+        <Verbatim><xi:include href="4000.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The <Term type="expression">kaId</Term> field specifies a unique (within the
+        <Term type="package">aurantium</Term> file) identifier for the key assignment. This can be
+        used to refer to the key assignment in other parts of the file.
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">kaValueStart</Term>, <Term type="expression">kaValueCenter</Term>,
+        and <Term type="expression">kaValueEnd</Term> fields specify the range of keys to which this
+        key assignment applies. This key assignment will only be
+        <Link target="e5189c66-a9ca-4c79-9e83-c62f7ca41149">evaluated</Link>
+        if a key falls within this given range.
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">kaId</Term> field specifies the
+        <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clip</Link> associated with this key
+        assignment.
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">kaAmplitudeAtKeyStart</Term>,
+        <Term type="expression">kaAmplitudeAtKeyCenter</Term>,
+        and <Term type="expression">kaAmplitudeAtKeyEnd</Term> fields specify the amplitude values
+        that will be produced by <Link target="e5189c66-a9ca-4c79-9e83-c62f7ca41149">evaluation</Link>
+        for each key within the range given by
+        <Term type="expression">[kaValueStart, kaValueEnd]</Term>. The amplitude values must be
+        in the range <Term type="expression">[0, 1]</Term>. The amplitude values for keys within
+        the range <Term type="expression">[kaValueStart, kaValueCenter]</Term> are linearly
+        interpolated between the values
+        <Term type="expression">(kaAmplitudeAtKeyStart, kaAmplitudeAtKeyCenter)</Term>, and
+        the amplitude values for keys within the range
+        <Term type="expression">[kaValueCenter, kaValueEnd]</Term> are linearly interpolated
+        between the values <Term type="expression">(kaAmplitudeAtKeyCenter, kaAmplitudeAtKeyEnd)</Term>.
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">kaAtVelocityStart</Term>, <Term type="expression">kaAtVelocityCenter</Term>,
+        and <Term type="expression">kaAtVelocityEnd</Term> fields specify the range of velocity values to which this
+        key assignment applies. This key assignment will only be
+        <Link target="e5189c66-a9ca-4c79-9e83-c62f7ca41149">evaluated</Link>
+        if a key's velocity value falls within this given range.
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">kaAmplitudeAtVelocityStart</Term>,
+        <Term type="expression">kaAmplitudeAtVelocityCenter</Term>,
+        and <Term type="expression">kaAmplitudeAtVelocityEnd</Term> fields specify the amplitude values
+        that will be produced by <Link target="e5189c66-a9ca-4c79-9e83-c62f7ca41149">evaluation</Link>
+        for each velocity value within the range given by
+        <Term type="expression">[kaAtVelocityStart, kaAtVelocityEnd]</Term>. The amplitude values must be
+        in the range <Term type="expression">[0, 1]</Term>. The amplitude values for velocities within
+        the range <Term type="expression">[kaAtVelocityStart, kaAtVelocityCenter]</Term> are linearly
+        interpolated between the values
+        <Term type="expression">(kaAmplitudeAtVelocityStart, kaAmplitudeAtVelocityCenter)</Term>, and
+        the amplitude values for keys within the range
+        <Term type="expression">[kaAtVelocityCenter, kaAtVelocityEnd]</Term> are linearly interpolated
+        between the values <Term type="expression">(kaAmplitudeAtVelocityCenter, kaAmplitudeAtVelocityEnd)</Term>.
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">kaFlags</Term> field specifies a set of
+        extra metadata flags for the key assignment.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="Key Assignment Evaluation" id="e5189c66-a9ca-4c79-9e83-c62f7ca41149">
+      <Subsection title="Evaluation">
+        <Paragraph>
+          When a key <Term type="expression">k</Term> is triggered with velocity <Term type="expression">v</Term>,
+          it is necessary to <Term type="term">evaluate</Term> zero or more
+          <Term type="term">key assignments</Term> to obtain all of the required audio
+          data for the given note.
+        </Paragraph>
+        <Paragraph>
+          Evaluation produces a possibly-empty list of
+          <Term type="term">key assignment evaluations</Term> represented by the following type:
+        </Paragraph>
+        <FormalItem title="Key Evaluation">
+          <Verbatim><xi:include href="4001.txt" parse="text"/></Verbatim>
+        </FormalItem>
+        <Paragraph>
+          The <Term type="expression">keyEvaluationClipId</Term> field specifies the
+          identifier of the <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clip</Link> from which
+          audio data should be sampled.
+        </Paragraph>
+        <Paragraph id="619de952-f554-4518-a3c8-6051e61c5c1c">
+          The <Term type="expression">keyEvaluationVelocityAmplitude</Term> field specifies the
+          resulting amplitude of the clip based on how the key assignment is configured to respond
+          to velocity values.
+        </Paragraph>
+        <Paragraph id="b7eff04e-503e-4c25-867f-34b346bce1a5">
+          The <Term type="expression">keyEvaluationKeyAmplitude</Term> field specifies the
+          resulting amplitude of the clip based on how the key assignment is configured to respond
+          to the key value.
+        </Paragraph>
+        <Paragraph>
+          Applications are, in practice, expected to multiply <Term type="expression">keyEvaluationVelocityAmplitude</Term>
+          and <Term type="expression">keyEvaluationKeyAmplitude</Term> together and use the resulting
+          amplitude value to scale the values sampled from the associated clip.
+        </Paragraph>
+        <Paragraph>
+          The <Term type="expression">keyEvaluationRate</Term> field specifies the
+          playback rate that should be used to access the associated clip based upon the
+          key value.
+        </Paragraph>
+        <Paragraph>
+          The following subsections describe how these results are calculated.
+        </Paragraph>
+      </Subsection>
+      <Subsection title="Matching">
+        <Paragraph>
+          A key assignment for a given key can only be evaluated if the key assignment
+          <Term type="term">matches</Term> the key's value and velocity. A key and velocity
+          are said to <Term type="term">match</Term> a key assignment if the following proposition holds:
+        </Paragraph>
+        <FormalItem title="Key Assignment Matching">
+          <Verbatim><xi:include href="4002.txt" parse="text"/></Verbatim>
+        </FormalItem>
+        <Paragraph>
+          Determining if the proposition holds is decidable:
+        </Paragraph>
+        <FormalItem title="Key Assignment Matching Decidability">
+          <Verbatim><xi:include href="4003.txt" parse="text"/></Verbatim>
+        </FormalItem>
+      </Subsection>
+      <Subsection title="Amplitude">
+        <Subsection title="Key" id="38669245-7b7f-4df2-84bb-c6f54e4cdf45">
+          <Paragraph>
+            A matching key assignment's <Term type="term">key amplitude</Term> is calculated by taking the value
+            of the current key <Term type="expression">k</Term>, and returning a value in the range
+            <Term type="expression">[0, 1]</Term> that describes <Term type="expression">k</Term>'s position in the
+            range <Term type="expression">[kaValueStart, kaValueEnd]</Term>. A value of <Term type="expression">0</Term>
+            indicates that <Term type="expression">k = kaValueStart</Term>, whilst a value of
+            <Term type="expression">1</Term> indicates that <Term type="expression">k = kaValueEnd</Term>.
+            This value is calculated using the <Term type="expression">between</Term> function:
+          </Paragraph>
+          <FormalItem title="Between" id="89227873-d1e4-4e86-9e92-2cb934bccd8f">
+            <Verbatim><xi:include href="4004.txt" parse="text"/></Verbatim>
+          </FormalItem>
+          <Paragraph>
+            The <Term type="expression">between</Term> function will always return a value in
+            <Term type="expression">[0, 1]</Term> given the appropriate preconditions:
+          </Paragraph>
+          <FormalItem title="Between Normalized">
+            <Verbatim><xi:include href="4005.txt" parse="text"/></Verbatim>
+          </FormalItem>
+          <Paragraph>
+            The value returned from the <Term type="expression">between</Term> function is then used to
+            linearly interpolate between values in the range
+            <Term type="expression">[kaAmplitudeAtKeyStart, kaAmplitudeAtKeyEnd]</Term>:
+          </Paragraph>
+          <FormalItem title="Key Amplitude Evaluation">
+            <Verbatim><xi:include href="4006.txt" parse="text"/></Verbatim>
+          </FormalItem>
+          <Paragraph>
+            This function is guaranteed to produce amplitude values that are in the range
+            <Term type="expression">[0, 1]</Term>:
+          </Paragraph>
+          <FormalItem title="Key Amplitude Evaluation Normalized">
+            <Verbatim><xi:include href="4007.txt" parse="text"/></Verbatim>
+          </FormalItem>
+        </Subsection>
+        <Subsection title="Velocity" id="6059a65a-33e5-44d4-8c90-c3adb3f0bd9b">
+          <Paragraph>
+            A matching key assignment's <Term type="term">velocity amplitude</Term> is calculated by taking the velocity
+            of the current key <Term type="expression">v</Term>, and returning a value in the range
+            <Term type="expression">[0, 1]</Term> that describes <Term type="expression">v</Term>'s position in the
+            range <Term type="expression">[kaAtVelocityStart, kaAtVelocityEnd]</Term>.
+            A value of <Term type="expression">0</Term>
+            indicates that <Term type="expression">v = kaAtVelocityStart</Term>, whilst a value of
+            <Term type="expression">1</Term> indicates that <Term type="expression">v = kaAtVelocityEnd</Term>.
+            This value is calculated using the <Link target="89227873-d1e4-4e86-9e92-2cb934bccd8f">between</Link>
+            function.
+          </Paragraph>
+          <Paragraph>
+            The value returned from the <Term type="expression">between</Term> function is then used to
+            linearly interpolate between values in the range
+            <Term type="expression">[kaAmplitudeAtVelocityStart, kaAmplitudeAtVelocityEnd]</Term>:
+          </Paragraph>
+          <FormalItem title="Velocity Amplitude Evaluation">
+            <Verbatim><xi:include href="4008.txt" parse="text"/></Verbatim>
+          </FormalItem>
+          <Paragraph>
+            This function is guaranteed to produce amplitude values that are in the range
+            <Term type="expression">[0, 1]</Term>:
+          </Paragraph>
+          <FormalItem title="Velocity Amplitude Evaluation Normalized">
+            <Verbatim><xi:include href="4009.txt" parse="text"/></Verbatim>
+          </FormalItem>
+        </Subsection>
+      </Subsection>
+      <Subsection title="Playback Rate">
+        <Paragraph>
+          The clip associated with this key assignment should be played at normal
+          playback rate when the incoming key is equal to
+          <Term type="expression">kaValueCenter</Term>, and should be pitched up accordingly
+          for keys less than or equal to <Term type="expression">kaValueEnd</Term>, and pitched
+          down accordingly for keys greater than or equal to <Term type="expression">kaValueStart</Term>.
+        </Paragraph>
+        <Paragraph>
+          A matching key assignment's <Term type="term">playback rate</Term> is calculated by taking the value
+          of the current key <Term type="expression">k</Term> and determining how many semitones (if any),
+          <Term type="expression">k</Term> is above or below <Term type="expression">kaValueCenter</Term>.
+          If <Term type="expression">k = kaValueCenter</Term>, the resulting
+          playback rate is <Term type="constant">1.0</Term>. If <Term type="expression">k</Term> is
+          <Term type="expression">n</Term> semitones below <Term type="expression">kaValueCenter</Term>,
+          then the resulting playback rate is <Term type="expression">n * semitoneDown</Term>,
+          where <Term type="expression">semitoneDown</Term> is equal to one minus the twelfth square root
+          of 12.
+          If <Term type="expression">k</Term> is
+          <Term type="expression">n</Term> semitones above <Term type="expression">kaValueCenter</Term>,
+          then the resulting playback rate is <Term type="expression">n * semitoneUp</Term>,
+          where <Term type="expression">semitoneUp</Term> is equal to the twelfth square root
+          of 12. This is described by the <Term type="expression">keyAssignmentEvaluateRate</Term>
+          function:
+        </Paragraph>
+        <FormalItem title="Key Assignment Rate Evaluation">
+          <Verbatim><xi:include href="4010.txt" parse="text"/></Verbatim>
+        </FormalItem>
+        <Paragraph>
+          This function is guaranteed to produce a non-negative result:
+        </Paragraph>
+        <FormalItem title="Key Assignment Rate Evaluation Non-negative">
+          <Verbatim><xi:include href="4011.txt" parse="text"/></Verbatim>
+        </FormalItem>
+        <Paragraph id="d659e88c-e90a-4a5f-a1b2-2813d4bdbd1d">
+          If a key assignment has the <Term type="expression">FlagUnpitched</Term> value in its
+          <Term type="expression">kaFlags</Term> field, the playback rate is always
+          <Term type="constant">1.0</Term>. This flag is intended to be used for samples that should
+          not vary their pitch in response to key values.
+        </Paragraph>
+      </Subsection>
+      <Subsection title="Complete Procedure">
+        <Paragraph>
+          The complete evaluation procedure for a key assignment is given by the
+          <Term type="expression">keyAssignmentEvaluateFull</Term> function:
+        </Paragraph>
+        <FormalItem title="Key Assignment Full Evaluation">
+          <Verbatim><xi:include href="4012.txt" parse="text"/></Verbatim>
+        </FormalItem>
+      </Subsection>
+    </Subsection>
+    <Subsection title="Examples">
+      <Paragraph>
+        The configurable values exposed by key assignments allow for fairly complex behaviour that
+        can be difficult to visualize. The following graphic shows a few examples of the effects that
+        can be achieved with specific configuration values:
+      </Paragraph>
+      <FormalItem title="Examples">
+        <Image source="keymapping.png" width="640" height="480">Examples</Image>
+      </FormalItem>
+      <Paragraph>
+        The key assignment <Term type="expression">K1</Term> is configured such that
+        <Term type="expression">[kaValueStart, kaValueEnd] = [60, 67]</Term>, and
+        <Term type="expression">[kaAtVelocityStart, kaAtVelocityEnd] = [0, 1]</Term>. This means
+        keys <Term type="expression">[60, 67]</Term> will match it, and all possible velocity values
+        will also match it. <Term type="expression">K1</Term> has
+        <Term type="expression">[kaAmplitudeAtKeyStart, kaAmplitudeAtKeyEnd] = [1, 1]</Term>, which
+        means that the <Link target="38669245-7b7f-4df2-84bb-c6f54e4cdf45">key amplitude</Link> is
+        always <Term type="constant">1</Term> and doesn't differ based on which key is pressed. It
+        has <Term type="expression">[kaAmplitudeAtVelocityStart, kaAmplitudeAtVelocityCenter] = [0, 1]</Term>,
+        and <Term type="expression">[kaAmplitudeAtVelocityCenter, kaAmplitudeAtVelocityEnd] = [1, 0]</Term>.
+        This, oddly, means that when a key is pressed at half velocity, the resulting amplitude will
+        be <Term type="constant">1</Term>. When a key is pressed above half velocity, the resulting
+        amplitude values will trend downwards towards <Term type="constant">0</Term>. Similarly, when
+        a key is pressed below half velocity, the amplitude values will also trend downwards towards
+        <Term type="constant">0</Term>. In isolation, this would seem to be of questionable utility,
+        however it becomes useful when considering multiple clips assigned to the same key range;
+        velocity values can be used to blend between different clips to affect the resulting timbre.
+      </Paragraph>
+      <Paragraph>
+        The key assignment <Term type="expression">K2</Term> is configured such that
+        <Term type="expression">[kaValueStart, kaValueEnd] = [65, 71]</Term>, and
+        <Term type="expression">[kaAtVelocityStart, kaAtVelocityEnd] = [0, 0.4]</Term>. This means
+        keys <Term type="expression">[60, 67]</Term> will match it, but only velocity values
+        up to and including <Term type="constant">0.4</Term> will match it.
+        <Term type="expression">K2</Term> has
+        <Term type="expression">[kaAmplitudeAtKeyStart, kaAmplitudeAtKeyEnd] = [1, 1]</Term>, which
+        means that the <Link target="38669245-7b7f-4df2-84bb-c6f54e4cdf45">key amplitude</Link> is
+        always <Term type="constant">1</Term> and doesn't differ based on which key is pressed. It
+        has <Term type="expression">[kaAmplitudeAtVelocityStart, kaAmplitudeAtVelocityCenter] = [0, 0.5]</Term>,
+        and <Term type="expression">[kaAmplitudeAtVelocityCenter, kaAmplitudeAtVelocityEnd] = [0.5, 1]</Term>.
+        This means that when a key is pressed at anything between velocity
+        <Term type="expression">[0, 0.4]</Term>, the resulting amplitude will be in the range
+        <Term type="expression">[0, 1]</Term>. At any velocity value over
+        <Term type="constant">0.4</Term>, however, the key assignment will no longer match. This
+        configuration can be used to produce hard steps between clips assigned to the same keys
+        without any soft interpolation. Note that <Term type="expression">K2</Term> and
+        <Term type="expression">K1</Term> have overlapping key ranges, so some combinations
+        of key and velocity will match both and therefore result in evaluating two clips. This
+        is an intended and useful effect that can be used to smoothly vary the timbre of instruments
+        by blending between clips based on the incoming key value.
+      </Paragraph>
+      <Paragraph>
+        The key assignment <Term type="expression">K3</Term> is configured such that
+        <Term type="expression">[kaValueStart, kaValueEnd] = [72, 77]</Term>, and
+        <Term type="expression">[kaAtVelocityStart, kaAtVelocityEnd] = [0, 1]</Term>. This means
+        keys <Term type="expression">[72, 77]</Term> will match it, and all possible velocity values
+        will also match it.
+        <Term type="expression">K3</Term> has
+        <Term type="expression">[kaAmplitudeAtKeyStart, kaAmplitudeAtKeyEnd] = [1, 1]</Term>, which
+        means that the <Link target="38669245-7b7f-4df2-84bb-c6f54e4cdf45">key amplitude</Link> is
+        always <Term type="constant">1</Term> and doesn't differ based on which key is pressed. It
+        has <Term type="expression">[kaAmplitudeAtVelocityStart, kaAmplitudeAtVelocityEnd] = [1, 1]</Term>
+        which means that the resulting <Link target="6059a65a-33e5-44d4-8c90-c3adb3f0bd9b">velocity amplitude</Link>
+        is always <Term type="constant">1</Term>.
+      </Paragraph>
+      <Paragraph>
+        The key assignment <Term type="expression">K4</Term> is configured such that
+        <Term type="expression">[kaValueStart, kaValueEnd] = [77, 82]</Term>, and
+        <Term type="expression">[kaAtVelocityStart, kaAtVelocityEnd] = [0, 1]</Term>. This means
+        keys <Term type="expression">[72, 77]</Term> will match it, and all possible velocity values
+        will also match it.
+        <Term type="expression">K3</Term> has
+        <Term type="expression">[kaAmplitudeAtKeyStart, kaAmplitudeAtKeyCenter] = [0, 1]</Term> and
+        <Term type="expression">[kaAmplitudeAtKeyCenter, kaAmplitudeAtKeyEnd] = [1, 0]</Term>,
+        which means that the <Link target="38669245-7b7f-4df2-84bb-c6f54e4cdf45">key amplitude</Link> is
+        rises towards <Term type="constant">1</Term> the closer the incoming key is
+        to <Term type="expression">kaValueCenter</Term>.
+      </Paragraph>
+      <Paragraph>
+        The key assignment <Term type="expression">K5</Term> is configured such that
+        <Term type="expression">[kaValueStart, kaValueEnd] = [77, 82]</Term>, and
+        <Term type="expression">[kaAtVelocityStart, kaAtVelocityEnd] = [0, 1]</Term>.
+        <Term type="expression">K4</Term> has
+        <Term type="expression">[kaAmplitudeAtKeyStart, kaAmplitudeAtKeyCenter] = [0, 1]</Term> and
+        <Term type="expression">[kaAmplitudeAtKeyCenter, kaAmplitudeAtKeyEnd] = [1, 0]</Term>,
+        which means that the <Link target="38669245-7b7f-4df2-84bb-c6f54e4cdf45">key amplitude</Link>
+        varies in the same manner as <Term type="expression">K4</Term>. It has
+        It has <Term type="expression">[kaAmplitudeAtVelocityStart, kaAmplitudeAtVelocityCenter] = [0, 1]</Term>
+        and <Term type="expression">[kaAmplitudeAtVelocityCenter, kaAmplitudeAtVelocityEnd] = [1, 0]</Term>,
+        which means that the
+        <Link target="6059a65a-33e5-44d4-8c90-c3adb3f0bd9b">velocity amplitude</Link> varies in the same
+        manner as <Term type="expression">K1</Term>. Essentially, the resulting amplitude is only at full
+        amplitude when the velocity is <Term type="constant">0.5</Term>, and
+        the key is <Term type="constant">85</Term>.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="Lists">
+      <Paragraph>
+        The set of key assignments in an <Term type="package">aurantium</Term> file
+        are contained within a single list.
+      </Paragraph>
+      <FormalItem title="Key Assignment List">
+        <Verbatim><xi:include href="4013.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The <Term type="expression">keyAssignmentListIsSorted</Term> proposition
+        indicates that the list of key assignments must be provided in ascending
+        order of their identifiers:
+      </Paragraph>
+      <FormalItem title="Key Assignment List Sorted">
+        <Verbatim><xi:include href="4014.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph id="a560753b-fecb-4a0d-ba16-d47c0e2f6b8a">
+        A key assignment with a given ID is located using the
+        <Term type="expression">keyAssignmentForId</Term> function:
+      </Paragraph>
+      <FormalItem title="keyAssignmentForId">
+        <Verbatim><xi:include href="4015.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+  </Subsection>
+
+  <Subsection title="Compatibility">
+    <Subsection title="Overview">
+      <Paragraph>
+        This section enumerates all of the possible changes that can be made to
+        a set of key assignments, and describes whether each of the changes is
+        a compatibility-breaking <Link target="182551bb-fc49-4b0c-8da0-f075810ebdb2">major</Link>
+        change, or a minor change.
+      </Paragraph>
+      <Paragraph id="b74df9db-98c6-4f17-88f3-e27b33746c68">
+        The complete procedure for determining the compatibility of changes to a list
+        of key assignments is given by the <Term type="expression">keyAssignmentsCompatCompare</Term>:
+      </Paragraph>
+      <FormalItem title="keyAssignmentsCompatCompare">
+        <Verbatim><xi:include href="4017.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        This function composes the results of many compatibility checks, and returns a list of
+        all of the changes. The definitions given in the
+        <Link target="f7967257-9e35-4a55-b577-6bf685ac0df7">compatibility</Link> module
+        can then be used to determine the maximally significant change in the list of changes.
+      </Paragraph>
+    </Subsection>
+
+    <Subsection title="Removing A Key Assignment">
+      <Paragraph>
+        Removing an existing key assignment is a <Term type="term">major</Term> change. If
+        a piece of music is written using version <Term type="expression">M</Term> of an audio
+        map, and a key assignment is removed from that map, some keys triggered by the music
+        may either sound different (due to fewer key assignments matching), or may now contain
+        notes that do not match any key assignments (effectively resulting in silence).
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">keyAssignmentsRemoved</Term> function determines the
+        set of key assignments that were present in the old version of a key assignment
+        list, but that are not present in the new one:
+      </Paragraph>
+      <FormalItem title="keyAssignmentsRemoved">
+        <Verbatim><xi:include href="4016.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        It follows that if the list of removed elements is non-empty, then the
+        <Link target="b74df9db-98c6-4f17-88f3-e27b33746c68">keyAssignmentsCompatCompare</Link>
+        returns at least one major change:
+      </Paragraph>
+      <FormalItem title="keyAssignmentsRemoved Major">
+        <Verbatim><xi:include href="4018.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="Adding A Key Assignment">
+      <Paragraph>
+        Adding.
+      </Paragraph>
+    </Subsection>
+  </Subsection>
+
+</Section>

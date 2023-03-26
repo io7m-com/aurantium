@@ -34,13 +34,13 @@
     <Link target="1fc28ede-73b0-48c7-9bca-7f0a2c6fd261">binary encoding</Link>
     section first. The <Term type="package">aurantium</Term> format is designed to be straightforward to parse, requiring
     only a few minimal primitives to express the entirety of the format, and requires no references to external
-    specifications (unlike many other image/texture file formats) <LinkFootnote
+    specifications (unlike many other audio file formats) <LinkFootnote
     target="1906bd33-9349-4bfa-8c70-4406828fbeb3"/>. Once a developer is able to read data from an
     existing <Term type="package">aurantium</Term> file, they should consult the
     <Link target="6d2182a1-ae44-4eb0-8107-6552c08229c5">model</Link>
     to understand what the data they're receiving actually <Term type="term">means</Term>. The
     model chapters are arranged in dependency order starting with the most fundamental concepts, and ending
-    with the top level definitions of the various texture types.
+    with the top level definitions of the various types.
   </Paragraph>
 
   <Footnote id="1906bd33-9349-4bfa-8c70-4406828fbeb3">
@@ -49,7 +49,7 @@
     the <Term type="package">aurantium</Term> specification makes references to
     <LinkExternal target="https://www.unicode.org">Unicode</LinkExternal>,
     <LinkExternal target="https://en.wikipedia.org/wiki/IEEE_754">IEEE-754</LinkExternal>, and so on. It does not,
-    however, require understanding any other existing texture formats, or depend on any definitions given in
+    however, require understanding any other existing audio formats, or depend on any definitions given in
     the specifications for any rendering APIs.
   </Footnote>
 

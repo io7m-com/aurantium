@@ -76,61 +76,51 @@ Proof. decide equality. Qed.
 Inductive keyAssignment : Set := {
   (** The unique identifier of the key assignment. *)
   kaId : nat;
-
   (** The lowest key value that will trigger this clip. *)
-  kaValueStart  : nat;
+  kaValueStart : nat;
   (** The key value at which the clip plays at the normal playback rate. *)
-  kaValueCenter : nat;
+  kaValueCenter: nat;
   (** The highest key value that will trigger this clip. *)
-  kaValueEnd    : nat;
-
+  kaValueEnd : nat;
   (** The key values must be ordered. *)
-  kaValueStartOrder  : le kaValueStart kaValueCenter;
+  kaValueStartOrder : le kaValueStart kaValueCenter;
   kaValueCenterOrder : le kaValueCenter kaValueEnd;
-
   (** The clip that will be triggered. *)
   kaClipId : nat;
-
   (** The amplitude at which this clip will be played when at the lowest key value. *)
-  kaAmplitudeAtKeyStart  : R;
+  kaAmplitudeAtKeyStart : R;
   (** The amplitude at which this clip will be played when at the center key value. *)
   kaAmplitudeAtKeyCenter : R;
   (** The amplitude at which this clip will be played when at the highest key value. *)
-  kaAmplitudeAtKeyEnd    : R;
-
+  kaAmplitudeAtKeyEnd : R;
   (** The amplitude values are normalized values. *)
-  kaAmplitudeAtKeyStartNormal  : isNormalized kaAmplitudeAtKeyStart;
+  kaAmplitudeAtKeyStartNormal : isNormalized kaAmplitudeAtKeyStart;
   kaAmplitudeAtKeyCenterNormal : isNormalized kaAmplitudeAtKeyCenter;
-  kaAmplitudeAtKeyEndNormal    : isNormalized kaAmplitudeAtKeyEnd;
-
+  kaAmplitudeAtKeyEndNormal : isNormalized kaAmplitudeAtKeyEnd;
   (** The velocity value at which this clip starts to be triggered. *)
-  kaAtVelocityStart  : R;
+  kaAtVelocityStart : R;
   (** The velocity value at which the amplitude of this clip is at maximum. *)
   kaAtVelocityCenter : R;
   (** The velocity value at which this clip stops being triggered. *)
-  kaAtVelocityEnd    : R;
-
+  kaAtVelocityEnd : R;
   (** The velocity values are normalized values and are correctly ordered. *)
-  kaAtVelocityStartNormal  : isNormalized kaAtVelocityStart;
+  kaAtVelocityStartNormal : isNormalized kaAtVelocityStart;
   kaAtVelocityCenterNormal : isNormalized kaAtVelocityCenter;
-  kaAtVelocityEndNormal    : isNormalized kaAtVelocityEnd;
-  kaAtVelocityStartOrder   : kaAtVelocityStart <= kaAtVelocityCenter;
-  kaAtVelocityCenterOrder  : kaAtVelocityCenter <= kaAtVelocityEnd;
-
+  kaAtVelocityEndNormal : isNormalized kaAtVelocityEnd;
+  kaAtVelocityStartOrder : kaAtVelocityStart <= kaAtVelocityCenter;
+  kaAtVelocityCenterOrder : kaAtVelocityCenter <= kaAtVelocityEnd;
   (** The amplitude at which this clip will be played when at the starting velocity value. *)
-  kaAmplitudeAtVelocityStart  : R;
+  kaAmplitudeAtVelocityStart : R;
   (** The amplitude at which this clip will be played when at the center velocity value. *)
   kaAmplitudeAtVelocityCenter : R;
   (** The amplitude at which this clip will be played when at the end velocity value. *)
-  kaAmplitudeAtVelocityEnd    : R;
-
+  kaAmplitudeAtVelocityEnd : R;
   (** The amplitude values are normalized values. *)
-  kaAmplitudeAtVelocityStartNormal  : isNormalized kaAmplitudeAtVelocityStart;
+  kaAmplitudeAtVelocityStartNormal : isNormalized kaAmplitudeAtVelocityStart;
   kaAmplitudeAtVelocityCenterNormal : isNormalized kaAmplitudeAtVelocityCenter;
-  kaAmplitudeAtVelocityEndNormal    : isNormalized kaAmplitudeAtVelocityEnd;
-
+  kaAmplitudeAtVelocityEndNormal : isNormalized kaAmplitudeAtVelocityEnd;
   (** The associated key assignment flags. *)
-  kaFlags       : list keyAssignmentFlag;
+  kaFlags : list keyAssignmentFlag;
   kaFlagsUnique : NoDup kaFlags;
 }.
 
@@ -403,6 +393,7 @@ Qed.
 *)
 
 Inductive keyEvaluation : Set := keyEvaluationMake {
+  keyEvaluationClipId                  : nat;
   keyEvaluationVelocityAmplitude       : R;
   keyEvaluationVelocityAmplitudeNormal : isNormalized keyEvaluationVelocityAmplitude;
   keyEvaluationKeyAmplitude            : R;
@@ -1001,7 +992,7 @@ Qed.
 
 (** Fully evaluate a key assignment. *)
 
-Definition keyAssignmentEvaluate
+Definition keyAssignmentEvaluateFull
   (key        : nat)
   (velocity   : R)
   (assignment : keyAssignment)
@@ -1009,13 +1000,14 @@ Definition keyAssignmentEvaluate
   match keyAssignmentMatchesDecidable key velocity assignment with
   | right _ => None
   | left p  =>
+    let clip  := kaClipId assignment in
     let ampV  := keyAssignmentEvaluateAmplitudeForVelocity velocity assignment in
     let ampVP := keyAssignmentEvaluateAmplitudeForVelocityNormalized _ _ _ p in
     let ampK  := keyAssignmentEvaluateAmplitudeForKey key assignment in
     let ampKP := keyAssignmentEvaluateAmplitudeForKeyNormalized _ _ _ p in
     let rate  := keyAssignmentEvaluateRate key assignment in
     let rateP := keyAssignmentEvaluateRateNonNegative _ _ _ p in
-      Some (keyEvaluationMake ampV ampVP ampK ampKP rate rateP)
+      Some (keyEvaluationMake clip ampV ampVP ampK ampKP rate rateP)
   end.
 
 (** A proposition stating that the list of key assignments is sorted. *)
@@ -1049,7 +1041,7 @@ Inductive keyAssignments : Set := {
 
 (** Evaluate all key assignments that match the given key and velocity. *)
 
-Fixpoint keyAssignmentsEvaluate
+Fixpoint keyAssignmentsEvaluateFull
   (key         : nat)
   (velocity    : R)
   (assignments : list keyAssignment)
@@ -1057,9 +1049,9 @@ Fixpoint keyAssignmentsEvaluate
   match assignments with
   | nil         => []
   | cons a rest =>
-    match keyAssignmentEvaluate key velocity a with
-    | None   => keyAssignmentsEvaluate key velocity rest
-    | Some r => cons r (keyAssignmentsEvaluate key velocity rest)
+    match keyAssignmentEvaluateFull key velocity a with
+    | None   => keyAssignmentsEvaluateFull key velocity rest
+    | Some r => cons r (keyAssignmentsEvaluateFull key velocity rest)
     end
   end.
 
