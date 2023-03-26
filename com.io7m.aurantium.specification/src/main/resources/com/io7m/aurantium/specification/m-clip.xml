@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Clips"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      A <Term type="term">clip</Term> is a section of audio data along with the metadata required to interpret
+      that audio data correctly.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Metadata">
+    <Paragraph>
+      In order to make it possible to interpret the audio data associated with a clip, various pieces of metadata
+      are required. At a minimum, the following values must be known:
+    </Paragraph>
+
+    <FormalItem title="Required Audio Metadata">
+      <ListUnordered>
+        <Item>
+          The <Term type="term">format</Term> of the audio data, such as unsigned
+          <Link target="0f34a9af-69c7-4667-b7be-e2ee19c5fad0">pulse code modulation</Link>,
+          signed
+          <Link target="0f34a9af-69c7-4667-b7be-e2ee19c5fad0">pulse code modulation</Link>,
+          <Term type="term">FLAC</Term>, and etc.
+        </Item>
+        <Item>
+          The <Term type="term">sample rate</Term> of the audio data, expressed in bits per second.
+        </Item>
+        <Item>
+          The <Term type="term">sample depth</Term> of the audio data, expressed in bits per channel.
+        </Item>
+        <Item>
+          The number of <Term type="term">channels</Term> in the audio data.
+        </Item>
+        <Item>
+          The <Link target="5a41562d-ed20-4a52-9066-b8e905cc7ea1">octet order</Link>
+          of the audio data, assuming the <Term type="term">sample depth</Term>
+          is greater than <Term type="constant">8</Term> bits.
+        </Item>
+        <Item>
+          The size of the audio data, expressed in octets.
+        </Item>
+      </ListUnordered>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Sampling &amp; Channels" id="62a75530-adce-4009-a466-1ee24ce4ac22">
+    <Paragraph>
+      Digital audio signals are broken up into individual values called
+      <Term type="term">samples</Term>. A sample can intuitively be thought of the amplitude value of
+      a continuous signal at a given point in time. The precise manner in which the amplitude values
+      of the continuous signal are mapped to the digital domain is known as the <Term type="term">format</Term>
+      of the data.
+    </Paragraph>
+    <Paragraph id="0392a7d8-e1b8-4b12-9a1b-6f046f3ce8f1">
+      Digital signals are sampled at a fixed rate known as the <Term type="term">sample rate</Term>.
+      The sample rate is specified in samples-per-second. For example, a sample rate of
+      <Term type="expression">48000</Term> indicates that <Term type="expression">48000</Term> sample
+      values comprise one second of audio data.
+    </Paragraph>
+    <Paragraph>
+      Audio signals are often divided into multiple <Term type="term">channels</Term>. For example,
+      stereo audio is divided into <Term type="term">left</Term> and <Term type="term">right</Term>
+      channels. In an audio signal with <Term type="expression">n</Term> channels, the individual
+      sample values in each of the channels at a given time are collectively referred to as a
+      <Term type="term">sampling frame</Term> (or <Term type="term">frame</Term>, in short). For
+      example, in a stereo audio signal <Term type="expression">A</Term>, the sample value <Term type="expression">x</Term>
+      in the left channel at time <Term type="expression">0</Term>, and the sample value
+      <Term type="expression">y</Term> in the right channel at time <Term type="expression">0</Term>
+      can be viewed as the frame <Term type="expression">(x, y)</Term> at time <Term type="expression">0</Term>.
+      Conceptually, the audio signal <Term type="expression">A</Term> can be seen as a function
+      <Term type="expression">A(t) = (p, q)</Term>, where <Term type="expression">t</Term>
+      is time, and <Term type="expression">(p, q)</Term> is the sampling frame at time
+      <Term type="expression">t</Term>.
+    </Paragraph>
+    <Paragraph>
+      For <Link target="9ebae0eb-f29f-4b5d-bb30-e14059d0721e">uncompressed formats</Link>, the
+      <Term type="package">aurantium</Term> format mandates that audio be stored in
+      <Term type="term">interleaved</Term> form. That is, for an audio stream <Term type="expression">A</Term>
+      consisting of <Term type="expression">n</Term> channels, the value of
+      channel <Term type="expression">0</Term> at time <Term type="expression">t</Term> is stored,
+      directly followed by the value of channel <Term type="expression">1</Term> at time
+      <Term type="expression">t</Term>, continuing up the value of
+      channel <Term type="expression">n</Term> at <Term type="expression">t</Term>. The pattern is
+      then repeated for the values at time <Term type="expression">t + 1</Term>, and so on. Note that
+      the interleaving order is irrespective of
+      <Link target="7dcd7294-d560-4161-9b84-ca97d594e1bf">sample endianness</Link>.
+    </Paragraph>
+    <FormalItem title="Interleaving">
+      <Image source="interleave.png" width="576" height="384">Interleaving.</Image>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Endianness" id="7dcd7294-d560-4161-9b84-ca97d594e1bf">
+    <Paragraph>
+      When an encoding scheme is used that encodes amplitude values as values larger than a single
+      octet, the endianness of the encoding must be specified. The
+      <Term type="package">aurantium</Term> format only supports
+      <Link target="79b815cc-9e2c-4a54-a455-8d2f9ec7eb0b">big-endian</Link>
+      and
+      <Link target="d70f7dbf-34b9-4fe7-bb32-5778eec73b1e">little-endian</Link>
+      order for sample values.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Formats" id="1cde80f8-6c40-4397-926b-05ab993d0b8d">
+    <Subsection title="Uncompressed" id="9ebae0eb-f29f-4b5d-bb30-e14059d0721e">
+      <Subsection title="Pulse Code Modulation" id="0f34a9af-69c7-4667-b7be-e2ee19c5fad0">
+        <Subsection title="Description">
+          <Paragraph>
+            At the time of writing, the most commonly used encoding for digital audio data is so-called
+            <Term type="term">pulse code modulation</Term> (or <Term type="term">PCM</Term>). A PCM-encoded
+            audio signal represents a digital approximation of an idealized continuous audio signal produced by sampling
+            the amplitude value of the continuous signal at a constant rate known as the <Term type="term">sample rate</Term>.
+            The resulting sampled values (typically expressed as values in <Term type="constant">ℝ</Term>
+            in the range <Term type="expression">[-1, 1]</Term>) are scaled and
+            quantized to the most appropriate value allowed by the <Term type="term">sample depth</Term>. The
+            actual quantized amplitude value chosen is dependent on the exact encoding scheme used, such as
+            <Link target="cd4987e0-6a87-4521-9e33-afddf1f53756">linear encoding</Link>.
+          </Paragraph>
+          <FormalItem title="PCM">
+            <Image source="pcm.png" width="640" height="480">PCM</Image>
+          </FormalItem>
+          <Paragraph>
+            In the above image, the vertical dashed lines represent the <Term type="term">sample rate</Term>. The
+            horizontal dashed lines represent the <Term type="term">sample depth</Term> (the number of available
+            quantization levels). The black curve represents the original continuous signal, and the red curve represents
+            the resulting sampled, quantized signal.
+          </Paragraph>
+          <Paragraph>
+            The sample rate affects the maximum frequency that can be expressed in the sampled signal; a sample rate of
+            <Term type="expression">r</Term> samples per second can express a frequency of no greater than
+            <Term type="expression">r / 2</Term> hertz, as demonstrated by the
+            Nyquist–Shannon sampling theorem <LinkFootnote target="ba79801b-55b3-4e94-a013-89fc9560ae94"/>.
+            The sample depth affects the range of amplitude values that can be expressed in the sampled
+            signal. For example, if each sampled value is quantized and stored as a 16-bit integer, there
+            are exactly <Term type="constant">65536</Term> possible values to which amplitude values can be
+            mapped.
+          </Paragraph>
+        </Subsection>
+
+        <Subsection title="Linear PCM" id="cd4987e0-6a87-4521-9e33-afddf1f53756">
+          <Paragraph>
+            In a <Term type="term">linear</Term> PCM encoding scheme, quantized amplitude values are mapped
+            linearly across the available range of encoded values. Other schemes such as
+            <LinkExternal target="https://en.wikipedia.org/wiki/%CE%9C-law_algorithm">μ-law</LinkExternal>
+            encode values according to a logarithmic scale. Linear PCM encoding is by far the most common
+            encoding at the time of writing, and so is the only directly specified and supported PCM encoding in the
+            <Term type="package">aurantium</Term> format <LinkFootnote target="2a5ebfd6-9adc-4919-80e5-0268e33ae433"/>.
+          </Paragraph>
+        </Subsection>
+
+        <Subsection title="Signedness" id="3d123aaa-6d59-4612-ac9f-813317f85184">
+          <Paragraph>
+            When amplitude values are encoded into an integer-based PCM format, the question of signedness arises.
+            A signed, <Term type="expression">n</Term>-bit linear PCM encoding scheme encodes an amplitude value in
+            the range <Term type="expression">[-1, 1]</Term> to an integer value in the range
+            <Term type="expression">[-(2 ^ (n - 1)), (2 ^ (n - 1)) - 1]</Term>. So, for example, for a 16-bit
+            signed linear PCM encoding:
+          </Paragraph>
+          <FormalItem title="16-bit Signed Example">
+            <ListUnordered>
+              <Item>
+                An amplitude value of
+                <Term type="constant">-1</Term>
+                will be encoded as <Term type="constant">-32768</Term>.
+              </Item>
+              <Item>
+                An amplitude value of
+                <Term type="constant">0</Term>
+                will be encoded as <Term type="constant">0</Term>.
+              </Item>
+              <Item>
+                An amplitude value of
+                <Term type="constant">1</Term>
+                will be encoded as <Term type="constant">32767</Term>.
+              </Item>
+            </ListUnordered>
+          </FormalItem>
+          <Paragraph>
+            An unsigned <Term type="expression">n</Term>-bit linear PCM encoding scheme encodes an amplitude value in
+            the range <Term type="expression">[-1, 1]</Term> to an integer value in the range
+            <Term type="expression">[0, 2 ^ n]</Term>. So, for example, for a 16-bit unsigned linear PCM
+            encoding:
+          </Paragraph>
+          <FormalItem title="16-bit Unsigned Example">
+            <ListUnordered>
+              <Item>
+                An amplitude value of
+                <Term type="constant">-1</Term>
+                will be encoded as <Term type="constant">0</Term>.
+              </Item>
+              <Item>
+                An amplitude value of
+                <Term type="constant">0</Term>
+                will be encoded as <Term type="constant">32768</Term>.
+              </Item>
+              <Item>
+                An amplitude value of
+                <Term type="constant">1</Term>
+                will be encoded as <Term type="constant">65536</Term>.
+              </Item>
+            </ListUnordered>
+          </FormalItem>
+          <Paragraph>
+            More formally, the signed encoding function is specified as
+            <LinkFootnote target="f64d0168-f2eb-4ef0-b714-9c0472fe142c"/>:
+          </Paragraph>
+          <FormalItem title="Signed Linear Encoding">
+            <Verbatim><xi:include href="1000.txt" parse="text"/></Verbatim>
+          </FormalItem>
+          <Paragraph>
+            The unsigned encoding function is specified as:
+          </Paragraph>
+          <FormalItem title="Unsigned Linear Encoding">
+            <Verbatim><xi:include href="1001.txt" parse="text"/></Verbatim>
+          </FormalItem>
+        </Subsection>
+      </Subsection>
+    </Subsection>
+
+    <Subsection title="Compressed">
+      <Subsection title="FLAC" id="2f255f33-67f0-4f01-81dd-6448c6e77c00">
+        <Paragraph>
+          The <Term type="package">aurantium</Term> format allows audio data to be stored in
+          <LinkExternal target="https://xiph.org/flac/">FLAC</LinkExternal> format.
+        </Paragraph>
+        <Paragraph>
+          A clip encoded in FLAC format has audio data consisting of exactly one FLAC
+          bitstream. That is, a bitstream in FLAC format starting with the marker octets
+          <Term type="constant">0x664C6143</Term>. Because the FLAC bitstream format duplicates
+          much of the metadata already specified by the <Term type="package">aurantium</Term> format,
+          implementations should take care to ensure that the metadata specified in the
+          <Term type="package">aurantium</Term> clip entry matches the relevant metadata
+          in the FLAC bitstream.
+        </Paragraph>
+      </Subsection>
+    </Subsection>
+
+    <Subsection title="Types" id="1a007e6a-2267-4482-968b-14de7c709fd8">
+      <Paragraph>
+        A number of formats are considered to be "standard" by the
+        <Term type="package">aurantium</Term> format and are described by the
+        <Term type="expression">audioFormatType</Term> type:
+      </Paragraph>
+      <FormalItem title="Audio Format Type">
+        <Verbatim><xi:include href="2001.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        A value of <Term type="expression">AFPCMLinearIntegerSigned</Term> indicates
+        <Link target="cd4987e0-6a87-4521-9e33-afddf1f53756">linear PCM</Link> audio
+        data in a signed integer format.
+      </Paragraph>
+      <Paragraph>
+        A value of <Term type="expression">AFPCMLinearIntegerUnsigned</Term> indicates
+        <Link target="cd4987e0-6a87-4521-9e33-afddf1f53756">linear PCM</Link> audio
+        data in an unsigned integer format.
+      </Paragraph>
+      <Paragraph>
+        A value of <Term type="expression">AFPCMLinearFloat</Term> indicates
+        <Link target="cd4987e0-6a87-4521-9e33-afddf1f53756">linear PCM</Link> audio
+        data in an <LinkExternal target="https://en.wikipedia.org/wiki/IEEE_754">IEEE-754</LinkExternal>
+        floating point format.
+      </Paragraph>
+      <Paragraph>
+        A value of <Term type="expression">AFFlac</Term> indicates
+        <Link target="2f255f33-67f0-4f01-81dd-6448c6e77c00">FLAC</Link> audio
+        data.
+      </Paragraph>
+      <Paragraph>
+        A value of <Term type="expression">AFUnknown</Term> indicates
+        audio data in a format unknown to this specification. The
+        <Link target="8e4a52e5-1618-40e6-a4e8-93d00f23ba9e">descriptor</Link>
+        associated with the value is expected to uniquely identify a format
+        described by some external specification.
+      </Paragraph>
+    </Subsection>
+  </Subsection>
+
+  <Subsection title="Clips" id="7a30f09d-c06c-41cb-bb4b-71fe9f9157c5">
+    <Paragraph>
+      A clip is described by the following type:
+    </Paragraph>
+    <FormalItem title="Clip">
+      <Verbatim><xi:include href="2000.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The <Term type="expression">clipId</Term> field specifies a unique (within the
+      <Term type="package">aurantium</Term> file) identifier for the clip. This can be
+      used to refer to the clip in other parts of the file.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipName</Term> field specifies a descriptive name for
+      the clip. Names do not need to be unique, and do not contribute in any significant
+      way to the semantics of the model; they are purely there to provide a descriptive
+      name that can be displayed in editors and other applications.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipFormat</Term> field specifies the
+      <Link target="1a007e6a-2267-4482-968b-14de7c709fd8">format</Link>
+      of the audio data for this clip.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipSampleRate</Term> field specifies the
+      <Link target="0392a7d8-e1b8-4b12-9a1b-6f046f3ce8f1">sample rate</Link>
+      of the audio data for this clip.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipSampleDepth</Term> field specifies the
+      number of bits that comprise a single sample in the audio data.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipChannels</Term> field specifies the
+      number of
+      <Link target="62a75530-adce-4009-a466-1ee24ce4ac22">channels</Link>
+      that are present in the audio data for this clip.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipEndianness</Term> field specifies the
+      endianness of sample values in the audio data for this clip.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipOffset</Term> field specifies the
+      offset in octets of the start of the audio data for this clip, relative
+      to the beginning of the file section.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipSize</Term> field specifies the
+      size in octets of the audio data for this clip.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Clip Lists">
+    <Paragraph>
+      All of the clips in an <Term type="package">aurantium</Term> file are placed into
+      a single list.
+    </Paragraph>
+    <FormalItem title="Clips">
+      <Verbatim><xi:include href="2002.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The proposition <Term type="expression">clipsListIdIsSorted</Term> states that
+      the identifiers of clips must provided in ascending order (but are allowed to have
+      gaps).
+    </Paragraph>
+    <FormalItem title="Clip IDs Sorted">
+      <Verbatim><xi:include href="2003.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The proposition <Term type="expression">clipsListOffsetIsSorted</Term> states that
+      the offset of the audio data for clips cannot overlap, and must be provided in
+      ascending order.
+    </Paragraph>
+    <FormalItem title="Clip Offsets Sorted">
+      <Verbatim><xi:include href="2004.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      It follows that the list of clips within a file is not allowed to be empty.
+    </Paragraph>
+    <FormalItem title="Clips Non-Empty">
+      <Verbatim><xi:include href="2005.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Footnote id="ba79801b-55b3-4e94-a013-89fc9560ae94">
+    See <LinkExternal target="https://en.wikipedia.org/wiki/Nyquist%E2%80%93Shannon_sampling_theorem">
+      https://en.wikipedia.org/wiki/Nyquist%E2%80%93Shannon_sampling_theorem
+    </LinkExternal>.
+  </Footnote>
+
+  <Footnote id="2a5ebfd6-9adc-4919-80e5-0268e33ae433">
+    Implementations are free to provide other encodings as custom extensions, but should not expect good
+    interoperability with other implementations if they do.
+  </Footnote>
+
+  <Footnote id="f64d0168-f2eb-4ef0-b714-9c0472fe142c">
+    The functions are specified as returning a value of type <Term type="expression">R</Term> due to
+    limitations in the Coq standard library's handling of the conversion of real number values to integers.
+    The functions should be understood to have their return values rounded to integer values in practice.
+  </Footnote>
+
+</Section>

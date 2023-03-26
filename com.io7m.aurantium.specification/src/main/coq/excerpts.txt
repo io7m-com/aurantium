@@ -1,0 +1,24 @@
+0 ! Definition divisible8
+1 ! Theorem divisiblity8Add
+2 ! Definition descriptor
+3 ! Class describable
+30 ! Inductive bit
+31 ! Inductive octet :
+32 ! Fixpoint octetsBigEndianAux
+33 ! Definition octetsBigEndian
+34 ! Definition octetsLittleEndian
+35 ! Theorem octetsBigEndianLengthDivisibleAllExact
+36 ! Theorem octetsLittleEndianLengthDivisibleAllExact
+37 ! Theorem octetsBigEndianLengthIndivisibleRemainder
+38 ! Theorem octetsLittleEndianLengthIndivisibleRemainder
+
+
+1000 ! Definition pcmIntegerEncodeSigned
+1001 ! Definition pcmIntegerEncodeUnsigned
+
+2000 ! Inductive clip : Set
+2001 ! Inductive audioFormatType : Set
+2002 ! Inductive clips : Set
+2003 ! Inductive clipsListIdIsSorted :
+2004 ! Inductive clipsListOffsetIsSorted :
+2005 ! Lemma clipsNonEmpty :

@@ -21,41 +21,42 @@ Import ListNotations.
 
 Require Import Aurantium.Compatibility.
 Require Import Aurantium.Identifier.
-Require Import Aurantium.Sample.
+Require Import Aurantium.Clip.
 Require Import Aurantium.KeyMapping.
 
-(** The key assignment _k_ references sample _s_. *)
-Definition keyAssignmentReferencesSample
+(** The key assignment _k_ references clip _s_. *)
+Definition keyAssignmentReferencesClip
   (k : keyAssignment)
-  (s : sample)
+  (s : clip)
 : Prop :=
-  (kaSampleId k) = (sampleId s).
+  (kaClipId k) = (clipId s).
 
-(** The sample referenced by _k_ exists in _s_. *)
+(** The clip referenced by _k_ exists in _s_. *)
 Definition keyAssignmentReferences
   (k : keyAssignment)
-  (s : samples)
+  (s : clips)
 : Prop :=
-  exists p, keyAssignmentReferencesSample k p /\ In p (samplesList s).
+  exists p, keyAssignmentReferencesClip k p /\ In p (clipsList s).
 
-(** All key assignment in _k_ reference samples that exist in _s_. *)
+(** All key assignment in _k_ reference clips that exist in _s_. *)
 Definition keyAssignmentsReferences
   (k : keyAssignments)
-  (s : samples)
+  (s : clips)
 : Prop :=
   forall p, In p (kasList k) -> keyAssignmentReferences p s.
 
-(** Every sample in _ss_ has at least one reference in _k_. *)
-Definition samplesReferenced
+(** Every clip in _ss_ has at least one reference in _k_. *)
+Definition clipsReferenced
   (k  : keyAssignments)
-  (ss : samples)
+  (ss : clips)
 : Prop :=
-  Forall (fun s => exists a, keyAssignmentReferencesSample a s /\ In s (samplesList ss)) (samplesList ss).
+  Forall (fun s => exists a, keyAssignmentReferencesClip a s /\ In s (clipsList ss)) (clipsList ss).
 
-Inductive sampleMap : Set := {
-  smIdentifier               : identifier;
-  smSamples                  : samples;
-  smKeyAssignments           : keyAssignments;
-  smKeyAssignmentsReferences : keyAssignmentsReferences smKeyAssignments smSamples;
-  smSamplesReferenced        : samplesReferenced smKeyAssignments smSamples;
+Inductive audioMap : Set := {
+  amIdentifier               : identifier;
+  amClips                    : clips;
+  amKeyAssignments           : keyAssignments;
+  amKeyAssignmentsReferences : keyAssignmentsReferences amKeyAssignments amClips;
+  amClipsReferenced          : clipsReferenced amKeyAssignments amClips;
 }.
+

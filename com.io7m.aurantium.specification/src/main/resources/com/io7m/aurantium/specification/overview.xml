@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Overview"
+         id="530a8a91-036a-4726-8ddc-140cb737b8bd"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Paragraph>
+    This specification defines version <Term type="constant">1.0</Term> of the
+    <Term type="package">aurantium</Term>
+    file format. The
+    <Term type="package">aurantium</Term>
+    format is a carefully designed file format intended for the storage and delivery of audio data for realtime
+    audio applications.
+  </Paragraph>
+
+  <Paragraph>
+    This specification is divided into an abstract
+    <Link target="6d2182a1-ae44-4eb0-8107-6552c08229c5">model</Link>
+    and a separate <Link target="1fc28ede-73b0-48c7-9bca-7f0a2c6fd261">binary encoding</Link>. The purpose of the
+    model is to describe the semantics of <Term type="package">aurantium</Term> files; the actual
+    <Term type="term">meaning</Term>
+    of the data within, and to describe properties and invariants that must be true for all valid
+    <Term type="package">aurantium</Term>
+    files. The purpose of the binary encoding is to describe how the model is transformed to a sequence of
+    bytes/octets; it describes the low-level on-disk format of <Term type="package">aurantium</Term> files.
+    This layered approach is intended to allow for specifying the format with a level of precision that will
+    allow data in the <Term type="package">aurantium</Term> format to remain readable for decades into the future, and in
+    a manner that ensures that the format is not dependent on any present-day audio APIs.
+  </Paragraph>
+
+  <Paragraph>
+    Developers wishing to write their own code to read and write <Term type="package">aurantium</Term> files might find
+    it easiest to view the
+    <Link target="1fc28ede-73b0-48c7-9bca-7f0a2c6fd261">binary encoding</Link>
+    section first. The <Term type="package">aurantium</Term> format is designed to be straightforward to parse, requiring
+    only a few minimal primitives to express the entirety of the format, and requires no references to external
+    specifications (unlike many other image/texture file formats) <LinkFootnote
+    target="1906bd33-9349-4bfa-8c70-4406828fbeb3"/>. Once a developer is able to read data from an
+    existing <Term type="package">aurantium</Term> file, they should consult the
+    <Link target="6d2182a1-ae44-4eb0-8107-6552c08229c5">model</Link>
+    to understand what the data they're receiving actually <Term type="term">means</Term>. The
+    model chapters are arranged in dependency order starting with the most fundamental concepts, and ending
+    with the top level definitions of the various texture types.
+  </Paragraph>
+
+  <Footnote id="1906bd33-9349-4bfa-8c70-4406828fbeb3">
+    It would be more accurate to say that the <Term type="package">aurantium</Term> specification does not depend
+    on any other specifications <Term type="term">that are at the same level of abstraction</Term>. For example,
+    the <Term type="package">aurantium</Term> specification makes references to
+    <LinkExternal target="https://www.unicode.org">Unicode</LinkExternal>,
+    <LinkExternal target="https://en.wikipedia.org/wiki/IEEE_754">IEEE-754</LinkExternal>, and so on. It does not,
+    however, require understanding any other existing texture formats, or depend on any definitions given in
+    the specifications for any rendering APIs.
+  </Footnote>
+
+</Section>

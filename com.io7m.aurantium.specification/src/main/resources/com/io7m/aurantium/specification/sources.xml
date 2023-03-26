@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Sources"
+         id="78d46dd1-944a-4297-b990-4ca8620a8fd8"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    The full sources for the Coq/Gallina model underlying this specification are
+    included here.
+  </Paragraph>
+
+  <FormalItem title="Aurantium/Alignment.v" id="a3ff087c-0867-54af-9b19-76fc1b2e850e">
+    <Verbatim><xi:include href="Aurantium/Alignment.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/AudioMap.v" id="748e3d13-bac5-59de-89f7-fcb25ae5aa0a">
+    <Verbatim><xi:include href="Aurantium/AudioMap.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Binary.v" id="27604793-b995-5d54-bb75-408aacfb60a9">
+    <Verbatim><xi:include href="Aurantium/Binary.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Clip.v" id="d492b6c2-b8c0-5a72-b73c-dcd208d14894">
+    <Verbatim><xi:include href="Aurantium/Clip.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Compatibility.v" id="3a5fe421-1c56-5016-8529-68bf1eff8b3e">
+    <Verbatim><xi:include href="Aurantium/Compatibility.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Descriptor.v" id="d4d01c1c-7a81-576d-8ab8-845f9ba20576">
+    <Verbatim><xi:include href="Aurantium/Descriptor.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Divisible8.v" id="0b0f48e8-d370-5558-9421-a69294df2a32">
+    <Verbatim><xi:include href="Aurantium/Divisible8.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Identifier.v" id="4c88a372-e7b5-5da7-9972-d3741e9e79a6">
+    <Verbatim><xi:include href="Aurantium/Identifier.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/KeyMapping.v" id="23f187db-ccfc-5cdf-8693-9138bea5049f">
+    <Verbatim><xi:include href="Aurantium/KeyMapping.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/OctetOrder.v" id="1aad879e-fa3d-5a3a-8c31-1136847105da">
+    <Verbatim><xi:include href="Aurantium/OctetOrder.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/StringUtility.v" id="9db26e1d-d57c-596e-825f-f6d1745a22b1">
+    <Verbatim><xi:include href="Aurantium/StringUtility.v" parse="text"/></Verbatim>
+  </FormalItem>
+
+</Section>

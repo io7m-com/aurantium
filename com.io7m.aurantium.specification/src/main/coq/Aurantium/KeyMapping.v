@@ -55,7 +55,7 @@ Qed.
 
 (** The type of key assignment flags.*)
 Inductive keyAssignmentFlag : Set :=
-  (** The key assignment should treat the sample as unpitched. *)
+  (** The key assignment should treat the clip as unpitched. *)
   | FlagUnpitched : keyAssignmentFlag.
 
 (** Key assignment equality is decidable. *)
@@ -65,11 +65,11 @@ Definition keyAssignmentFlagEqDec
 Proof. decide equality. Qed.
 
 (** 
-  A key assignment assigns a sample to a range of keys, and describes
-  the amplitude of the sample based on the velocity of the incoming
+  A key assignment assigns a clip to a range of keys, and describes
+  the amplitude of the clip based on the velocity of the incoming
   note, and the position of the key within the key range. 
 
-  A sample that should not vary in amplitude can simply assign a
+  A clip that should not vary in amplitude can simply assign a
   value of 1.0 for all values.
 *)
 
@@ -77,25 +77,25 @@ Inductive keyAssignment : Set := {
   (** The unique identifier of the key assignment. *)
   kaId : nat;
 
-  (** The lowest key value that will trigger this sample. *)
+  (** The lowest key value that will trigger this clip. *)
   kaValueStart  : nat;
-  (** The key value at which the sample plays at the normal playback rate. *)
+  (** The key value at which the clip plays at the normal playback rate. *)
   kaValueCenter : nat;
-  (** The highest key value that will trigger this sample. *)
+  (** The highest key value that will trigger this clip. *)
   kaValueEnd    : nat;
 
   (** The key values must be ordered. *)
   kaValueStartOrder  : le kaValueStart kaValueCenter;
   kaValueCenterOrder : le kaValueCenter kaValueEnd;
 
-  (** The sample that will be triggered. *)
-  kaSampleId : nat;
+  (** The clip that will be triggered. *)
+  kaClipId : nat;
 
-  (** The amplitude at which this sample will be played when at the lowest key value. *)
+  (** The amplitude at which this clip will be played when at the lowest key value. *)
   kaAmplitudeAtKeyStart  : R;
-  (** The amplitude at which this sample will be played when at the center key value. *)
+  (** The amplitude at which this clip will be played when at the center key value. *)
   kaAmplitudeAtKeyCenter : R;
-  (** The amplitude at which this sample will be played when at the highest key value. *)
+  (** The amplitude at which this clip will be played when at the highest key value. *)
   kaAmplitudeAtKeyEnd    : R;
 
   (** The amplitude values are normalized values. *)
@@ -103,11 +103,11 @@ Inductive keyAssignment : Set := {
   kaAmplitudeAtKeyCenterNormal : isNormalized kaAmplitudeAtKeyCenter;
   kaAmplitudeAtKeyEndNormal    : isNormalized kaAmplitudeAtKeyEnd;
 
-  (** The velocity value at which this sample starts to be triggered. *)
+  (** The velocity value at which this clip starts to be triggered. *)
   kaAtVelocityStart  : R;
-  (** The velocity value at which the amplitude of this sample is at maximum. *)
+  (** The velocity value at which the amplitude of this clip is at maximum. *)
   kaAtVelocityCenter : R;
-  (** The velocity value at which this sample stops being triggered. *)
+  (** The velocity value at which this clip stops being triggered. *)
   kaAtVelocityEnd    : R;
 
   (** The velocity values are normalized values and are correctly ordered. *)
@@ -117,11 +117,11 @@ Inductive keyAssignment : Set := {
   kaAtVelocityStartOrder   : kaAtVelocityStart <= kaAtVelocityCenter;
   kaAtVelocityCenterOrder  : kaAtVelocityCenter <= kaAtVelocityEnd;
 
-  (** The amplitude at which this sample will be played when at the starting velocity value. *)
+  (** The amplitude at which this clip will be played when at the starting velocity value. *)
   kaAmplitudeAtVelocityStart  : R;
-  (** The amplitude at which this sample will be played when at the center velocity value. *)
+  (** The amplitude at which this clip will be played when at the center velocity value. *)
   kaAmplitudeAtVelocityCenter : R;
-  (** The amplitude at which this sample will be played when at the end velocity value. *)
+  (** The amplitude at which this clip will be played when at the end velocity value. *)
   kaAmplitudeAtVelocityEnd    : R;
 
   (** The amplitude values are normalized values. *)
@@ -140,7 +140,7 @@ Definition keyAssignmentValuesEq (x y : keyAssignment) : Prop :=
   /\ (kaValueStart x)                = (kaValueStart y)
   /\ (kaValueCenter x)               = (kaValueCenter y)
   /\ (kaValueEnd x)                  = (kaValueEnd y)
-  /\ (kaSampleId x)                  = (kaSampleId y)
+  /\ (kaClipId x)                    = (kaClipId y)
   /\ (kaAmplitudeAtKeyStart x)       = (kaAmplitudeAtKeyStart y)
   /\ (kaAmplitudeAtKeyCenter x)      = (kaAmplitudeAtKeyCenter y)
   /\ (kaAmplitudeAtKeyEnd x)         = (kaAmplitudeAtKeyEnd y)
@@ -310,7 +310,7 @@ Proof.
   destruct (Nat.eq_dec (kaValueStart x) (kaValueStart y)).
   destruct (Nat.eq_dec (kaValueCenter x) (kaValueCenter y)).
   destruct (Nat.eq_dec (kaValueEnd x) (kaValueEnd y)).
-  destruct (Nat.eq_dec (kaSampleId x) (kaSampleId y)).
+  destruct (Nat.eq_dec (kaClipId x) (kaClipId y)).
   destruct (Req_dec (kaAmplitudeAtKeyStart x) (kaAmplitudeAtKeyStart y)).
   destruct (Req_dec (kaAmplitudeAtKeyCenter x) (kaAmplitudeAtKeyCenter y)).
   destruct (Req_dec (kaAmplitudeAtKeyEnd x) (kaAmplitudeAtKeyEnd y)).
@@ -388,14 +388,14 @@ Qed.
   The result of evaluating a single key assignment. 
 
   When a key is evaluated, a playback rate is returned which is then used by
-  applications to speed up or slow down sample playback in order to affect the
+  applications to speed up or slow down clip playback in order to affect the
   perceived pitch.
 
   Evaluation also returns a pair of amplitude values. One amplitude is based
   upon the velocity of the original note; this change in amplitude can be used
-  by sample map authors to allow instruments to vary their timbre based on how
+  by audio map authors to allow instruments to vary their timbre based on how
   soft or hard a note is hit. The other amplitude is based on the key; this
-  change in amplitude can be used by sample map authors to allow instruments
+  change in amplitude can be used by audio map authors to allow instruments
   to vary their timbre based on the pitches of notes.
 
   Normally, applications will multiply these two amplitude values to produce

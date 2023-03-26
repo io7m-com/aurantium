@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for f in $(ls Calino/*.v | sort -u)
+for f in $(ls Aurantium/*.v | sort -u)
 do
   ID=$(uuidgen -s -n @x500 -N "$f")
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         title="The Aurantium Model"
+         id="6d2182a1-ae44-4eb0-8107-6552c08229c5"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <xi:include href="m-overview.xml"/>
+  <xi:include href="m-div8.xml"/>
+  <xi:include href="m-octets.xml"/>
+  <xi:include href="m-descriptor.xml"/>
+  <xi:include href="m-clip.xml"/>
+
+</Section>

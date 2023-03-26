@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         title="The Aurantium Binary Encoding"
+         id="1fc28ede-73b0-48c7-9bca-7f0a2c6fd261"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    Binary.
+  </Paragraph>
+
+</Section>

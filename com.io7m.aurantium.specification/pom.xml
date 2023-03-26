@@ -74,10 +74,10 @@
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <outputDirectory>${project.build.directory}/specification/Calino/</outputDirectory>
+              <outputDirectory>${project.build.directory}/specification/Aurantium/</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/main/coq/Calino/</directory>
+                  <directory>src/main/coq/Aurantium/</directory>
                   <filtering>false</filtering>
                   <includes>
                     <include>**/*.v</include>
@@ -114,7 +114,7 @@
               <outputDirectory>${project.build.directory}/epub/</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/main/coq/Calino/</directory>
+                  <directory>src/main/coq/Aurantium/</directory>
                   <filtering>false</filtering>
                   <includes>
                     <include>**/*.v</include>
