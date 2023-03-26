@@ -22,3 +22,10 @@
 2003 ! Inductive clipsListIdIsSorted :
 2004 ! Inductive clipsListOffsetIsSorted :
 2005 ! Lemma clipsNonEmpty :
+
+3000 ! Inductive identifier : Set
+3001 ! Inductive compatVersionChange : Set
+3002 ! Definition compatVersionChangeMax
+3003 ! Theorem compatVersionChangeMaxRefl
+3004 ! Theorem compatVersionChangeMaxComm
+3005 ! Theorem compatVersionChangeMaxAssoc

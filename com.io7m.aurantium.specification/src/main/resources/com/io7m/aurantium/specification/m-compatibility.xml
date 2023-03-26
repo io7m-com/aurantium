@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Compatibility"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="f7967257-9e35-4a55-b577-6bf685ac0df7"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      The <Term type="package">aurantium</Term> file format makes a strong commitment to
+      forwards and backwards <Term type="term">compatibility</Term>. The format attempts
+      to guarantee this commitment with a combination of the following:
+    </Paragraph>
+    <FormalItem title="Compatibility Measures">
+      <ListUnordered>
+        <Item>
+          Use of <Term type="term">semantic versioning</Term>.
+          Changes in file format version numbers indicate compatible or incompatible changes, meaning
+          software can know ahead of time which file format versions it is likely to be able to process.
+        </Item>
+        <Item>
+          A strict, unambiguous, mathematical specification of the structure and semantics of the
+          format.
+        </Item>
+        <Item>
+          An exact and precise description of which changes are considered to be "compatible" changes,
+          and which changes are considered to be "incompatible".
+        </Item>
+        <Item>
+          The inclusion of unique identifiers and version numbers into each file; once an audio
+          map has been created, it is considered to be immutable. Editing an audio map entails creating
+          a new version of the existing one with an incremented version number. This allows applications
+          to specify exact, versioned dependencies on audio map files in much the same way as software
+          development tools can specify versioned dependencies on software libraries.
+        </Item>
+        <Item>
+          The inclusion of major and minor semantic version numbers into the file format itself. Software
+          can know, unambiguously, whether or not it can open a given file based on the contents of the
+          file header alone.
+        </Item>
+      </ListUnordered>
+    </FormalItem>
+    <Paragraph>
+      Informally, the file format is designed such that software that was written to support major version
+      <Term type="expression">x</Term> of the file format is guaranteed to be able to support major version
+      <Term type="expression">x</Term> for any minor version <Term type="expression">y</Term>. The software
+      is <Term type="term">not</Term> guaranteed to be able to support major version
+      <Term type="expression">x + 1</Term> or <Term type="expression">x - 1</Term> without code additions.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Identifiers">
+    <Paragraph>
+      An <Term type="package">aurantium</Term> audio map file contains an <Term type="term">identifier</Term>
+      specified by the author of the file. The identifier is described by the following type:
+    </Paragraph>
+    <FormalItem title="Identifier">
+      <Verbatim><xi:include href="3000.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The <Term type="expression">idName</Term> field specifies a unique identifier for this audio map file.
+      It is strongly recommended that <LinkExternal
+      target="https://en.wikipedia.org/wiki/Reverse_domain_name_notation">reverse domain name notation</LinkExternal>
+      be used.
+    </Paragraph>
+    <Paragraph id="ba4a7b71-196a-4a06-bb2f-d7a073365f87">
+      The <Term type="expression">idVersionMajor</Term> field specifies a <Term type="term">major</Term>
+      version number for the file. When an <Term type="term">incompatible</Term> change is made to a file,
+      the next version of the file that is released must increment the major version number, and reset
+      the minor version number to zero.
+    </Paragraph>
+    <Paragraph id="8c342a51-12e2-4e76-bf91-df57974df4b2">
+      The <Term type="expression">idVersionMinor</Term> field specifies a <Term type="term">minor</Term>
+      version number for the file. When a <Term type="term">compatible</Term> change is made to a file,
+      the next version of the file that is released must increment the minor version number.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Changes">
+    <Paragraph>
+      When a <Term type="term">change</Term> is made to a file, the nature of that change dictates whether
+      the <Link target="ba4a7b71-196a-4a06-bb2f-d7a073365f87">major</Link> or
+      <Link target="8c342a51-12e2-4e76-bf91-df57974df4b2">minor</Link> version number needs to be incremented
+      when a new version of the file is released for public consumption.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">compatVersionChange</Term> type encodes the three possible situations:
+    </Paragraph>
+    <FormalItem title="compatVersionChange">
+      <Verbatim><xi:include href="3001.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The <Term type="expression">compatVersionChangeMax</Term> function denotes the significance of changes;
+      a change requiring a <Term type="term">major</Term> version increment is more significant than a change
+      that requires a <Term type="term">minor</Term> version increment. Both are more significant than no
+      change at all.
+    </Paragraph>
+    <FormalItem title="compatVersionChangeMax">
+      <Verbatim><xi:include href="3002.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The function is reflexive, commutative, and associative.
+    </Paragraph>
+    <FormalItem title="compatVersionChangeMaxRefl">
+      <Verbatim><xi:include href="3003.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="compatVersionChangeMaxComm">
+      <Verbatim><xi:include href="3004.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="compatVersionChangeMaxAssoc">
+      <Verbatim><xi:include href="3005.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>
