@@ -221,7 +221,7 @@ Definition keyAssignmentsOverlapping
     | right _ => false
     end) ka.
 
-(** The _keyAssignmentsOverlapping_ never returns _k_. *)
+(** The _keyAssignmentsOverlapping_ function never returns _k_. *)
 Theorem keyAssignmentsOverlappingNotSelf : forall k ka,
   ~In k (keyAssignmentsOverlapping k ka).
 Proof.
@@ -240,7 +240,7 @@ Proof.
   }
 Qed.
 
-(** The _keyAssignmentsOverlapping_ finds overlapping assignments. *)
+(** The _keyAssignmentsOverlapping_ function finds overlapping assignments. *)
 Theorem keyAssignmentsOverlappingFind0 : forall k ka p,
   (In p ka /\ keyAssignmentsOverlap k p /\ (kaId k) <> (kaId p))
     -> In p (keyAssignmentsOverlapping k ka).
@@ -259,7 +259,7 @@ Proof.
   }
 Qed.
 
-(** The _keyAssignmentsOverlapping_ finds overlapping assignments. *)
+(** The _keyAssignmentsOverlapping_ function finds overlapping assignments. *)
 Theorem keyAssignmentsOverlappingFind1 : forall k ka p,
   In p (keyAssignmentsOverlapping k ka) ->
     In p ka /\ keyAssignmentsOverlap k p /\ (kaId k) <> (kaId p).
@@ -280,7 +280,7 @@ Proof.
   }
 Qed.
 
-(** The _keyAssignmentsOverlapping_ finds overlapping assignments. *)
+(** The _keyAssignmentsOverlapping_ function finds overlapping assignments. *)
 Theorem keyAssignmentsOverlappingFind : forall k ka p,
   (In p ka /\ keyAssignmentsOverlap k p /\ (kaId k) <> (kaId p))
     <-> In p (keyAssignmentsOverlapping k ka).
@@ -1375,7 +1375,7 @@ Definition keyAssignmentsCompatCompareChanged
 : list compatVersionChangeRecord :=
   map (fun p => keyAssignmentCompatCompare (fst p) (snd p)) r.
 
-Definition keyAssignmentsCompatCompare
+Definition keyAssignmentsCompatCompareFull
   (ka kb : list keyAssignment)
 : list compatVersionChangeRecord :=
   let removed        := keyAssignmentsRemoved ka kb in
@@ -1389,11 +1389,11 @@ Definition keyAssignmentsCompatCompare
 (** If there's a non-empty list of removed elements, a major version change is required. *)
 Theorem keyAssignmentsCompatCompareMajor0 : forall ka kb,
   [] <> keyAssignmentsRemoved ka kb ->
-    compatVersionChangeRecordsMaximum (keyAssignmentsCompatCompare ka kb)
+    compatVersionChangeRecordsMaximum (keyAssignmentsCompatCompareFull ka kb)
       = CVersionChangeMajor.
 Proof.
   intros ka kb H_ne.
-  unfold keyAssignmentsCompatCompare.
+  unfold keyAssignmentsCompatCompareFull.
   apply compatVersionChangesMaximumCorrect0.
   apply in_map_iff.
   destruct (keyAssignmentsRemoved ka kb) as [|y ys]. {
@@ -1411,11 +1411,11 @@ Theorem keyAssignmentsCompatCompareMajor1 : forall ka kb k,
     [] = keyAssignmentsCompatCompareChanged (intersectionPairs ka kb) ->
       In k (keyAssignmentsAdded ka kb) ->
         [] <> (keyAssignmentsOverlapping k kb) ->
-        compatVersionChangeRecordsMaximum (keyAssignmentsCompatCompare ka kb)
+        compatVersionChangeRecordsMaximum (keyAssignmentsCompatCompareFull ka kb)
           = CVersionChangeMajor.
 Proof.
   intros ka kb k Hrm Hch Hin Hover.
-  unfold keyAssignmentsCompatCompare.
+  unfold keyAssignmentsCompatCompareFull.
   rewrite <- Hrm.
   rewrite <- Hch.
   simpl.
@@ -1491,11 +1491,11 @@ Theorem keyAssignmentsCompatCompareMinor0 : forall ka kb,
     [] = keyAssignmentsCompatCompareChanged (intersectionPairs ka kb) ->
       [] <> (keyAssignmentsAdded ka kb) ->
         Forall (fun j => [] = keyAssignmentsOverlapping j kb) (keyAssignmentsAdded ka kb) ->
-          compatVersionChangeRecordsMaximum (keyAssignmentsCompatCompare ka kb)
+          compatVersionChangeRecordsMaximum (keyAssignmentsCompatCompareFull ka kb)
            = CVersionChangeMinor.
 Proof.
   intros ka kb Heq0 Heq1 Hneq0 Hfa.
-  unfold keyAssignmentsCompatCompare.
+  unfold keyAssignmentsCompatCompareFull.
   rewrite <- Heq0.
   rewrite <- Heq1.
   simpl.

@@ -14,21 +14,16 @@
     <FormalItem title="Compatibility Measures">
       <ListUnordered>
         <Item>
-          Use of <Term type="term">semantic versioning</Term>.
-          Changes in file format version numbers indicate compatible or incompatible changes, meaning
-          software can know ahead of time which file format versions it is likely to be able to process.
+          Use of <Term type="term">semantic versioning</Term> in the file format definition.
+          The inclusion of major and minor semantic version numbers into the file format itself means that
+          software can know, unambiguously, whether or not it can open a given file based on the contents of the
+          file header alone.
         </Item>
         <Item>
           A strict, unambiguous, mathematical specification of the structure and semantics of the
           format. This means that, long after the <Term type="package">aurantium</Term> software
           has died, developers of the future can write new implementations with behaviour that they
           <Term type="term">know</Term> correctly handles the format.
-        </Item>
-        <Item>
-          An exact and precise description of which changes are considered to be "compatible" changes,
-          and which changes are considered to be "incompatible". This means that new versions of files
-          cannot be released that will silently break compatibility with existing consumers; the tools
-          around the file format will catch these mistakes before publication.
         </Item>
         <Item>
           The inclusion of unique identifiers and version numbers into each file; once an audio
@@ -38,19 +33,45 @@
           development tools can specify versioned dependencies on software libraries.
         </Item>
         <Item>
-          The inclusion of major and minor semantic version numbers into the file format itself. Software
-          can know, unambiguously, whether or not it can open a given file based on the contents of the
-          file header alone.
+          An exact and precise description of which changes are considered to be "compatible" changes,
+          and which changes are considered to be "incompatible". This means that new versions of files
+          cannot be released that will silently break compatibility with existing consumers; the tools
+          around the file format will catch these mistakes before publication.
         </Item>
       </ListUnordered>
     </FormalItem>
-    <Paragraph>
-      Informally, the file format is designed such that software that was written to support major version
-      <Term type="expression">x</Term> of the file format is guaranteed to be able to support major version
-      <Term type="expression">x</Term> for any minor version <Term type="expression">y</Term>. The software
-      is <Term type="term">not</Term> guaranteed to be able to support major version
-      <Term type="expression">x + 1</Term> or <Term type="expression">x - 1</Term> without code additions.
-    </Paragraph>
+  </Subsection>
+
+  <Subsection title="File Format Versioning vs. Data Versioning">
+    <Subsection title="Overview">
+      <Paragraph>
+        The <Term type="package">aurantium</Term> format has two types of versioning.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="File Format" id="b3641436-37f6-4791-a8d1-d5adfed04a1d">
+      <Paragraph>
+        The file format itself is versioned using a major and minor version number. This is
+        <Term type="term">file format versioning</Term>.
+        Informally, the file format is designed such that software that was written to support major version
+        <Term type="expression">x</Term> of the file format is guaranteed to be able to support major version
+        <Term type="expression">x</Term> for any minor version <Term type="expression">y</Term>. The software
+        is <Term type="term">not</Term> guaranteed to be able to support major version
+        <Term type="expression">x + 1</Term> or <Term type="expression">x - 1</Term> without code additions.
+      </Paragraph>
+      <Paragraph>
+        File format version changes coincide with new releases of the <Term type="package">aurantium</Term>
+        specification, and so any compatibility changes are documented in that specification.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="Data Versioning">
+      <Paragraph>
+        Files produced in the <Term type="package">aurantium</Term> format contain user-specified major and
+        minor version numbers. This allows users to produce audio map files upon which other users can safely
+        specify versioned dependencies. The rules described here in the <Term type="expression">Compatibility</Term>
+        module refer to those version numbers, and <Term type="term">not</Term> the
+        <Link target="b3641436-37f6-4791-a8d1-d5adfed04a1d">file format version</Link>.
+      </Paragraph>
+    </Subsection>
   </Subsection>
 
   <Subsection title="Identifiers">

@@ -451,7 +451,7 @@
         may either sound different (due to fewer key assignments matching), or may now contain
         notes that do not match any key assignments (effectively resulting in silence).
       </Paragraph>
-      <Paragraph>
+      <Paragraph id="db7d5b83-cb45-435d-b411-aa08448e6b44">
         The <Term type="expression">keyAssignmentsRemoved</Term> function determines the
         set of key assignments that were present in the old version of a key assignment
         list, but that are not present in the new one:
@@ -471,8 +471,129 @@
 
     <Subsection title="Adding A Key Assignment">
       <Paragraph>
-        Adding.
+        Adding a new key assignment is a <Term type="term">major</Term> change if the new
+        key assignment <Term type="term">overlaps</Term> with an existing assignment. If
+        the key assignment does not overlap, then adding it is a <Term type="term">minor</Term>
+        change. The assumption is that music written against the older version of the audio
+        map will not have been sending key events to nonexistent key assignments.
       </Paragraph>
+      <Paragraph>
+        Two key assignments are said to overlap if their key ranges overlap according to
+        the following proposition:
+      </Paragraph>
+      <FormalItem title="Overlaps">
+        <Verbatim><xi:include href="4019.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        Overlapping is reflexive, commutative, and decidable:
+      </Paragraph>
+      <FormalItem title="Overlaps (Reflexive)">
+        <Verbatim><xi:include href="4020.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Overlaps (Commutative)">
+        <Verbatim><xi:include href="4021.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Overlaps (Decidable)">
+        <Verbatim><xi:include href="4022.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The list of key assignments that overlap a key assignment <Term type="expression">k</Term>
+        are determined using the <Term type="expression">keyAssignmentsOverlapping</Term> function:
+      </Paragraph>
+      <FormalItem title="Key Assignment Overlapping">
+        <Verbatim><xi:include href="4023.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The <Term type="expression">keyAssignmentsOverlapping</Term> function never returns
+        <Term type="expression">k</Term>, and correctly finds all assignments:
+      </Paragraph>
+      <FormalItem title="Key Assignment Overlapping (No self)">
+        <Verbatim><xi:include href="4024.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Key Assignment Overlapping (Find 0)">
+        <Verbatim><xi:include href="4025.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Key Assignment Overlapping (Find 0)">
+        <Verbatim><xi:include href="4026.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Key Assignment Overlapping (Find &lt;-&gt; Find)">
+        <Verbatim><xi:include href="4027.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The set of key assignments that have been <Term type="term">added</Term> can be
+        expressed in terms of the <Link target="db7d5b83-cb45-435d-b411-aa08448e6b44">keyAssignmentsRemoved</Link>
+        function with the arguments applied in reverse order. Intuitively, if
+        <Term type="expression">ka</Term> is the set of old assignments, and
+        <Term type="expression">kb</Term> is the set of new assignments, the
+        <Term type="expression">keyAssignmentsRemoved</Term> states which elements
+        of <Term type="expression">kb</Term> must be removed to produce
+        <Term type="expression">ka</Term>; this is the set of newly added assignments.
+      </Paragraph>
+      <FormalItem title="Key Assignments Added">
+        <Verbatim><xi:include href="4028.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The <Term type="expression">keyAssignmentsCompatCompareAdd</Term>
+        describes how an added overlapping key assignment yields a
+        <Term type="term">major</Term> change:
+      </Paragraph>
+      <FormalItem title="Key Assignments Added Major">
+        <Verbatim><xi:include href="4029.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Key Assignments Added Major (Theorem)">
+        <Verbatim><xi:include href="4030.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        Adding a non-overlapping key assignment is a <Term type="term">minor</Term> change:
+      </Paragraph>
+      <FormalItem title="Key Assignments Added Minor (Theorem)">
+        <Verbatim><xi:include href="4031.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="Changing A Key Assignment">
+      <Paragraph>
+        Changing an existing key assignment is a <Term type="term">major</Term> change.
+      </Paragraph>
+      <Paragraph>
+        If <Term type="expression">ka</Term> is the set of old assignments, and
+        <Term type="expression">kb</Term> is the set of new assignments, the
+        <Term type="expression">intersectionPairs</Term> function determines which
+        key assignments are in both sets.
+      </Paragraph>
+      <FormalItem title="Intersection Pairs">
+        <Verbatim><xi:include href="4032.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The function only returns values that were present in either of the
+        two sets:
+      </Paragraph>
+      <FormalItem title="Intersection Pairs (In)">
+        <Verbatim><xi:include href="4033.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        A key assignment <Term type="expression">k</Term> is considered to be equal
+        to a key assignment <Term type="expression">j</Term> iff all the values in
+        the assignments are equal:
+      </Paragraph>
+      <FormalItem title="Equality">
+        <Verbatim><xi:include href="4034.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        Determining the equality is decidable:
+      </Paragraph>
+      <FormalItem title="Equality Decidable">
+        <Verbatim><xi:include href="4035.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        Key assignments are compared using this comparison function:
+      </Paragraph>
+      <FormalItem title="Key Assignment Compare">
+        <Verbatim><xi:include href="4036.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Key Assignment Compare Changed">
+        <Verbatim><xi:include href="4037.txt" parse="text"/></Verbatim>
+      </FormalItem>
     </Subsection>
   </Subsection>
 

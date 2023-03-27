@@ -47,5 +47,25 @@
 4014 ! Inductive keyAssignmentListIsSorted :
 4015 ! Fixpoint keyAssignmentForId
 4016 ! Fixpoint keyAssignmentsRemoved
-4017 ! Definition keyAssignmentsCompatCompare
+4017 ! Definition keyAssignmentsCompatCompareFull
 4018 ! Theorem keyAssignmentsCompatCompareMajor0
+4019 ! Definition keyAssignmentsOverlap (
+4020 ! Theorem keyAssignmentsOverlapReflexive :
+4021 ! Theorem keyAssignmentsOverlapCommutative :
+4022 ! Theorem keyAssignmentsOverlapDecidable :
+4023 ! Definition keyAssignmentsOverlapping
+4024 ! Theorem keyAssignmentsOverlappingNotSelf :
+4025 ! Theorem keyAssignmentsOverlappingFind0 :
+4026 ! Theorem keyAssignmentsOverlappingFind1 :
+4027 ! Theorem keyAssignmentsOverlappingFind :
+4028 ! Definition keyAssignmentsAdded
+4029 ! Definition keyAssignmentsCompatCompareAdd
+4030 ! Theorem keyAssignmentsCompatCompareMajor1
+4031 ! Theorem keyAssignmentsCompatCompareMinor0
+4032 ! Fixpoint intersectionPairs
+4033 ! Theorem intersectionPairsIn :
+4034 ! Definition keyAssignmentValuesEq
+4035 ! Definition keyAssignmentValuesEqDec
+4036 ! Definition keyAssignmentCompatCompare
+4037 ! Definition keyAssignmentsCompatCompareChanged
+
