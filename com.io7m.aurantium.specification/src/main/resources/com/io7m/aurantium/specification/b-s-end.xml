@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="End"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="199f9506-77eb-4288-8a07-4af57b7b7651"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Description">
+    <Paragraph id="daacd458-f758-48e9-b102-87665c3930e7">
+      <Term type="package">aurantium</Term>
+      audio map files must end with exactly one
+      <Term type="term">End</Term>
+      section, which has the identifier <Term type="constant">0x4155524D454E4421</Term> and must be of size
+      <Term type="constant">0</Term>.
+    </Paragraph>
+
+    <Paragraph>
+      End sections are encoded as follows:
+    </Paragraph>
+
+    <FormalItem title="End Encoding">
+      <Verbatim>
+        <xi:include href="12092.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+
+    <Paragraph id="7405fbba-1388-4e6f-a9b6-50f5e927ae47">
+      There should be no trailing data in the audio map file after the <Term type="term">End</Term> section.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      An <Term type="term">End</Term> section must appear in a <Term type="package">aurantium</Term> audio map file
+      exactly once, and must be the last section present in the file.
+    </Paragraph>
+  </Subsection>
+
+</Section>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Sections"
+         id="a41fe24e-6092-4190-9229-3195ce540317"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph id="d04c7f6d-4fd8-4a2c-a1fc-aa2e7723c836">
+    <Term type="package">aurantium</Term>
+    audio map files are structured as a sequence of explicitly sized
+    <Term type="term">sections</Term>. A section consists of a 64-bit identifier <Term type="expression">i</Term>, a
+    64-bit size value <Term type="expression">s</Term>, followed by
+    <Term type="expression">s</Term>
+    octets of data, followed by zero or more octets of padding such that the next section will begin on a 16
+    octet boundary. Consumers that do not recognize the identifier of a given section can simply skip the
+    section by seeking forwards by <Term type="expression">s</Term> octets to find the next section.
+  </Paragraph>
+
+  <Paragraph id="696d8a46-67cf-451f-956f-dba24f4725b6">
+    <Term type="package">aurantium</Term> audio map files must end with exactly one
+    <Link target="199f9506-77eb-4288-8a07-4af57b7b7651">End</Link> section.
+  </Paragraph>
+
+  <Paragraph id="50dbd981-7e2f-4c99-b73e-912f35a1c0fc">
+    Sections should start at offsets that are evenly divisible by 16.
+  </Paragraph>
+
+  <Paragraph>
+    The following standard sections are defined by this version of the specification:
+  </Paragraph>
+
+  <FormalItem title="Standard Sections" type="genericTable">
+    <Table>
+      <Columns>
+        <Column>Identifier</Column>
+        <Column>Description</Column>
+      </Columns>
+      <Row>
+        <Cell><Link target="810c764a-e613-4ff6-9b22-bdce4c4815f5">0x4155524D5F494421</Link></Cell>
+        <Cell>Identifier.</Cell>
+      </Row>
+      <Row>
+        <Cell><Link target="199f9506-77eb-4288-8a07-4af57b7b7651">0x4155524D454E4421</Link></Cell>
+        <Cell>File terminator.</Cell>
+      </Row>
+    </Table>
+  </FormalItem>
+</Section>

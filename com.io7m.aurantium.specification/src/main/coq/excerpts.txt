@@ -69,3 +69,22 @@
 4036 ! Definition keyAssignmentCompatCompare
 4037 ! Definition keyAssignmentsCompatCompareChanged
 
+10077 ! Inductive binaryExp : Set
+10078 ! Fixpoint binarySize (b : binaryExp)
+10079 ! Definition asMultipleOf (size q : nat)
+10080 ! Inductive streamE : Set
+10081 ! Definition streamSize
+10082 ! Fixpoint binaryEval
+10083 ! Definition binaryEvalPaddedBytes
+10084 ! Theorem binarySizeMultiple4 :
+10085 ! Definition binaryExpFileHeader
+10090 ! Definition binarySizePadded16
+10093 ! Inductive streamWellFormed
+10094 ! Theorem binaryEvalStreamsWellFormed
+10095 ! Theorem streamsWellFormedDivisible4
+10096 ! Definition asMultipleOf4
+
+12092 ! Definition binaryEndSection :
+12093 ! Definition binaryIdentifierSection
+12094 ! Definition binaryIdentifier (
+12085 ! Definition binaryExpFileHeader :

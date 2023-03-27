@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Identifier"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="810c764a-e613-4ff6-9b22-bdce4c4815f5"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Description">
+    <Paragraph id="599b6fe9-229f-475e-b8c9-783ae7fe51b9">
+      <Term type="package">aurantium</Term>
+      audio map files must begin with exactly one
+      <Term type="term">Identifier</Term>
+      section, which has the identifier <Term type="constant">0x4155524D5F494421</Term>.
+    </Paragraph>
+
+    <Paragraph>
+      Identifiers are encoded as follows:
+    </Paragraph>
+
+    <FormalItem title="Identifier Encoding">
+      <Verbatim>
+        <xi:include href="12094.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+
+    <Paragraph>
+      Identifier sections are encoded as follows:
+    </Paragraph>
+
+    <FormalItem title="Identifier Section Encoding">
+      <Verbatim>
+        <xi:include href="12093.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      An <Term type="term">Identifier</Term> section must appear in a <Term type="package">aurantium</Term>
+      audio map file exactly once, and must be the first section present in the file.
+    </Paragraph>
+  </Subsection>
+
+</Section>

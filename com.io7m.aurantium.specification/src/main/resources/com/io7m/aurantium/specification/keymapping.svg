@@ -28,9 +28,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="1.5197952"
-     inkscape:cx="238.18999"
-     inkscape:cy="225.35931"
+     inkscape:zoom="2.149315"
+     inkscape:cx="307.07458"
+     inkscape:cy="207.27534"
      inkscape:window-width="1910"
      inkscape:window-height="1025"
      inkscape:window-x="0"
@@ -605,21 +605,21 @@
     <rect
        style="fill:url(#linearGradient3355);fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0"
        id="rect3239"
-       width="38.099998"
+       width="35.98333"
        height="57.149998"
-       x="12.7"
+       x="14.816667"
        y="6.3499999" />
     <text
        xml:space="preserve"
        style="font-size:2.82223px;font-family:'Terminus (TTF)';-inkscape-font-specification:'Terminus (TTF)';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-dasharray:none"
-       x="30.603462"
-       y="35.983334"
+       x="31.096115"
+       y="35.953709"
        id="text3295"><tspan
          sodipodi:role="line"
          id="tspan3293"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#000000;fill-opacity:1;stroke-width:0.265"
-         x="30.603462"
-         y="35.983334">K1</tspan></text>
+         x="31.096115"
+         y="35.953709">K1</tspan></text>
     <rect
        style="fill:url(#linearGradient3467);fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0"
        id="rect3459"
@@ -630,32 +630,32 @@
     <text
        xml:space="preserve"
        style="font-size:2.82223px;font-family:'Terminus (TTF)';-inkscape-font-specification:'Terminus (TTF)';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-dasharray:none"
-       x="53.986015"
-       y="52.916664"
+       x="53.370724"
+       y="52.905647"
        id="text3471"><tspan
          sodipodi:role="line"
          id="tspan3469"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#000000;fill-opacity:1;stroke-width:0.265"
-         x="53.986015"
-         y="52.916664">K2</tspan></text>
+         x="53.370724"
+         y="52.905647">K2</tspan></text>
     <rect
        style="fill:#fffc00;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0"
        id="rect3473"
-       width="25.4"
+       width="25.399998"
        height="57.149998"
-       x="74.083328"
+       x="76.199997"
        y="6.3499999" />
     <text
        xml:space="preserve"
        style="font-size:2.82223px;font-family:'Terminus (TTF)';-inkscape-font-specification:'Terminus (TTF)';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-dasharray:none"
-       x="85.685028"
-       y="35.943371"
+       x="87.211891"
+       y="35.952328"
        id="text3477"><tspan
          sodipodi:role="line"
          id="tspan3475"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#000000;fill-opacity:1;stroke-width:0.265"
-         x="85.685028"
-         y="35.943371">K3</tspan></text>
+         x="87.211891"
+         y="35.952328">K3</tspan></text>
     <rect
        style="fill:url(#linearGradient5768);fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0"
        id="rect5762"
@@ -666,14 +666,14 @@
     <text
        xml:space="preserve"
        style="font-size:2.82223px;font-family:'Terminus (TTF)';-inkscape-font-specification:'Terminus (TTF)';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-dasharray:none"
-       x="111.02853"
-       y="35.924084"
+       x="112.58365"
+       y="35.953709"
        id="text5766"><tspan
          sodipodi:role="line"
          id="tspan5764"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#000000;fill-opacity:1;stroke-width:0.265"
-         x="111.02853"
-         y="35.924084">K4</tspan></text>
+         x="112.58365"
+         y="35.953709">K4</tspan></text>
     <rect
        style="fill:url(#radialGradient6082);fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0"
        id="rect5970"
@@ -684,13 +684,13 @@
     <text
        xml:space="preserve"
        style="font-size:2.82223px;font-family:'Terminus (TTF)';-inkscape-font-specification:'Terminus (TTF)';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-dasharray:none"
-       x="138.60995"
-       y="35.924084"
+       x="138.01602"
+       y="35.933727"
        id="text5974"><tspan
          sodipodi:role="line"
          id="tspan5972"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#000000;fill-opacity:1;stroke-width:0.265"
-         x="138.60995"
-         y="35.924084">K5</tspan></text>
+         x="138.01602"
+         y="35.933727">K5</tspan></text>
   </g>
 </svg>

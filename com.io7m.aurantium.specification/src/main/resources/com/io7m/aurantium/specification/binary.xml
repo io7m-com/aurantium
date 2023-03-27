@@ -5,8 +5,10 @@
          id="1fc28ede-73b0-48c7-9bca-7f0a2c6fd261"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <Paragraph>
-    Binary.
-  </Paragraph>
+  <xi:include href="b-exp.xml"/>
+  <xi:include href="b-file.xml"/>
+  <xi:include href="b-sections.xml"/>
+  <xi:include href="b-s-id.xml"/>
+  <xi:include href="b-s-end.xml"/>
 
 </Section>
