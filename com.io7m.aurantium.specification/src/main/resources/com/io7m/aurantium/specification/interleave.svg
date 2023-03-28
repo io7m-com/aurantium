@@ -28,15 +28,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="1.5197952"
-     inkscape:cx="263.19336"
-     inkscape:cy="240.49293"
+     inkscape:zoom="2.149315"
+     inkscape:cx="249.84705"
+     inkscape:cy="219.83748"
      inkscape:window-width="1910"
      inkscape:window-height="1025"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer4">
+     inkscape:current-layer="layer1">
     <inkscape:grid
        type="xygrid"
        id="grid132"
@@ -152,7 +152,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer4"
-     inkscape:label="back">
+     inkscape:label="back"
+     sodipodi:insensitive="true">
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect5239"
@@ -164,8 +165,7 @@
   <g
      inkscape:label="channels"
      inkscape:groupmode="layer"
-     id="layer1"
-     sodipodi:insensitive="true">
+     id="layer1">
     <path
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none"
        d="M 8.4666664,8.4666664 V 33.866666 H 76.199996"
@@ -178,13 +178,13 @@
        sodipodi:nodetypes="ccc" />
     <text
        xml:space="preserve"
-       style="font-size:3.175px;font-family:'Terminus (TTF)';-inkscape-font-specification:'Terminus (TTF)';fill:#000000;stroke:none;stroke-width:0.264583;stroke-dasharray:none"
+       style="font-size:2.82222222px;font-family:monospace;-inkscape-font-specification:monospace;fill:#000000;stroke:none;stroke-width:0.264583;stroke-dasharray:none;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
        x="46.369816"
        y="12.643908"
        id="text991"><tspan
          sodipodi:role="line"
          id="tspan989"
-         style="fill:#000000;stroke:none;stroke-width:0.264583"
+         style="fill:#000000;stroke:none;stroke-width:0.264583;-inkscape-font-specification:monospace;font-family:monospace;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:2.82222222px"
          x="46.369816"
          y="12.643908">Channel 1</tspan></text>
     <path
@@ -241,15 +241,63 @@
        id="path3171" />
     <text
        xml:space="preserve"
-       style="font-size:3.175px;font-family:'Terminus (TTF)';-inkscape-font-specification:'Terminus (TTF)';fill:#000000;stroke:none;stroke-width:0.264583;stroke-dasharray:none"
+       style="font-size:2.82222222px;font-family:monospace;-inkscape-font-specification:monospace;fill:#000000;stroke:none;stroke-width:0.264583;stroke-dasharray:none;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
        x="46.369816"
        y="46.510574"
        id="text987"><tspan
          sodipodi:role="line"
          id="tspan985"
-         style="fill:#000000;stroke:none;stroke-width:0.264583"
+         style="fill:#000000;stroke:none;stroke-width:0.264583;-inkscape-font-specification:monospace;font-family:monospace;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:2.82222222px"
          x="46.369816"
          y="46.510574">Channel 2</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-dasharray:0.264583, 0.264583"
+       d="m 76.199997,92.074997 10e-7,2.116667 H 93.13333 v -2.116667"
+       id="path411"
+       sodipodi:nodetypes="cccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.82223px;font-family:monospace;-inkscape-font-specification:monospace;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none"
+       x="78.650818"
+       y="98.385033"
+       id="text521"><tspan
+         sodipodi:role="line"
+         id="tspan519"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none"
+         x="78.650818"
+         y="98.385033">Frame 0</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.82223px;font-family:monospace;-inkscape-font-specification:monospace;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none"
+       x="95.588287"
+       y="98.385033"
+       id="text1149"><tspan
+         sodipodi:role="line"
+         id="tspan1147"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none"
+         x="95.588287"
+         y="98.385033">Frame 1</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-dasharray:0.264583, 0.264583"
+       d="m 93.13333,92.074997 10e-7,2.116667 h 16.933329 v -2.116667"
+       id="path1303"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-dasharray:0.264583, 0.264583"
+       d="m 110.06666,92.074997 v 2.116667 h 16.93333 v -2.116667"
+       id="path1305"
+       sodipodi:nodetypes="cccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.82223px;font-family:monospace;-inkscape-font-specification:monospace;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none"
+       x="112.52161"
+       y="98.385033"
+       id="text1309"><tspan
+         sodipodi:role="line"
+         id="tspan1307"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none"
+         x="112.52161"
+         y="98.385033">Frame 2</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"

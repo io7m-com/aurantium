@@ -70,6 +70,13 @@
 4037 ! Definition keyAssignmentsCompatCompareChanged
 
 5000 ! Definition clipsCompatCompareFull
+5001 ! Definition clipsRemoved
+5002 ! Definition clipsAdded
+5003 ! Theorem clipsCompatCompareMajor0
+5004 ! Theorem clipsCompatCompareMinor0
+5005 ! Theorem clipEqDec
+5006 ! Definition clipCompatCompare
+5007 ! Definition clipsCompatCompareChanged
 
 10077 ! Inductive binaryExp : Set
 10078 ! Fixpoint binarySize (b : binaryExp)
@@ -94,3 +101,14 @@
 13000 ! Fixpoint intersectionPairs
 13001 ! Definition finds
 13002 ! Theorem intersectionPairsIn
+
+14000 ! Definition isNormalized
+14001 ! Theorem isNormalizedMult
+14002 ! Definition between
+14003 ! Theorem betweenNorm
+14004 ! Definition interpolate
+14005 ! Lemma interpolateRange1 :
+14006 ! Lemma interpolateRange2 :
+
+15000 ! Inductive hashValue
+15001 ! Inductive hashAlgorithm

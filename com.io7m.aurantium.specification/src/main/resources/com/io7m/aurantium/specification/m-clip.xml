@@ -324,6 +324,12 @@
       endianness of sample values in the audio data for this clip.
     </Paragraph>
     <Paragraph>
+      The <Term type="expression">clipHash</Term> field records a cryptographic
+      hash of the audio data for this clip. This field serves both as an integrity
+      check for audio data, and to allow for quickly determining if two audio maps
+      differ in their audio data.
+    </Paragraph>
+    <Paragraph>
       The <Term type="expression">clipOffset</Term> field specifies the
       offset in octets of the start of the audio data for this clip, relative
       to the beginning of the file section.
@@ -387,6 +393,81 @@
         <Link target="f7967257-9e35-4a55-b577-6bf685ac0df7">compatibility</Link> module
         can then be used to determine the maximally significant change in the list of changes.
       </Paragraph>
+    </Subsection>
+
+    <Subsection title="Removing A Clip">
+      <Paragraph>
+        Removing an existing clip is a <Term type="term">major</Term> change.
+      </Paragraph>
+      <Paragraph id="a596023c-bcd6-460a-8e90-ee545eb141f9">
+        The <Term type="expression">clipsRemoved</Term> function determines the
+        set of clips that were present in the old version of a clip list, but that are not present in the new one:
+      </Paragraph>
+      <FormalItem title="clipsRemoved">
+        <Verbatim><xi:include href="5001.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        It follows that if the list of removed elements is non-empty, then the
+        <Link target="b74df9db-98c6-4f17-88f3-e27b33746c68">clipsCompatCompareFull</Link>
+        function returns at least one major change:
+      </Paragraph>
+      <FormalItem title="clipsCompatCompareFull Major">
+        <Verbatim><xi:include href="5003.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="Adding A Clip">
+      <Paragraph>
+        Adding a new clip is a <Term type="term">minor</Term> change.
+      </Paragraph>
+      <Paragraph>
+        The set of clips that have been <Term type="term">added</Term> can be
+        expressed in terms of the <Link target="a596023c-bcd6-460a-8e90-ee545eb141f9">clipsRemoved</Link>
+        function with the arguments applied in reverse order. Intuitively, if
+        <Term type="expression">ca</Term> is the set of old clips, and
+        <Term type="expression">cb</Term> is the set of new clips, the
+        <Term type="expression">clipsRemoved</Term> states which elements
+        of <Term type="expression">cb</Term> must be removed to produce
+        <Term type="expression">ca</Term>; this is the set of newly added clips.
+      </Paragraph>
+      <FormalItem title="clipsAdded">
+        <Verbatim><xi:include href="5002.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        It follows that if the only changes are additions, then the
+        <Link target="b74df9db-98c6-4f17-88f3-e27b33746c68">clipsCompatCompareFull</Link>
+        function returns a minor change:
+      </Paragraph>
+      <FormalItem title="clipsCompatCompareFull Minor">
+        <Verbatim><xi:include href="5004.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="Changing A Clip">
+      <Paragraph>
+        Changing an existing clip is a <Term type="term">major</Term> change.
+      </Paragraph>
+      <Paragraph>
+        If <Term type="expression">ca</Term> is the set of old clips, and
+        <Term type="expression">cb</Term> is the set of new clips, the
+        <Link target="f0af75da-de92-4d9c-80d5-511fbcdd4f9a">intersectionPairs</Link> function determines which
+        clips are in both sets.
+      </Paragraph>
+      <Paragraph>
+        Clip equality is decidable:
+      </Paragraph>
+      <FormalItem title="Equality Decidable">
+        <Verbatim><xi:include href="5005.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        Clips are compared using this comparison function:
+      </Paragraph>
+      <FormalItem title="Clip Compare">
+        <Verbatim><xi:include href="5006.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Clip Compare Changed">
+        <Verbatim><xi:include href="5007.txt" parse="text"/></Verbatim>
+      </FormalItem>
     </Subsection>
   </Subsection>
 

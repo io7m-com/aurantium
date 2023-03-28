@@ -3,9 +3,11 @@
 coqc -Q Aurantium Aurantium Aurantium/Alignment.v
 coqc -Q Aurantium Aurantium Aurantium/StringUtility.v
 coqc -Q Aurantium Aurantium Aurantium/Descriptor.v
+coqc -Q Aurantium Aurantium Aurantium/Hash.v
 coqc -Q Aurantium Aurantium Aurantium/Divisible8.v
 coqc -Q Aurantium Aurantium Aurantium/OctetOrder.v
 coqc -Q Aurantium Aurantium Aurantium/Identifier.v
+coqc -Q Aurantium Aurantium Aurantium/Interpolation.v
 coqc -Q Aurantium Aurantium Aurantium/Compatibility.v
 coqc -Q Aurantium Aurantium Aurantium/Intersection.v
 coqc -Q Aurantium Aurantium Aurantium/Clip.v

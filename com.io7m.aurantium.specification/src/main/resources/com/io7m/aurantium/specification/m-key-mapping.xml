@@ -190,18 +190,9 @@
             range <Term type="expression">[kaValueStart, kaValueEnd]</Term>. A value of <Term type="expression">0</Term>
             indicates that <Term type="expression">k = kaValueStart</Term>, whilst a value of
             <Term type="expression">1</Term> indicates that <Term type="expression">k = kaValueEnd</Term>.
-            This value is calculated using the <Term type="expression">between</Term> function:
+            This value is calculated using the <Link target="89227873-d1e4-4e86-9e92-2cb934bccd8f">between</Link>
+            function.
           </Paragraph>
-          <FormalItem title="Between" id="89227873-d1e4-4e86-9e92-2cb934bccd8f">
-            <Verbatim><xi:include href="4004.txt" parse="text"/></Verbatim>
-          </FormalItem>
-          <Paragraph>
-            The <Term type="expression">between</Term> function will always return a value in
-            <Term type="expression">[0, 1]</Term> given the appropriate preconditions:
-          </Paragraph>
-          <FormalItem title="Between Normalized">
-            <Verbatim><xi:include href="4005.txt" parse="text"/></Verbatim>
-          </FormalItem>
           <Paragraph>
             The value returned from the <Term type="expression">between</Term> function is then used to
             linearly interpolate between values in the range
@@ -558,19 +549,9 @@
       <Paragraph>
         If <Term type="expression">ka</Term> is the set of old assignments, and
         <Term type="expression">kb</Term> is the set of new assignments, the
-        <Term type="expression">intersectionPairs</Term> function determines which
+        <Link target="f0af75da-de92-4d9c-80d5-511fbcdd4f9a">intersectionPairs</Link> function determines which
         key assignments are in both sets.
       </Paragraph>
-      <FormalItem title="Intersection Pairs">
-        <Verbatim><xi:include href="4032.txt" parse="text"/></Verbatim>
-      </FormalItem>
-      <Paragraph>
-        The function only returns values that were present in either of the
-        two sets:
-      </Paragraph>
-      <FormalItem title="Intersection Pairs (In)">
-        <Verbatim><xi:include href="4033.txt" parse="text"/></Verbatim>
-      </FormalItem>
       <Paragraph>
         A key assignment <Term type="expression">k</Term> is considered to be equal
         to a key assignment <Term type="expression">j</Term> iff all the values in

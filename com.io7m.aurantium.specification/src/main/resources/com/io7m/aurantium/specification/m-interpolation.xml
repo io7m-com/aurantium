@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Interpolation"
+         id="d7b7072a-b739-47bb-b6e5-3f3e0a377e44"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    This specification makes use of interpolation functions.
+  </Paragraph>
+
+  <Paragraph>
+    A number in <Term type="expression">ℝ</Term> is <Term type="term">normalized</Term> iff
+    it is in the range <Term type="expression">[0, 1]</Term>:
+  </Paragraph>
+
+  <FormalItem title="isNormalized">
+    <Verbatim><xi:include href="14000.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Normalization is preserved over multiplication:
+  </Paragraph>
+
+  <FormalItem title="isNormalized Multiplication">
+    <Verbatim><xi:include href="14001.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    The <Term type="expression">between</Term> function determines where a number falls between
+    two other numbers, expressed as a normalized number:
+  </Paragraph>
+
+  <FormalItem title="Between" id="89227873-d1e4-4e86-9e92-2cb934bccd8f">
+    <Verbatim><xi:include href="14002.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    The <Term type="expression">between</Term> function will always return a value in
+    <Term type="expression">[0, 1]</Term> given the appropriate preconditions:
+  </Paragraph>
+
+  <FormalItem title="Between Normalized">
+    <Verbatim><xi:include href="14003.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    The <Term type="expression">interpolate</Term> function linearly interpolates a value
+    between a lower and upper value based on a normalized number:
+  </Paragraph>
+
+  <FormalItem title="Interpolate">
+    <Verbatim><xi:include href="14004.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    The <Term type="expression">interpolate</Term> function has the following properties
+    when the input is normalized:
+  </Paragraph>
+
+  <FormalItem title="Interpolate Range 1">
+    <Verbatim><xi:include href="14005.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <FormalItem title="Interpolate Range 2">
+    <Verbatim><xi:include href="14006.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+</Section>

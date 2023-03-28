@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Hash"
+         id="be55d457-fc8c-4b2c-b456-a727816f9751"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    This specification makes use of cryptographic hash functions.
+  </Paragraph>
+
+  <Paragraph>
+    A <Term type="term">hashValue</Term> value indicates that some data has been hashed using a cryptographic hash
+    function, and the result has been encoded as an ASCII hexadecimal string.
+  </Paragraph>
+
+  <FormalItem title="hashValue">
+    <Verbatim>
+      <xi:include href="15000.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    The <Term type="expression">hvAlgorithm</Term> field indicates the
+    <Link target="c14c9bc7-a88e-4a02-b802-87ba69eb58a7">algorithm</Link>
+    used to produce the hash.
+  </Paragraph>
+
+  <Paragraph>
+    The <Term type="expression">hvValue</Term> field is the hash value encoded as an ASCII hexadecimal string.
+  </Paragraph>
+
+  <Paragraph id="c14c9bc7-a88e-4a02-b802-87ba69eb58a7">
+    A <Term type="term">hashAlgorithm</Term> value specifies which hash function was used to produce a particular hash.
+  </Paragraph>
+
+  <FormalItem title="hashAlgorithm">
+    <Verbatim>
+      <xi:include href="15001.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    A value of <Term type="expression">HA_SHA256</Term> specifies
+    <LinkExternal target="https://www.rfc-editor.org/rfc/rfc6234">SHA-256</LinkExternal>.
+  </Paragraph>
+
+</Section>

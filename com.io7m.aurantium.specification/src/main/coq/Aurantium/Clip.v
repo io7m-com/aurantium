@@ -29,6 +29,7 @@ Require Import Aurantium.Descriptor.
 Require Import Aurantium.OctetOrder.
 Require Import Aurantium.Compatibility.
 Require Import Aurantium.Intersection.
+Require Import Aurantium.Hash.
 
 (** The known audio formats. *)
 Inductive audioFormatType : Set :=
@@ -85,7 +86,7 @@ Inductive clip : Set := clipMake {
   (** The endianness of the audio data. *)
   clipEndianness : octetOrder;
   (** The hash of the audio data. *)
-  clipHash : string;
+  clipHash : hashValue;
   (** The offset of the first octet of audio data. *)
   clipOffset : nat;
   (** The size of the audio data in octets. *)
@@ -101,7 +102,11 @@ Proof.
       try decide equality;
       try apply string_dec;
       try decide equality;
-      try apply string_dec)).
+      try apply string_dec;
+      try apply hashValueEqDec
+    )
+  ).
+  apply hashAlgorithmEqDec.
 Qed.
 
 Inductive clipsListIdIsSorted : list clip -> Prop :=

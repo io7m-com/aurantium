@@ -15,7 +15,7 @@
     concatenated to a list of results.
   </Paragraph>
 
-  <FormalItem title="intersectionPairs">
+  <FormalItem title="intersectionPairs" id="f0af75da-de92-4d9c-80d5-511fbcdd4f9a">
     <Verbatim><xi:include href="13000.txt" parse="text"/></Verbatim>
   </FormalItem>
 
