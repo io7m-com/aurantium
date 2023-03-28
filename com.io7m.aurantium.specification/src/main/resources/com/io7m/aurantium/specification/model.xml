@@ -8,6 +8,7 @@
   <xi:include href="m-overview.xml"/>
   <xi:include href="m-div8.xml"/>
   <xi:include href="m-octets.xml"/>
+  <xi:include href="m-intersection.xml"/>
   <xi:include href="m-descriptor.xml"/>
   <xi:include href="m-compatibility.xml"/>
   <xi:include href="m-clip.xml"/>

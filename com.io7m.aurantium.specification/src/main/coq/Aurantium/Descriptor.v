@@ -25,3 +25,8 @@ Class describable (A : Set) := {
   descriptorOf : A -> descriptor
 }.
 
+Definition descriptorEqDec : forall (x y : descriptor),
+  {x = y}+{x <> y}.
+Proof.
+  apply string_dec.
+Qed.

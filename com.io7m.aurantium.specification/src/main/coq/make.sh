@@ -7,6 +7,7 @@ coqc -Q Aurantium Aurantium Aurantium/Divisible8.v
 coqc -Q Aurantium Aurantium Aurantium/OctetOrder.v
 coqc -Q Aurantium Aurantium Aurantium/Identifier.v
 coqc -Q Aurantium Aurantium Aurantium/Compatibility.v
+coqc -Q Aurantium Aurantium Aurantium/Intersection.v
 coqc -Q Aurantium Aurantium Aurantium/Clip.v
 coqc -Q Aurantium Aurantium Aurantium/KeyMapping.v
 coqc -Q Aurantium Aurantium Aurantium/AudioMap.v

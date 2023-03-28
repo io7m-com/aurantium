@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="List Intersection"
+         id="2951d436-2ba4-49fa-ae9f-b6de76e417b7"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    This specification makes use of a concept of <Term type="term">list intersection</Term>. Specifically,
+    the <Term type="expression">intersectionPairs</Term> function. The function takes lists
+    <Term type="expression">ea</Term> and <Term type="expression">ea</Term>, and a function
+    <Term type="expression">f</Term>, and for each element <Term type="expression">a</Term> of
+    <Term type="expression">ea</Term> for which <Term type="expression">(f a eb)</Term> returns
+    <Term type="expression">Some r</Term>, the pair <Term type="expression">(a, r)</Term> is
+    concatenated to a list of results.
+  </Paragraph>
+
+  <FormalItem title="intersectionPairs">
+    <Verbatim><xi:include href="13000.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    In practice, <Term type="expression">intersectionPairs</Term> is essentially used to answer the
+    question "For each of the the elements I have in this list, what are the corresponding elements
+    in this other list, according to <Term type="expression">f</Term>?". The <Term type="expression">finds</Term>
+    proposition specifies a property that <Term type="expression">f</Term> should always have, and
+    the <Term type="expression">intersectionPairsIn</Term> theorem demonstrates that
+    <Term type="expression">intersectionPairs</Term> is correct if
+    <Term type="expression">f</Term> has this property.
+  </Paragraph>
+
+  <FormalItem title="finds">
+    <Verbatim><xi:include href="13001.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <FormalItem title="intersectionPairsIn">
+    <Verbatim><xi:include href="13002.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+</Section>

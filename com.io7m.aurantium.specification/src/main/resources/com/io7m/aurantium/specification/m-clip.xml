@@ -366,6 +366,30 @@
     </FormalItem>
   </Subsection>
 
+  <Subsection title="Compatibility">
+    <Subsection title="Overview">
+      <Paragraph>
+        This section enumerates all of the possible changes that can be made to
+        a set of clips, and describes whether each of the changes is
+        a compatibility-breaking <Link target="182551bb-fc49-4b0c-8da0-f075810ebdb2">major</Link>
+        change, or a minor change.
+      </Paragraph>
+      <Paragraph id="fe32786f-72e2-4628-b2af-fb8bc500dea3">
+        The complete procedure for determining the compatibility of changes to a list
+        of clips is given by the <Term type="expression">clipsCompatCompareFull</Term>:
+      </Paragraph>
+      <FormalItem title="clipsCompatCompareFull">
+        <Verbatim><xi:include href="5000.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        This function composes the results of many compatibility checks, and returns a list of
+        all of the changes. The definitions given in the
+        <Link target="f7967257-9e35-4a55-b577-6bf685ac0df7">compatibility</Link> module
+        can then be used to determine the maximally significant change in the list of changes.
+      </Paragraph>
+    </Subsection>
+  </Subsection>
+
   <Footnote id="ba79801b-55b3-4e94-a013-89fc9560ae94">
     See <LinkExternal target="https://en.wikipedia.org/wiki/Nyquist%E2%80%93Shannon_sampling_theorem">
       https://en.wikipedia.org/wiki/Nyquist%E2%80%93Shannon_sampling_theorem

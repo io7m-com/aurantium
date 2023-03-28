@@ -69,6 +69,8 @@
 4036 ! Definition keyAssignmentCompatCompare
 4037 ! Definition keyAssignmentsCompatCompareChanged
 
+5000 ! Definition clipsCompatCompareFull
+
 10077 ! Inductive binaryExp : Set
 10078 ! Fixpoint binarySize (b : binaryExp)
 10079 ! Definition asMultipleOf (size q : nat)
@@ -88,3 +90,7 @@
 12093 ! Definition binaryIdentifierSection
 12094 ! Definition binaryIdentifier (
 12085 ! Definition binaryExpFileHeader :
+
+13000 ! Fixpoint intersectionPairs
+13001 ! Definition finds
+13002 ! Theorem intersectionPairsIn

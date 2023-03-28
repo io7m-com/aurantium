@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section title="Key Mappings"
+<Section title="Key Assignments"
          id="31ea3dcf-0dd7-4653-929b-295a33775f4f"
          xmlns="urn:com.io7m.structural:8:0"
          xmlns:xi="http://www.w3.org/2001/XInclude">
@@ -430,9 +430,9 @@
       </Paragraph>
       <Paragraph id="b74df9db-98c6-4f17-88f3-e27b33746c68">
         The complete procedure for determining the compatibility of changes to a list
-        of key assignments is given by the <Term type="expression">keyAssignmentsCompatCompare</Term>:
+        of key assignments is given by the <Term type="expression">keyAssignmentsCompatCompareFull</Term>:
       </Paragraph>
-      <FormalItem title="keyAssignmentsCompatCompare">
+      <FormalItem title="keyAssignmentsCompatCompareFull">
         <Verbatim><xi:include href="4017.txt" parse="text"/></Verbatim>
       </FormalItem>
       <Paragraph>
