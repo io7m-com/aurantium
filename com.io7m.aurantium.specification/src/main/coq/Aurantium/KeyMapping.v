@@ -44,7 +44,7 @@ Inductive keyAssignmentFlag : Set :=
 
 Definition keyAssignmentFlagDescribe (f : keyAssignmentFlag) : descriptor :=
   match f with
-  | FlagUnpitched   => "UNPITCHED"
+  | FlagUnpitched   => "com.io7m.aurantium.unpitched"
   end.
 
 #[export]

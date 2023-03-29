@@ -345,8 +345,8 @@ Local Open Scope string_scope.
 
 Definition octetOrderDescribe (b : octetOrder) : descriptor :=
   match b with
-  | OctetOrderBig    => "BIG_ENDIAN"
-  | OctetOrderLittle => "LITTLE_ENDIAN"
+  | OctetOrderBig    => "com.io7m.aurantium.endian_big"
+  | OctetOrderLittle => "com.io7m.aurantium.endian_little"
   end.
 
 #[export]

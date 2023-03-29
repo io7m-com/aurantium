@@ -57,10 +57,10 @@ Local Open Scope string_scope.
 
 Definition audioFormatDescribe (f : audioFormatType) : descriptor :=
   match f with
-  | AFPCMLinearIntegerSigned   => "PCM_LINEAR_INTEGER_SIGNED"
-  | AFPCMLinearIntegerUnsigned => "PCM_LINEAR_INTEGER_UNSIGNED"
-  | AFPCMLinearFloat           => "PCM_LINEAR_FLOAT"
-  | AFFlac                     => "FLAC"
+  | AFPCMLinearIntegerSigned   => "com.io7m.aurantium.pcm_linear_integer_signed"
+  | AFPCMLinearIntegerUnsigned => "com.io7m.aurantium.pcm_linear_integer_unsigned"
+  | AFPCMLinearFloat           => "com.io7m.aurantium.pcm_linear_float"
+  | AFFlac                     => "com.io7m.aurantium.flac"
   | AFUnknown d                => d
   end.
 

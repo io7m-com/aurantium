@@ -37,7 +37,7 @@ Qed.
 
 Definition hashAlgorithmDescribe (f : hashAlgorithm) : descriptor :=
   match f with
-  | HA_SHA256   => "SHA-256"
+  | HA_SHA256   => "com.io7m.aurantium.sha2_256"
   end.
 
 #[export]

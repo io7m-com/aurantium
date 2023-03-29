@@ -84,9 +84,9 @@
     </FormalItem>
     <Paragraph>
       The <Term type="expression">idName</Term> field specifies a unique identifier for this audio map file.
-      It is strongly recommended that <LinkExternal
-      target="https://en.wikipedia.org/wiki/Reverse_domain_name_notation">reverse domain name notation</LinkExternal>
-      be used.
+    </Paragraph>
+    <Paragraph>
+      Identifiers must be <Link target="f873764c-01dd-4c90-9efe-a6e29c2af477">Lanark dotted strings</Link>.
     </Paragraph>
     <Paragraph id="ba4a7b71-196a-4a06-bb2f-d7a073365f87">
       The <Term type="expression">idVersionMajor</Term> field specifies a <Term type="term">major</Term>

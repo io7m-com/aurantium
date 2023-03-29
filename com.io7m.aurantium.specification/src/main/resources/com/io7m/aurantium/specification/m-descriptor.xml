@@ -4,25 +4,41 @@
          xmlns="urn:com.io7m.structural:8:0"
          id="8e4a52e5-1618-40e6-a4e8-93d00f23ba9e"
          xmlns:xi="http://www.w3.org/2001/XInclude">
+
   <Paragraph>
-    A <Term type="term">descriptor</Term> is a UTF-8 encoded string of an arbitrary length that describes an object
-    in a <Term type="package">aurantium</Term> file.
+    A <Term type="term">descriptor</Term> is a UTF-8 encoded string that describes an object in a
+    <Term type="package">aurantium</Term> file.
   </Paragraph>
+
   <FormalItem title="Descriptor">
-    <Verbatim>
-      <xi:include href="2.txt"
-                  parse="text"/>
-    </Verbatim>
+    <Verbatim><xi:include href="2.txt" parse="text"/></Verbatim>
   </FormalItem>
+
   <Paragraph id="115f2ca1-29bf-49f2-968f-aa0a1363b1af">
     An object is <Term type="type">describable</Term> iff it has an associated <Term type="term">descriptor</Term>.
   </Paragraph>
+
   <FormalItem title="Describable">
-    <Verbatim>
-      <xi:include href="3.txt"
-                  parse="text"/>
-    </Verbatim>
+    <Verbatim><xi:include href="3.txt" parse="text"/></Verbatim>
   </FormalItem>
+
+  <Paragraph>
+    Descriptors must be <LinkExternal target="https://github.com/io7m/lanark">Lanark dotted strings</LinkExternal>.
+    Briefly, descriptor strings must match the following regular expression:
+  </Paragraph>
+
+  <FormalItem title="Lanark Strings" id="f873764c-01dd-4c90-9efe-a6e29c2af477">
+    <Verbatim><![CDATA[
+([a-z][a-z0-9_-]{0,63})(\.[a-z][a-z0-9_-]{0,62}){0,15}
+]]></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Some areas of this specification allow for structures to contain new, externally-defined descriptors (to allow
+    for third parties to add extensions to the specification). These externally-defined descriptors
+    <Term type="term">MUST NOT</Term> start with the string <Term type="expression">com.io7m.aurantium.</Term>.
+  </Paragraph>
+
   <Paragraph>
     This specification defines the descriptors that must be returned for various objects in the specification
     by giving function definitions that map values to descriptor strings.
