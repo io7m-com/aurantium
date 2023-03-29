@@ -9,7 +9,7 @@
     This specification makes use of interpolation functions.
   </Paragraph>
 
-  <Paragraph>
+  <Paragraph id="73e6d399-b75a-4bb5-b6c9-32f5c09fd3db">
     A number in <Term type="expression">ℝ</Term> is <Term type="term">normalized</Term> iff
     it is in the range <Term type="expression">[0, 1]</Term>:
   </Paragraph>

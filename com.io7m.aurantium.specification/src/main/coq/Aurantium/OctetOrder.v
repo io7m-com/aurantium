@@ -341,7 +341,7 @@ Qed.
 
 Require Import Coq.Strings.String.
 
-Open Scope string_scope.
+Local Open Scope string_scope.
 
 Definition octetOrderDescribe (b : octetOrder) : descriptor :=
   match b with

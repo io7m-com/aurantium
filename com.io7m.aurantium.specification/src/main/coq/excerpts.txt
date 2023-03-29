@@ -65,7 +65,7 @@
 4032 ! Fixpoint intersectionPairs
 4033 ! Theorem intersectionPairsIn :
 4034 ! Definition keyAssignmentValuesEq
-4035 ! Definition keyAssignmentValuesEqDec
+4035 ! Theorem keyAssignmentValuesEqDec
 4036 ! Definition keyAssignmentCompatCompare
 4037 ! Definition keyAssignmentsCompatCompareChanged
 
@@ -98,6 +98,21 @@
 12094 ! Definition binaryIdentifier (
 12085 ! Definition binaryExpFileHeader :
 
+12100 ! Definition binaryClip (c : clip)
+12101 ! Definition binaryHash (h : hashValue)
+12102 ! Definition binaryClips (c : clips)
+12103 ! Definition binaryClipsSection (c : clips)
+12104 ! Definition binaryClipsSectionData (c : clips)
+
+12200 ! Definition binaryKeyAssignmentFlag (
+12201 ! Definition binaryKeyAssignmentFlags (
+12202 ! Definition binaryKeyAssignment (
+12203 ! Definition binaryKeyAssignments (
+12204 ! Definition binaryKeyAssignmentsSection (
+12205 ! Definition binaryExpMetadataValue
+12206 ! Definition binaryExpMetadata (m
+12207 ! Definition binaryExpMetadataSection (m
+
 13000 ! Fixpoint intersectionPairs
 13001 ! Definition finds
 13002 ! Theorem intersectionPairsIn
@@ -112,3 +127,12 @@
 
 15000 ! Inductive hashValue
 15001 ! Inductive hashAlgorithm
+
+16000 ! Definition keyAssignmentReferencesClip
+16001 ! Definition keyAssignmentReferencesExists
+16002 ! Definition keyAssignmentsReferences
+16003 ! Definition clipsReferenced
+16004 ! Inductive audioMap : Set
+
+17000 ! Inductive metadataValue : Set
+17001 ! Inductive metadata : Set

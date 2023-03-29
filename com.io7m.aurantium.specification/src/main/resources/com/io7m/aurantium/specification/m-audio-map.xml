@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Audio Map"
+         id="5b94e14b-2b1f-41ae-aa9b-d6beff4569ab"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      An <Term type="term">audio map</Term> is the top-level data structure that aggregates all of the
+      various model values together. In practical terms, <Term type="package">aurantium</Term> files contain
+      exactly one audio map.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Key/Clip References">
+    <Paragraph id="8f57e92b-a1b8-4a3c-b595-9584a3333f8f">
+      A <Link target="31ea3dcf-0dd7-4653-929b-295a33775f4f">key assignment</Link>
+      <Term type="expression">k</Term>
+      <Term type="term">references</Term>
+      a <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clip</Link>
+      <Term type="expression">c</Term> if <Term type="expression">k</Term>'s clip field equals
+      <Term type="expression">c</Term>.
+    </Paragraph>
+    <FormalItem title="Key/Clip References">
+      <Verbatim><xi:include href="16000.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph id="1e022d9c-9002-4037-9b41-ef5c15b109e0">
+      A key assignment <Term type="expression">k</Term>'s reference to a clip
+      is valid if the clip appears in the list of clips <Term type="expression">s</Term>:
+    </Paragraph>
+    <FormalItem title="Key/Clip Reference Exists">
+      <Verbatim><xi:include href="16001.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph id="d8814c99-95cb-4f58-a624-ee694fc31b25">
+      A proposition that states that all key assignments in a list have valid references
+      to clips:
+    </Paragraph>
+    <FormalItem title="Key/Clip Reference Forall">
+      <Verbatim><xi:include href="16002.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph id="174f448d-b0d1-4fce-915c-eb45395eee1f">
+      A proposition that states that all clips in a list have at least one reference:
+    </Paragraph>
+    <FormalItem title="Clips Referenced">
+      <Verbatim><xi:include href="16003.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Audio Map">
+    <Paragraph>
+      The <Term type="expression">audioMap</Term> type aggregates a list of
+      <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clips</Link>, a
+      list of <Link target="31ea3dcf-0dd7-4653-929b-295a33775f4f">key assignments</Link>,
+      and a set of proofs asserting the validity of the references within:
+    </Paragraph>
+    <FormalItem title="Audio Map">
+      <Verbatim><xi:include href="16004.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The <Term type="expression">amIdentifier</Term> field is the
+      <Link target="79796beb-5d08-4d88-a21c-4938ddbf1f21">identifier</Link> for the
+      audio map.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">amClips</Term> field is the list of
+      <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clips</Link> for the
+      audio map.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">amKeyAssignments</Term> field is the list of
+      <Link target="31ea3dcf-0dd7-4653-929b-295a33775f4f">clips</Link> for the
+      audio map.
+    </Paragraph>
+    <Paragraph>
+      All key assignments in an audio map must reference clips that exist in the map.
+      The <Term type="expression">amKeyAssignmentsReferences</Term> field is a proof
+      that all of the key assignments in <Term type="expression">amKeyAssignments</Term>
+      reference existing clips in <Term type="expression">amClips</Term>.
+    </Paragraph>
+    <Paragraph>
+      All clips in an audio map must have at least one reference by a key assignment.
+      The <Term type="expression">amClipsReferenced</Term> field is a proof
+      that all of the clips in <Term type="expression">amClips</Term>
+      have at least one key assignment in <Term type="expression">amKeyAssignments</Term>.
+      This ensures that audio maps do not contain redundant audio data.
+    </Paragraph>
+  </Subsection>
+
+</Section>

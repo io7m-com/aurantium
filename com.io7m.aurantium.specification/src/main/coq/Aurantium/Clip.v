@@ -52,8 +52,8 @@ Proof.
   destruct x; (destruct y; decide equality; apply string_dec).
 Qed.
 
-Open Scope char_scope.
-Open Scope string_scope.
+Local Open Scope char_scope.
+Local Open Scope string_scope.
 
 Definition audioFormatDescribe (f : audioFormatType) : descriptor :=
   match f with
@@ -340,7 +340,17 @@ Proof.
   }
 Qed.
 
-Open Scope R_scope.
+Fixpoint clipAudioDataSizeTotalAux (c : list clip) : nat :=
+  match c with
+  | []        => 0
+  | (x :: []) => (clipOffset x) + (clipSize x)
+  | (x :: xs) => clipAudioDataSizeTotalAux xs
+  end.
+
+Definition clipAudioDataSizeTotal (c : clips) : nat :=
+  clipAudioDataSizeTotalAux (clipsList c).
+
+Local Open Scope R_scope.
 
 Unset Mangle Names.
 

@@ -31,11 +31,23 @@
   <FormalItem title="Aurantium/Divisible8.v" id="0b0f48e8-d370-5558-9421-a69294df2a32">
     <Verbatim><xi:include href="Aurantium/Divisible8.v" parse="text"/></Verbatim>
   </FormalItem>
+  <FormalItem title="Aurantium/Hash.v" id="dd0f67d3-3a9b-5d1b-a34b-f8b95d223841">
+    <Verbatim><xi:include href="Aurantium/Hash.v" parse="text"/></Verbatim>
+  </FormalItem>
   <FormalItem title="Aurantium/Identifier.v" id="4c88a372-e7b5-5da7-9972-d3741e9e79a6">
     <Verbatim><xi:include href="Aurantium/Identifier.v" parse="text"/></Verbatim>
   </FormalItem>
+  <FormalItem title="Aurantium/Interpolation.v" id="77fe082d-a8b1-5c67-b9a6-38bc01b1aee7">
+    <Verbatim><xi:include href="Aurantium/Interpolation.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Intersection.v" id="f06a0839-217d-54d0-8f8b-93b95120ee4c">
+    <Verbatim><xi:include href="Aurantium/Intersection.v" parse="text"/></Verbatim>
+  </FormalItem>
   <FormalItem title="Aurantium/KeyMapping.v" id="23f187db-ccfc-5cdf-8693-9138bea5049f">
     <Verbatim><xi:include href="Aurantium/KeyMapping.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Metadata.v" id="67b6f08e-193c-5df1-9c9b-6eb6a9cf9d7a">
+    <Verbatim><xi:include href="Aurantium/Metadata.v" parse="text"/></Verbatim>
   </FormalItem>
   <FormalItem title="Aurantium/OctetOrder.v" id="1aad879e-fa3d-5a3a-8c31-1136847105da">
     <Verbatim><xi:include href="Aurantium/OctetOrder.v" parse="text"/></Verbatim>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Metadata"
+         id="40f048bd-8c93-4086-9758-a91849d2aa6f"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    An audio map file can have associated free-form metadata. This is often used to, for example, express authorship
+    information and indicate which tools were used to produce a given file. The metadata supported directly by
+    <Term type="package">aurantium</Term> is in the form of UTF-8 encoded keys and values. Metadata that requires
+    more structure than this can be provided by custom
+    <Link target="a41fe24e-6092-4190-9229-3195ce540317">sections</Link> that will be ignored by software that does
+    not know how to interpret them.
+  </Paragraph>
+
+  <FormalItem title="Metadata Value">
+    <Verbatim>
+      <xi:include href="17000.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="Metadata">
+    <Verbatim>
+      <xi:include href="17001.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Conceptually, metadata is structured as a function from keys to non-empty lists of values; the values
+    associated with multiple occurrences of a given key are expected to be combined into a list of values for
+    the given key by consumers.
+  </Paragraph>
+
+</Section>

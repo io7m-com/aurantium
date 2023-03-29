@@ -74,7 +74,7 @@
     </Subsection>
   </Subsection>
 
-  <Subsection title="Identifiers">
+  <Subsection title="Identifiers" id="79796beb-5d08-4d88-a21c-4938ddbf1f21">
     <Paragraph>
       An <Term type="package">aurantium</Term> audio map file contains an <Term type="term">identifier</Term>
       specified by the author of the file. The identifier is described by the following type:

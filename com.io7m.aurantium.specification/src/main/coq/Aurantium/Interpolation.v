@@ -20,7 +20,7 @@ Require Import Psatz.
 
 (* Set Mangle Names. *)
 
-Open Scope R_scope.
+Local Open Scope R_scope.
 
 (** A real number is normalized if it is in the range _[0, 1]_ *)
 Definition isNormalized (x : R) : Prop :=

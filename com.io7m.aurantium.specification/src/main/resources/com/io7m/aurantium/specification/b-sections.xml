@@ -40,6 +40,18 @@
         <Cell>Identifier.</Cell>
       </Row>
       <Row>
+        <Cell><Link target="4df99aba-f3e1-4ebe-94b3-2c814d62656b">0x4155524D434C4950</Link></Cell>
+        <Cell>Clips.</Cell>
+      </Row>
+      <Row>
+        <Cell><Link target="bf45ef9b-3bff-4cc5-9edd-aa3a6c8a5a19">0X4155524D4B455953</Link></Cell>
+        <Cell>Key assignments.</Cell>
+      </Row>
+      <Row>
+        <Cell><Link target="a2bdc905-8790-4f99-b58b-a80545918fce">0x4155524D4D455441</Link></Cell>
+        <Cell>Metadata.</Cell>
+      </Row>
+      <Row>
         <Cell><Link target="199f9506-77eb-4288-8a07-4af57b7b7651">0x4155524D454E4421</Link></Cell>
         <Cell>File terminator.</Cell>
       </Row>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Clips"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="4df99aba-f3e1-4ebe-94b3-2c814d62656b"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Description">
+    <Paragraph id="11b83f6b-34d7-499e-bc4b-d6e66ce71ee3">
+      The <Term type="term">clips</Term> section holds all
+      <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clips</Link> present in the audio map.
+    </Paragraph>
+
+    <Paragraph>
+      Clips are encoded as follows:
+    </Paragraph>
+
+    <FormalItem title="Clip Encoding">
+      <Verbatim><xi:include href="12100.txt" parse="text"/></Verbatim>
+    </FormalItem>
+
+    <FormalItem title="Clip Hash Encoding">
+      <Verbatim><xi:include href="12101.txt" parse="text"/></Verbatim>
+    </FormalItem>
+
+    <FormalItem title="Clip List Encoding">
+      <Verbatim><xi:include href="12102.txt" parse="text"/></Verbatim>
+    </FormalItem>
+
+    <Paragraph>
+      Informally, an array of <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clip</Link> descriptions are
+      serialized, followed by any required padding to reach the offset value declared by the first clip, followed by
+      the audio data for each clip in the order specified by the clip descriptions. For the sake of not formalizing
+      every possible type of audio data, this specification treats the audio data as opaque reserved space:
+    </Paragraph>
+
+    <FormalItem title="Clips Section Data Encoding">
+      <Verbatim><xi:include href="12104.txt" parse="text"/></Verbatim>
+    </FormalItem>
+
+    <FormalItem title="Clips Section Encoding">
+      <Verbatim><xi:include href="12103.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      A <Term type="term">clips</Term> section must appear in a <Term type="package">aurantium</Term>
+      audio map file exactly once.
+    </Paragraph>
+  </Subsection>
+
+</Section>

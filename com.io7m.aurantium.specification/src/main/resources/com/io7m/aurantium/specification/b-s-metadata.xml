@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Metadata"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="a2bdc905-8790-4f99-b58b-a80545918fce"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Description">
+    <Paragraph>
+      Metadata sections are encoded as follows:
+    </Paragraph>
+
+    <FormalItem title="Metadata Value">
+      <Verbatim><xi:include href="12205.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Metadata Values">
+      <Verbatim><xi:include href="12206.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Metadata Section">
+      <Verbatim><xi:include href="12207.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      A <Term type="term">Metadata</Term> section can appear in a <Term type="package">aurantium</Term> audio map file
+      at most once.
+    </Paragraph>
+  </Subsection>
+
+</Section>

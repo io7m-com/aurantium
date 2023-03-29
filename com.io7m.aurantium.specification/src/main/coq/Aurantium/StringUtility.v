@@ -18,8 +18,8 @@ Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Strings.String.
 Require Import Coq.Strings.Ascii.
 
-Open Scope string_scope.
-Open Scope char_scope.
+Local Open Scope string_scope.
+Local Open Scope char_scope.
 
 Set Mangle Names.
 

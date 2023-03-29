@@ -1,5 +1,6 @@
 #!/bin/sh -ex
 
+coqc -Q Aurantium Aurantium Aurantium/Metadata.v
 coqc -Q Aurantium Aurantium Aurantium/Alignment.v
 coqc -Q Aurantium Aurantium Aurantium/StringUtility.v
 coqc -Q Aurantium Aurantium Aurantium/Descriptor.v

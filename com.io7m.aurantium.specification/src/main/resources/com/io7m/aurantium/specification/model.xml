@@ -15,5 +15,7 @@
   <xi:include href="m-compatibility.xml"/>
   <xi:include href="m-clip.xml"/>
   <xi:include href="m-key-mapping.xml"/>
+  <xi:include href="m-audio-map.xml"/>
+  <xi:include href="m-metadata.xml"/>
 
 </Section>

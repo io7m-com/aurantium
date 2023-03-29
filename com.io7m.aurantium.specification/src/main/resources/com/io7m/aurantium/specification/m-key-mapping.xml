@@ -75,6 +75,11 @@
         if a key falls within this given range.
       </Paragraph>
       <Paragraph>
+        The values of <Term type="expression">kaValueStart</Term>, <Term type="expression">kaValueCenter</Term>,
+        and <Term type="expression">kaValueEnd</Term> must obey
+        <Term type="expression">kaValueStart &lt;= kaValueCenter &lt;= kaValueEnd</Term>.
+      </Paragraph>
+      <Paragraph>
         The <Term type="expression">kaId</Term> field specifies the
         <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clip</Link> associated with this key
         assignment.
@@ -95,11 +100,24 @@
         between the values <Term type="expression">(kaAmplitudeAtKeyCenter, kaAmplitudeAtKeyEnd)</Term>.
       </Paragraph>
       <Paragraph>
+        All amplitude values must be <Link target="73e6d399-b75a-4bb5-b6c9-32f5c09fd3db">normalized</Link>.
+      </Paragraph>
+      <Paragraph>
         The <Term type="expression">kaAtVelocityStart</Term>, <Term type="expression">kaAtVelocityCenter</Term>,
         and <Term type="expression">kaAtVelocityEnd</Term> fields specify the range of velocity values to which this
         key assignment applies. This key assignment will only be
         <Link target="e5189c66-a9ca-4c79-9e83-c62f7ca41149">evaluated</Link>
         if a key's velocity value falls within this given range.
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">kaAtVelocityStart</Term>, <Term type="expression">kaAtVelocityCenter</Term>,
+        and <Term type="expression">kaAtVelocityEnd</Term> values must be
+        <Link target="73e6d399-b75a-4bb5-b6c9-32f5c09fd3db">normalized</Link>.
+      </Paragraph>
+      <Paragraph>
+        The <Term type="expression">kaAtVelocityStart</Term>, <Term type="expression">kaAtVelocityCenter</Term>,
+        and <Term type="expression">kaAtVelocityEnd</Term> values must obey
+        <Term type="expression">kaAtVelocityStart &lt;= kaAtVelocityCenter &lt;= kaAtVelocityEnd</Term>.
       </Paragraph>
       <Paragraph>
         The <Term type="expression">kaAmplitudeAtVelocityStart</Term>,
@@ -117,8 +135,13 @@
         between the values <Term type="expression">(kaAmplitudeAtVelocityCenter, kaAmplitudeAtVelocityEnd)</Term>.
       </Paragraph>
       <Paragraph>
+        The <Term type="expression">kaAmplitudeAtVelocityStart</Term>,
+        <Term type="expression">kaAmplitudeAtVelocityCenter</Term>,
+        and <Term type="expression">kaAmplitudeAtVelocityEnd</Term> values must be normalized.
+      </Paragraph>
+      <Paragraph>
         The <Term type="expression">kaFlags</Term> field specifies a set of
-        extra metadata flags for the key assignment.
+        extra metadata flags for the key assignment. There must be no duplicate flags in the list.
       </Paragraph>
     </Subsection>
     <Subsection title="Key Assignment Evaluation" id="e5189c66-a9ca-4c79-9e83-c62f7ca41149">

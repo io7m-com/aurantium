@@ -28,8 +28,10 @@ Require Import Psatz.
 Require Import Aurantium.Compatibility.
 Require Import Aurantium.Intersection.
 Require Import Aurantium.Interpolation.
+Require Import Aurantium.Descriptor.
 
-Open Scope R_scope.
+Local Open Scope R_scope.
+Local Open Scope string_scope.
 
 Import ListNotations.
 
@@ -40,8 +42,18 @@ Inductive keyAssignmentFlag : Set :=
   (** The key assignment should treat the clip as unpitched. *)
   | FlagUnpitched : keyAssignmentFlag.
 
+Definition keyAssignmentFlagDescribe (f : keyAssignmentFlag) : descriptor :=
+  match f with
+  | FlagUnpitched   => "UNPITCHED"
+  end.
+
+#[export]
+Instance keyAssignmentFlagDescribable : describable keyAssignmentFlag := {
+  descriptorOf f := keyAssignmentFlagDescribe f
+}.
+
 (** Key assignment equality is decidable. *)
-Definition keyAssignmentFlagEqDec
+Theorem keyAssignmentFlagEqDec
   (x y : keyAssignmentFlag)
 : {x = y}+{~x = y}.
 Proof. decide equality. Qed.
@@ -273,7 +285,7 @@ Proof.
 Qed.
 
 (** Whether two key assignments are "equal" is decidable. *)
-Definition keyAssignmentValuesEqDec
+Theorem keyAssignmentValuesEqDec
   (x y : keyAssignment)
 : {keyAssignmentValuesEq x y}+{~keyAssignmentValuesEq x y}.
 Proof.

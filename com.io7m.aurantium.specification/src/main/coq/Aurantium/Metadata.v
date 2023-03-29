@@ -16,48 +16,19 @@
 
 Require Import Coq.Strings.String.
 Require Import Coq.Strings.Ascii.
-
-Require Import Aurantium.Descriptor.
+Require Import Coq.Lists.List.
+Require Import Coq.Unicode.Utf8_core.
 
 Local Open Scope string_scope.
 
-Inductive hashAlgorithm : Set :=
-  | HA_SHA256
-  .
+Import ListNotations.
 
-Theorem hashAlgorithmEqDec : forall (x y : hashAlgorithm),
-  {x = y}+{x <> y}.
-Proof.
-  intros x.
-  destruct x;
-    (destruct y;
-      try decide equality
-    ).
-Qed.
-
-Definition hashAlgorithmDescribe (f : hashAlgorithm) : descriptor :=
-  match f with
-  | HA_SHA256   => "SHA-256"
-  end.
-
-#[export]
-Instance hashAlgorithmDescribable : describable hashAlgorithm := {
-  descriptorOf h := hashAlgorithmDescribe h
+Inductive metadataValue : Set := MetadataValue {
+  mKey   : string;
+  mValue : string
 }.
 
-Inductive hashValue : Set := hashValueMake {
-  hvAlgorithm : hashAlgorithm;
-  hvValue     : string
+Inductive metadata : Set := Metadata {
+  mValues : list metadataValue
 }.
 
-Theorem hashValueEqDec : forall (x y : hashValue),
-  {x = y}+{x <> y}.
-Proof.
-  intros x.
-  destruct x;
-    (destruct y;
-      try decide equality;
-      try apply string_dec;
-      try decide equality
-    ).
-Qed.

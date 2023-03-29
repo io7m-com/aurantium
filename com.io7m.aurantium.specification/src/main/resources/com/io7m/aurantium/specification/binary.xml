@@ -9,6 +9,9 @@
   <xi:include href="b-file.xml"/>
   <xi:include href="b-sections.xml"/>
   <xi:include href="b-s-id.xml"/>
+  <xi:include href="b-s-clips.xml"/>
+  <xi:include href="b-s-key-assignments.xml"/>
+  <xi:include href="b-s-metadata.xml"/>
   <xi:include href="b-s-end.xml"/>
 
 </Section>

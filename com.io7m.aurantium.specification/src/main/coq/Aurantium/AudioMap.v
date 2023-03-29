@@ -32,7 +32,7 @@ Definition keyAssignmentReferencesClip
   (kaClipId k) = (clipId s).
 
 (** The clip referenced by _k_ exists in _s_. *)
-Definition keyAssignmentReferences
+Definition keyAssignmentReferencesExists
   (k : keyAssignment)
   (s : clips)
 : Prop :=
@@ -43,7 +43,7 @@ Definition keyAssignmentsReferences
   (k : keyAssignments)
   (s : clips)
 : Prop :=
-  forall p, In p (kasList k) -> keyAssignmentReferences p s.
+  forall p, In p (kasList k) -> keyAssignmentReferencesExists p s.
 
 (** Every clip in _ss_ has at least one reference in _k_. *)
 Definition clipsReferenced
