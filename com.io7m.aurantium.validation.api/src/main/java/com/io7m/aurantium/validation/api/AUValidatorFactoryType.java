@@ -14,63 +14,34 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.validation.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+/**
+ * A factory of validators.
+ */
 
-.brandingContainerHeader
+public interface AUValidatorFactoryType
 {
+  /**
+   * @return The major file format version supported by this factory
+   */
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+  int supportedMajorVersion();
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
+  /**
+   * @return The highest known minor version for this writer factory
+   */
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
+  int highestMinorVersion();
 
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  /**
+   * Create a new validator.
+   *
+   * @param request The validation request
+   *
+   * @return A new validator
+   */
+
+  AUValidatorType createValidator(
+    AUValidationRequest request);
 }

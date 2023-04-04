@@ -14,63 +14,18 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+/**
+ * Aurantium format (Parser API specification)
+ */
 
-.branding
+module com.io7m.aurantium.parser.api
 {
-  font-family: monospace;
-  font-size:   80%;
-}
+  uses com.io7m.aurantium.parser.api.AUParserFactoryType;
 
-.brandingContainerHeader
-{
+  requires static org.osgi.annotation.bundle;
+  requires static org.osgi.annotation.versioning;
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+  requires transitive com.io7m.aurantium.api;
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
-
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  exports com.io7m.aurantium.parser.api;
 }

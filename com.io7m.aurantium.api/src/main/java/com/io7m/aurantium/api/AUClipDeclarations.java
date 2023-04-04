@@ -16,12 +16,40 @@
 
 package com.io7m.aurantium.api;
 
+import java.util.List;
+import java.util.Objects;
+
 /**
- * A readable end section.
+ * A list of clip declarations.
+ *
+ * @param declarations The declarations
  */
 
-public non-sealed interface AUSectionReadableEndType
-  extends AUSectionReadableStandardType
+public record AUClipDeclarations(
+  List<AUClipDeclaration> declarations)
 {
+  /**
+   * A list of clip declarations.
+   *
+   * @param declarations The declarations
+   */
 
+  public AUClipDeclarations
+  {
+    Objects.requireNonNull(declarations, "declarations");
+
+    AUClipDeclaration declarationPrevious = null;
+    for (final var declaration : declarations) {
+      if (declarationPrevious != null) {
+        if (Long.compareUnsigned(
+          declarationPrevious.id(),
+          declaration.id()) >= 0) {
+          throw new IllegalArgumentException(
+            "Clip IDs must be strictly increasing."
+          );
+        }
+      }
+      declarationPrevious = declaration;
+    }
+  }
 }

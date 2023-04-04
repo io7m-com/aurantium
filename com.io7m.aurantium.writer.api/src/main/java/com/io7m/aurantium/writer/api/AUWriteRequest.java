@@ -14,63 +14,39 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.writer.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import com.io7m.aurantium.api.AUVersion;
 
-.brandingContainerHeader
-{
+import java.net.URI;
+import java.nio.channels.SeekableByteChannel;
+import java.util.Objects;
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+/**
+ * A write request.
+ *
+ * @param channel The writable channel
+ * @param version The file version
+ * @param target  The target file
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
+public record AUWriteRequest(
+  SeekableByteChannel channel,
+  URI target,
+  AUVersion version)
 {
-  font-family: monospace;
-}
+  /**
+   * A write request.
+   *
+   * @param channel The writable channel
+   * @param version The file version
+   * @param target  The target file
+   */
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  public AUWriteRequest
+  {
+    Objects.requireNonNull(channel, "channel");
+    Objects.requireNonNull(target, "target");
+    Objects.requireNonNull(version, "version");
+  }
 }

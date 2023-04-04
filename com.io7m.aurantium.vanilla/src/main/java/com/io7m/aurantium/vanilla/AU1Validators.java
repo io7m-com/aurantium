@@ -1,0 +1,86 @@
+/*
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+package com.io7m.aurantium.vanilla;
+
+import com.io7m.aurantium.validation.api.AUValidationRequest;
+import com.io7m.aurantium.validation.api.AUValidatorFactoryType;
+import com.io7m.aurantium.validation.api.AUValidatorType;
+import com.io7m.aurantium.vanilla.internal.AU1ValidationErrors;
+import com.io7m.aurantium.vanilla.internal.AU1ValidationStrings;
+import com.io7m.aurantium.vanilla.internal.AU1Validator;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Locale;
+import java.util.Objects;
+
+/**
+ * A factory of version 1 validators.
+ */
+
+public final class AU1Validators implements AUValidatorFactoryType
+{
+  private final AU1ValidationStrings strings;
+
+  /**
+   * A factory of version 1 validators.
+   */
+
+  public AU1Validators()
+  {
+    this(Locale.getDefault());
+  }
+
+  /**
+   * A factory of version 1 validators.
+   *
+   * @param locale The locale for error messages
+   */
+
+  public AU1Validators(
+    final Locale locale)
+  {
+    try {
+      this.strings = new AU1ValidationStrings(locale);
+    } catch (final IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  @Override
+  public int supportedMajorVersion()
+  {
+    return 1;
+  }
+
+  @Override
+  public int highestMinorVersion()
+  {
+    return 0;
+  }
+
+  @Override
+  public AUValidatorType createValidator(
+    final AUValidationRequest request)
+  {
+    Objects.requireNonNull(request, "request");
+    return new AU1Validator(
+      new AU1ValidationErrors(request.source(), this.strings),
+      request.file()
+    );
+  }
+}

@@ -16,12 +16,47 @@
 
 package com.io7m.aurantium.api;
 
+import com.io7m.lanark.core.RDottedName;
+
 /**
- * A readable end section.
+ * A hash algorithm.
  */
 
-public non-sealed interface AUSectionReadableEndType
-  extends AUSectionReadableStandardType
+public enum AUHashAlgorithm
+  implements AUDescribableType
 {
+  /**
+   * The SHA-256 hash function.
+   */
 
+  HA_SHA256 {
+    @Override
+    public RDottedName descriptor()
+    {
+      return new RDottedName("com.io7m.aurantium.sha2_256");
+    }
+  };
+
+  /**
+   * Parse a hash function.
+   *
+   * @param name The name
+   *
+   * @return A hash function
+   *
+   * @throws IllegalArgumentException On unrecognized or invalid descriptors
+   */
+
+  public static AUHashAlgorithm parse(
+    final String name)
+  {
+    final var value = new RDottedName(name);
+    if (value.equals(HA_SHA256.descriptor())) {
+      return HA_SHA256;
+    }
+
+    throw new IllegalArgumentException(
+      "Unrecognized hash value: %s".formatted(name)
+    );
+  }
 }

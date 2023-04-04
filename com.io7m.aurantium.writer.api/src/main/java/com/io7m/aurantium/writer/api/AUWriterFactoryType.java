@@ -14,63 +14,39 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.writer.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.io.IOException;
 
-.brandingContainerHeader
-{
+/**
+ * The type of writer factories.
+ */
 
-}
-.brandingContainerFooter
+public interface AUWriterFactoryType
 {
-  margin-top: 2em;
-}
+  /**
+   * @return The major file format version supported by this factory
+   */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
+  int supportedMajorVersion();
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
+  /**
+   * @return The highest known minor version for this writer factory
+   */
 
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  int highestMinorVersion();
+
+  /**
+   * Create a new writer for the given request.
+   *
+   * @param request The request
+   *
+   * @return A new writer
+   *
+   * @throws IOException On errors
+   */
+
+  AUWriterType createWriter(
+    AUWriteRequest request)
+    throws IOException;
 }

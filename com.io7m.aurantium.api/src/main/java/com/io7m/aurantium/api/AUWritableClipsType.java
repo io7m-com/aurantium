@@ -14,63 +14,31 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.io.IOException;
+import java.nio.channels.WritableByteChannel;
 
-.brandingContainerHeader
-{
+/**
+ * The writable audio data for clips..
+ *
+ * Users are expected to retrieve the byte channel associated with each clip
+ * using {@link #writeAudioDataForClip(long)}, and are expected to write audio
+ * data to the byte channel in accordance with the declared clip.
+ */
 
-}
-.brandingContainerFooter
+public interface AUWritableClipsType
 {
-  margin-top: 2em;
-}
+  /**
+   * Retrieve the byte channel associated with a clip's audio.
+   *
+   * @param id The clip ID
+   *
+   * @return A byte channel that must receive audio data
+   *
+   * @throws IOException On errors
+   */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
-
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  WritableByteChannel writeAudioDataForClip(long id)
+    throws IOException;
 }

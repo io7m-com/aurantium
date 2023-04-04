@@ -16,12 +16,40 @@
 
 package com.io7m.aurantium.api;
 
+import java.util.List;
+import java.util.Objects;
+
 /**
- * A readable end section.
+ * A list of key assignments.
+ *
+ * @param assignments The assignments
  */
 
-public non-sealed interface AUSectionReadableEndType
-  extends AUSectionReadableStandardType
+public record AUKeyAssignments(
+  List<AUKeyAssignment> assignments)
 {
+  /**
+   * A list of key assignments.
+   *
+   * @param assignments The assignments
+   */
 
+  public AUKeyAssignments
+  {
+    Objects.requireNonNull(assignments, "declarations");
+
+    AUKeyAssignment declarationPrevious = null;
+    for (final var declaration : assignments) {
+      if (declarationPrevious != null) {
+        if (Long.compareUnsigned(
+          declarationPrevious.id(),
+          declaration.id()) >= 0) {
+          throw new IllegalArgumentException(
+            "Key assignment IDs must be strictly increasing."
+          );
+        }
+      }
+      declarationPrevious = declaration;
+    }
+  }
 }

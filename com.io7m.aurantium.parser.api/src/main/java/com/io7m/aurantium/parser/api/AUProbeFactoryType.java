@@ -14,63 +14,31 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.parser.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.io.IOException;
+import java.net.URI;
+import java.nio.channels.SeekableByteChannel;
 
-.brandingContainerHeader
-{
+/**
+ * A factory of version probes.
+ */
 
-}
-.brandingContainerFooter
+public interface AUProbeFactoryType
 {
-  margin-top: 2em;
-}
+  /**
+   * Create a version probe.
+   *
+   * @param source  The source file
+   * @param channel The source file channel
+   *
+   * @return A version probe
+   *
+   * @throws IOException On I/O errors
+   */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
-
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  AUProbeType createProbe(
+    URI source,
+    SeekableByteChannel channel)
+    throws IOException;
 }

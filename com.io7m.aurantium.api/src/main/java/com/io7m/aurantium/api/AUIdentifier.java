@@ -14,63 +14,33 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import com.io7m.lanark.core.RDottedName;
 
-.brandingContainerHeader
-{
+import java.util.Objects;
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+/**
+ * An audio map identifier.
+ *
+ * @param name    The name
+ * @param version The version
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
+public record AUIdentifier(
+  RDottedName name,
+  AUVersion version)
 {
-  font-family: monospace;
-}
+  /**
+   * An audio map identifier.
+   *
+   * @param name    The name
+   * @param version The version
+   */
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  public AUIdentifier
+  {
+    Objects.requireNonNull(name, "name");
+    Objects.requireNonNull(version, "version");
+  }
 }

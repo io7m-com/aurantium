@@ -22,7 +22,11 @@ package com.io7m.aurantium.api;
 
 public sealed interface AUSectionReadableStandardType
   extends AUSectionReadableType
-  permits AUSectionReadableEndType, AUSectionReadableMetadataType
+  permits AUSectionReadableClipsType,
+  AUSectionReadableEndType,
+  AUSectionReadableIdentifierType,
+  AUSectionReadableKeyAssignmentsType,
+  AUSectionReadableMetadataType
 {
 
 }

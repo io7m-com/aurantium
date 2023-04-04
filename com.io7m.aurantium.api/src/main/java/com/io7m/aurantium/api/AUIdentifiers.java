@@ -70,6 +70,33 @@ public final class AUIdentifiers
   }
 
   /**
+   * @return The identifier used to identify {@code identifier} sections
+   */
+
+  public static long sectionIdentifierIdentifier()
+  {
+    return SECTION_IDENTIFIER_IDENTIFIER;
+  }
+
+  /**
+   * @return The identifier used to identify {@code clips} sections
+   */
+
+  public static long sectionClipsIdentifier()
+  {
+    return SECTION_CLIPS_IDENTIFIER;
+  }
+
+  /**
+   * @return The identifier used to identify {@code key assignments} sections
+   */
+
+  public static long sectionKeyAssignmentsIdentifier()
+  {
+    return SECTION_KEY_ASSIGNMENTS_IDENTIFIER;
+  }
+
+  /**
    * Determine a humanly-readable name of an identifier.
    *
    * @param identifier The identifier

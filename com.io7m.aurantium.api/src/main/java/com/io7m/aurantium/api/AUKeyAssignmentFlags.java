@@ -16,62 +16,45 @@
 
 package com.io7m.aurantium.api;
 
+import com.io7m.aurantium.api.AUKeyAssignmentFlagType.AUKeyAssignmentFlagStandard;
+import com.io7m.aurantium.api.AUKeyAssignmentFlagType.AUKeyAssignmentFlagUnknown;
 import com.io7m.lanark.core.RDottedName;
 
+import java.util.Objects;
+
 /**
- * The endianness/octet order for the components of audio data that are larger
- * than a single byte.
+ * Functions over key assignment flags.
  */
 
-public enum AUOctetOrder implements AUDescribableType
+public final class AUKeyAssignmentFlags
 {
-  /**
-   * The most significant octet appears first.
-   */
+  private AUKeyAssignmentFlags()
+  {
 
-  BIG_ENDIAN {
-    @Override
-    public RDottedName descriptor()
-    {
-      return new RDottedName("com.io7m.aurantium.endian_big");
-    }
-  },
+  }
 
   /**
-   * The most significant octet appears last.
-   */
-
-  LITTLE_ENDIAN {
-    @Override
-    public RDottedName descriptor()
-    {
-      return new RDottedName("com.io7m.aurantium.endian_little");
-    }
-  };
-
-  /**
-   * Parse an octet order.
+   * Parse a key assignment flag.
    *
-   * @param value The descriptor
+   * @param text The descriptor
    *
-   * @return An octet order
+   * @return A flag
    *
    * @throws IllegalArgumentException On unrecognized or invalid descriptors
    */
 
-  public static AUOctetOrder parse(
-    final String value)
+  public static AUKeyAssignmentFlagType parse(
+    final String text)
+    throws IllegalArgumentException
   {
-    final var name = new RDottedName(value);
-    if (name.equals(BIG_ENDIAN.descriptor())) {
-      return BIG_ENDIAN;
-    }
-    if (name.equals(LITTLE_ENDIAN.descriptor())) {
-      return LITTLE_ENDIAN;
+    final var name = new RDottedName(text);
+
+    for (final var standard : AUKeyAssignmentFlagStandard.values()) {
+      if (Objects.equals(standard.descriptor(), name)) {
+        return standard;
+      }
     }
 
-    throw new IllegalArgumentException(
-      "Unrecognized endianness: %s".formatted(value)
-    );
+    return new AUKeyAssignmentFlagUnknown(name);
   }
 }

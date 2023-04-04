@@ -14,63 +14,27 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.parser.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
 
-.brandingContainerHeader
-{
+import com.io7m.aurantium.api.AUVersion;
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+import java.io.IOException;
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
+/**
+ * A version probe.
+ */
 
-.term,
-.emphasis
+public interface AUProbeType
 {
-  font-style: italic;
-}
+  /**
+   * Execute the version probe, attempting to find the file format version.
+   *
+   * @return The file version
+   *
+   * @throws IOException On I/O errors
+   */
 
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  AUVersion execute()
+    throws IOException;
 }

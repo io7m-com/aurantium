@@ -14,63 +14,23 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.io.IOException;
 
-.brandingContainerHeader
-{
+/**
+ * The type of readable identifier sections.
+ */
 
-}
-.brandingContainerFooter
+public non-sealed interface AUSectionReadableIdentifierType
+  extends AUSectionReadableStandardType
 {
-  margin-top: 2em;
-}
+  /**
+   * @return The identifier value
+   *
+   * @throws IOException On I/O errors
+   */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
-
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  AUIdentifier identifier()
+    throws IOException;
 }

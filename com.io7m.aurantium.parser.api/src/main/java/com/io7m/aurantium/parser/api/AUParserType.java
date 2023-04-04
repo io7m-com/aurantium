@@ -14,63 +14,27 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.parser.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import com.io7m.aurantium.api.AUFileReadableType;
 
-.brandingContainerHeader
-{
+import java.io.Closeable;
+import java.io.IOException;
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+/**
+ * A parser.
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
+public interface AUParserType extends Closeable
 {
-  font-family: monospace;
-}
+  /**
+   * Execute the parser, returning a readable file.
+   *
+   * @return The file
+   *
+   * @throws IOException On errors
+   */
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  AUFileReadableType execute()
+    throws IOException;
 }

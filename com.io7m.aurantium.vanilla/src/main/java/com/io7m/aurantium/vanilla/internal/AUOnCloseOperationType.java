@@ -14,63 +14,26 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.vanilla.internal;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.io.IOException;
 
-.brandingContainerHeader
-{
+/**
+ * An operation executed when something is closed.
+ *
+ * @param <T> The execution context
+ */
 
-}
-.brandingContainerFooter
+public interface AUOnCloseOperationType<T>
 {
-  margin-top: 2em;
-}
+  /**
+   * Execute on close.
+   *
+   * @param context The context
+   *
+   * @throws IOException On errors
+   */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
-
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  void execute(T context)
+    throws IOException;
 }

@@ -14,63 +14,42 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.util.Objects;
+import java.util.regex.Pattern;
 
-.brandingContainerHeader
-{
+/**
+ * A hash value.
+ *
+ * @param algorithm The algorithm
+ * @param value     The hex-encoded hash value
+ */
 
-}
-.brandingContainerFooter
+public record AUHashValue(
+  AUHashAlgorithm algorithm,
+  String value)
 {
-  margin-top: 2em;
-}
+  private static final Pattern HEX =
+    Pattern.compile("[a-f0-9]+", Pattern.CASE_INSENSITIVE);
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
+  /**
+   * A hash value.
+   *
+   * @param algorithm The algorithm
+   * @param value     The hex-encoded hash value
+   */
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
+  public AUHashValue
+  {
+    Objects.requireNonNull(algorithm, "algorithm");
+    Objects.requireNonNull(value, "value");
 
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+    final var matcher = HEX.matcher(value);
+    if (!matcher.matches()) {
+      throw new IllegalArgumentException(
+        "Hash value must match %s".formatted(HEX)
+      );
+    }
+  }
 }

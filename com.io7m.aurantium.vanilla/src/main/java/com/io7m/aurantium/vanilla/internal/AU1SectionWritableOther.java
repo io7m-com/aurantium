@@ -14,63 +14,34 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.vanilla.internal;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
 
-.brandingContainerHeader
-{
+import com.io7m.aurantium.api.AUSectionWritableType;
+import com.io7m.aurantium.writer.api.AUWriteRequest;
+import com.io7m.jbssio.api.BSSWriterRandomAccessType;
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+/**
+ * A writable section.
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
+public final class AU1SectionWritableOther extends AU1SectionWritableAbstract
 {
-  font-family: monospace;
-}
+  /**
+   * A writable section.
+   *
+   * @param inOnClose    A function executed on closing
+   * @param inRequest    A write request
+   * @param inIdentifier An identifier
+   * @param inWriter     A writer
+   */
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  public AU1SectionWritableOther(
+    final BSSWriterRandomAccessType inWriter,
+    final AUWriteRequest inRequest,
+    final long inIdentifier,
+    final AUOnCloseOperationType<AUSectionWritableType> inOnClose)
+  {
+    super(inWriter, inRequest, inIdentifier, inOnClose);
+  }
 }

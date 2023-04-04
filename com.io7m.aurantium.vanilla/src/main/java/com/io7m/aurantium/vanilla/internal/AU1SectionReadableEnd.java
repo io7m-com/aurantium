@@ -14,63 +14,33 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.vanilla.internal;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import com.io7m.aurantium.api.AUFileSectionDescription;
+import com.io7m.aurantium.api.AUSectionReadableEndType;
+import com.io7m.aurantium.parser.api.AUParseRequest;
+import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 
-.brandingContainerHeader
-{
+/**
+ * A readable end section.
+ */
 
-}
-.brandingContainerFooter
+public final class AU1SectionReadableEnd
+  extends AU1SectionReadableAbstract implements AUSectionReadableEndType
 {
-  margin-top: 2em;
-}
+  /**
+   * A readable end section.
+   *
+   * @param inDescription The description
+   * @param inReader      The reader
+   * @param inRequest     The request
+   */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
-
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  public AU1SectionReadableEnd(
+    final BSSReaderRandomAccessType inReader,
+    final AUParseRequest inRequest,
+    final AUFileSectionDescription inDescription)
+  {
+    super(inReader, inRequest, inDescription);
+  }
 }

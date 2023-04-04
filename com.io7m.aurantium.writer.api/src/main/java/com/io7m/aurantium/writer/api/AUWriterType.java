@@ -14,63 +14,27 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.writer.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import com.io7m.aurantium.api.AUFileWritableType;
 
-.brandingContainerHeader
-{
+import java.io.Closeable;
+import java.io.IOException;
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+/**
+ * A file writer.
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
+public interface AUWriterType extends Closeable
 {
-  font-family: monospace;
-}
+  /**
+   * Execute the writer.
+   *
+   * @return A writable file
+   *
+   * @throws IOException On errors
+   */
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  AUFileWritableType execute()
+    throws IOException;
 }

@@ -14,63 +14,28 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.aurantium.api;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.io.IOException;
 
-.brandingContainerHeader
-{
+/**
+ * A writable clips section.
+ */
 
-}
-.brandingContainerFooter
+public non-sealed interface AUSectionWritableClipsType
+  extends AUSectionWritableStandardType
 {
-  margin-top: 2em;
-}
+  /**
+   * Create a set of clips in the file.
+   *
+   * @param clips The clips declarations
+   *
+   * @return An interface used to write audio data
+   *
+   * @throws IOException On errors
+   */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
-{
-  font-family: monospace;
-}
-
-.term,
-.emphasis
-{
-  font-style: italic;
-}
-
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  AUWritableClipsType createClips(
+    AUClipDeclarations clips)
+    throws IOException;
 }

@@ -14,63 +14,48 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+package com.io7m.aurantium.api;
 
-.brandingContainerHeader
-{
+import com.io7m.lanark.core.RDottedName;
 
-}
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+/**
+ * The type of key assignment flags.
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter
+public sealed interface AUKeyAssignmentFlagType
+  extends AUDescribableType
 {
-  font-family: monospace;
-}
+  /**
+   * An unknown flag.
+   *
+   * @param descriptor The descriptor
+   */
 
-.term,
-.emphasis
-{
-  font-style: italic;
-}
+  record AUKeyAssignmentFlagUnknown(
+    RDottedName descriptor)
+    implements AUKeyAssignmentFlagType
+  {
 
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  }
+
+  /**
+   * The standard flags.
+   */
+
+  enum AUKeyAssignmentFlagStandard
+    implements AUKeyAssignmentFlagType
+  {
+    /**
+     * The "Unpitched" flag.
+     */
+
+    FlagUnpitched {
+      @Override
+      public RDottedName descriptor()
+      {
+        return new RDottedName("com.io7m.aurantium.unpitched");
+      }
+    }
+  }
 }
