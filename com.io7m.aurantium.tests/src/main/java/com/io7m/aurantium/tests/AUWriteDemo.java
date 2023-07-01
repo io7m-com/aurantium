@@ -16,10 +16,8 @@
 
 package com.io7m.aurantium.tests;
 
-import com.io7m.aurantium.api.AUAudioFormatType;
 import com.io7m.aurantium.api.AUClipDeclaration;
 import com.io7m.aurantium.api.AUClipDeclarations;
-import com.io7m.aurantium.api.AUHashAlgorithm;
 import com.io7m.aurantium.api.AUHashValue;
 import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUKeyAssignment;
@@ -39,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
