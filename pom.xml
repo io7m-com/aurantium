@@ -42,7 +42,7 @@
 
     <!-- Third-party dependencies. -->
     <junit.version>5.9.3</junit.version>
-    <jqwik.version>1.7.3</jqwik.version>
+    <jqwik.version>1.8.4</jqwik.version>
   </properties>
 
   <licenses>
