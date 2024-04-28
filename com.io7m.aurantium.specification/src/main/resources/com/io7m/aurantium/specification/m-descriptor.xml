@@ -23,7 +23,7 @@
   </FormalItem>
 
   <Paragraph>
-    Descriptors must be <LinkExternal target="https://github.com/io7m/lanark">Lanark dotted strings</LinkExternal>.
+    Descriptors must be <LinkExternal target="https://www.github.com/io7m-com/lanark">Lanark dotted strings</LinkExternal>.
     Briefly, descriptor strings must match the following regular expression:
   </Paragraph>
 
