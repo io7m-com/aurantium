@@ -8,7 +8,7 @@
   <Paragraph>
     This specification makes use of a concept of <Term type="term">list intersection</Term>. Specifically,
     the <Term type="expression">intersectionPairs</Term> function. The function takes lists
-    <Term type="expression">ea</Term> and <Term type="expression">ea</Term>, and a function
+    <Term type="expression">ea</Term> and <Term type="expression">eb</Term>, and a function
     <Term type="expression">f</Term>, and for each element <Term type="expression">a</Term> of
     <Term type="expression">ea</Term> for which <Term type="expression">(f a eb)</Term> returns
     <Term type="expression">Some r</Term>, the pair <Term type="expression">(a, r)</Term> is
