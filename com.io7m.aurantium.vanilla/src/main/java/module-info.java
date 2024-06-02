@@ -14,6 +14,12 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+import com.io7m.aurantium.parser.api.AUParserFactoryType;
+import com.io7m.aurantium.validation.api.AUValidatorFactoryType;
+import com.io7m.aurantium.writer.api.AUWriterFactoryType;
+import com.io7m.jbssio.api.BSSReaderProviderType;
+import com.io7m.jbssio.api.BSSWriterProviderType;
+
 /**
  * Aurantium format (Vanilla implementation)
  */
@@ -39,12 +45,14 @@ module com.io7m.aurantium.vanilla
   opens com.io7m.aurantium.vanilla.internal
     to com.io7m.jxtrand.vanilla;
 
-  uses com.io7m.jbssio.api.BSSReaderProviderType;
-  uses com.io7m.jbssio.api.BSSWriterProviderType;
+  uses BSSReaderProviderType;
+  uses BSSWriterProviderType;
 
-  provides com.io7m.aurantium.parser.api.AUParserFactoryType
+  provides AUValidatorFactoryType
+    with com.io7m.aurantium.vanilla.AU1Validators;
+  provides AUParserFactoryType
     with com.io7m.aurantium.vanilla.AU1Parsers;
-  provides com.io7m.aurantium.writer.api.AUWriterFactoryType
+  provides AUWriterFactoryType
     with com.io7m.aurantium.vanilla.AU1Writers;
 
   exports com.io7m.aurantium.vanilla;

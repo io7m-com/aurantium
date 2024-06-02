@@ -17,8 +17,6 @@
 
 package com.io7m.aurantium.vanilla.internal;
 
-
-
 import com.io7m.aurantium.api.AUFileSectionDescription;
 import com.io7m.aurantium.api.AUSectionReadableType;
 import com.io7m.aurantium.validation.api.AUValidationError;
@@ -31,7 +29,10 @@ import java.util.UUID;
 
 import static com.io7m.aurantium.validation.api.AUValidationStatus.STATUS_ERROR;
 import static com.io7m.aurantium.validation.api.AUValidationStatus.STATUS_WARNING;
-
+import static com.io7m.aurantium.vanilla.internal.AUStringConstants.ERROR_NO_END_SECTION;
+import static com.io7m.aurantium.vanilla.internal.AUStringConstants.WARN_END_SECTION_NOT_ZERO;
+import static com.io7m.aurantium.vanilla.internal.AUStringConstants.WARN_SECTION_UNALIGNED;
+import static com.io7m.aurantium.vanilla.internal.AUStringConstants.WARN_TRAILING_DATA;
 
 /**
  * A factory of errors.
@@ -115,24 +116,6 @@ public final class AU1ValidationErrors
     );
   }
 
-  /**
-   * Construct an error.
-   *
-   * @return An error
-   */
-
-  public AUValidationError errorImageInfoNotPresent()
-  {
-    return new AUValidationError(
-      this.source,
-      0L,
-      STATUS_ERROR,
-      Optional.of(UUID.fromString("2d4988b3-86e5-4bbe-8fbe-526b5b2b16d5")),
-      this.strings.format("errorImageInfoNotPresent"),
-      Optional.empty()
-    );
-  }
-
 
   /**
    * Construct an error.
@@ -151,9 +134,9 @@ public final class AU1ValidationErrors
       STATUS_WARNING,
       Optional.of(UUID.fromString("2ccedb5d-d5ec-40ba-a965-04bba40ce4ec")),
       this.strings.format(
-        "warnSectionUnaligned",
-        Long.toUnsignedString(section.description().identifier()),
-        Long.toUnsignedString(section.fileOffset())
+        WARN_SECTION_UNALIGNED,
+        Long.toUnsignedString(section.description().identifier(), 16),
+        Long.toUnsignedString(section.fileOffset(), 16)
       ),
       Optional.empty()
     );
@@ -176,7 +159,7 @@ public final class AU1ValidationErrors
       STATUS_WARNING,
       Optional.of(UUID.fromString("75b25aca-58ce-4dfe-9c1b-c3140fda18e3")),
       this.strings.format(
-        "warnEndSectionNotZeroSize",
+        WARN_END_SECTION_NOT_ZERO,
         Long.toUnsignedString(section.description().size())
       ),
       Optional.empty()
@@ -196,7 +179,7 @@ public final class AU1ValidationErrors
       0L,
       STATUS_ERROR,
       Optional.of(UUID.fromString("a24164fd-3bdb-41fc-b04f-f7ebd4d65c4a")),
-      this.strings.format("errorNoEndSection"),
+      this.strings.format(ERROR_NO_END_SECTION),
       Optional.empty()
     );
   }
@@ -219,7 +202,7 @@ public final class AU1ValidationErrors
       offset,
       STATUS_WARNING,
       Optional.of(UUID.fromString("e5108d48-42fd-4de3-8137-f42aafc44e20")),
-      this.strings.format("warnTrailingData", Long.toUnsignedString(octets)),
+      this.strings.format(WARN_TRAILING_DATA, Long.toUnsignedString(octets)),
       Optional.empty()
     );
   }

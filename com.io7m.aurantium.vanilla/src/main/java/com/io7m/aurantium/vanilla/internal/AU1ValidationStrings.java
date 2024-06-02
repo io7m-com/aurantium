@@ -46,7 +46,7 @@ public final class AU1ValidationStrings extends JXTAbstractStrings
     super(
       locale,
       AU1ValidationStrings.class,
-      "/com/io7m/calino/vanilla/internal",
+      "/com/io7m/aurantium/vanilla/internal",
       "Messages"
     );
   }

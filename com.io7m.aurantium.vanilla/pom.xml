@@ -66,6 +66,10 @@
     </dependency>
     <dependency>
       <groupId>com.io7m.jxtrand</groupId>
+      <artifactId>com.io7m.jxtrand.api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jxtrand</groupId>
       <artifactId>com.io7m.jxtrand.vanilla</artifactId>
     </dependency>
     <dependency>
@@ -84,5 +88,31 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Generate strings. -->
+      <plugin>
+        <groupId>com.io7m.jxtrand</groupId>
+        <artifactId>com.io7m.jxtrand.maven_plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-strings</id>
+            <goals>
+              <goal>generateSources</goal>
+            </goals>
+            <configuration>
+              <inputFile>
+                ${project.basedir}/src/main/resources/com/io7m/aurantium/vanilla/internal/Messages.xml
+              </inputFile>
+              <packageName>com.io7m.aurantium.vanilla.internal</packageName>
+              <className>AUStringConstants</className>
+              <extraSuperInterface>com.io7m.aurantium.vanilla.internal.AUStringConstantType</extraSuperInterface>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

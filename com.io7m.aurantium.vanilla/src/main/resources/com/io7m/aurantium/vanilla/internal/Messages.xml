@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+  <entry key="error_no_end_section">Missing an 'end' section.</entry>
+  <entry key="warn_trailing_data">File has {0} octets of trailing data.</entry>
+  <entry key="warn_end_section_not_zero">The 'end' section is of a non-zero size ({0}).</entry>
+  <entry key="warn_section_unaligned">Section 0x{0} is not correctly aligned (@ 0x{1})</entry>
+</properties>
