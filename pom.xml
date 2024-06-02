@@ -41,7 +41,7 @@
     <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
 
     <!-- Third-party dependencies. -->
-    <junit.version>5.10.2</junit.version>
+    <org.junit.version>5.10.2</org.junit.version>
     <jqwik.version>1.8.5</jqwik.version>
   </properties>
 
@@ -102,7 +102,7 @@
       <dependency>
         <groupId>com.io7m.wendover</groupId>
         <artifactId>com.io7m.wendover.core</artifactId>
-        <version>0.0.4</version>
+        <version>1.0.1</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.claypot</groupId>
@@ -174,16 +174,26 @@
         <artifactId>logback-classic</artifactId>
         <version>1.5.6</version>
       </dependency>
+
+      <!-- Test suite -->
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>${junit.version}</version>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${org.junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>${junit.version}</version>
+        <groupId>net.jqwik</groupId>
+        <artifactId>jqwik-api</artifactId>
+        <version>${jqwik.version}</version>
       </dependency>
+      <dependency>
+        <groupId>net.jqwik</groupId>
+        <artifactId>jqwik-engine</artifactId>
+        <version>${jqwik.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>org.osgi.annotation.bundle</artifactId>
@@ -208,16 +218,6 @@
         <groupId>com.io7m.lanark</groupId>
         <artifactId>com.io7m.lanark.core</artifactId>
         <version>1.2.0</version>
-      </dependency>
-      <dependency>
-        <groupId>net.jqwik</groupId>
-        <artifactId>jqwik-api</artifactId>
-        <version>${jqwik.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.jqwik</groupId>
-        <artifactId>jqwik-engine</artifactId>
-        <version>${jqwik.version}</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jdeferthrow</groupId>
