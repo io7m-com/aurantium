@@ -19,7 +19,9 @@ package com.io7m.aurantium.tests;
 
 import com.io7m.aurantium.api.AUHashAlgorithm;
 import com.io7m.aurantium.api.AUHashValue;
+import com.io7m.aurantium.api.AUIdentifiers;
 import com.io7m.aurantium.api.AUKeyAssignment;
+import com.io7m.aurantium.api.AUSectionReadableMetadataType;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.aurantium.parser.api.AUParsers;
@@ -35,9 +37,11 @@ import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearFloat;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionMetadataIdentifier;
 import static com.io7m.aurantium.api.AUOctetOrder.BIG_ENDIAN;
 import static com.io7m.aurantium.api.AUOctetOrder.LITTLE_ENDIAN;
 import static java.nio.file.StandardOpenOption.READ;
@@ -97,6 +101,12 @@ public final class AUParserTest
           try (var ch = section.sectionDataChannel()) {
             assertEquals(32L, ch.size());
           }
+
+          assertEquals(
+            "IDENTIFIER",
+            AUIdentifiers.nameOf(section.description().identifier())
+              .orElseThrow()
+          );
         }
 
         {
@@ -156,6 +166,12 @@ public final class AUParserTest
           try (var ch = section.sectionDataChannel()) {
             assertEquals(1472L, ch.size());
           }
+
+          assertEquals(
+            "CLIPS",
+            AUIdentifiers.nameOf(section.description().identifier())
+              .orElseThrow()
+          );
         }
 
         {
@@ -194,6 +210,12 @@ public final class AUParserTest
           try (var ch = section.sectionDataChannel()) {
             assertEquals(112L, ch.size());
           }
+
+          assertEquals(
+            "KEY_ASSIGNMENTS",
+            AUIdentifiers.nameOf(section.description().identifier())
+              .orElseThrow()
+          );
         }
 
         {
@@ -217,6 +239,12 @@ public final class AUParserTest
           try (var ch = section.sectionDataChannel()) {
             assertEquals(208L, ch.size());
           }
+
+          assertEquals(
+            "METADATA",
+            AUIdentifiers.nameOf(section.description().identifier())
+              .orElseThrow()
+          );
         }
 
         {
@@ -227,10 +255,75 @@ public final class AUParserTest
           try (var ch = section.sectionDataChannel()) {
             assertEquals(0L, ch.size());
           }
+
+          assertEquals(
+            "END",
+            AUIdentifiers.nameOf(section.description().identifier())
+              .orElseThrow()
+          );
         }
       }
     }
   }
+
+  @Test
+  public void testUnrecognizedSection(
+    final @TempDir Path directory)
+    throws Exception
+  {
+    final var file =
+      resource(directory, "unrecognized-section.aam");
+
+    try (var channel = FileChannel.open(file, READ)) {
+      final var request =
+        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+
+      try (var parser = this.parsers.createParser(request)) {
+        final var auFile = parser.execute();
+        assertEquals(0L, auFile.trailingOctets());
+
+        {
+          final var version = auFile.version();
+          assertEquals(1, version.major());
+          assertEquals(0, version.minor());
+        }
+
+        {
+          final var sectionDescription =
+            auFile.sections()
+              .stream()
+              .filter(s -> s.description().identifier() == 0x11223344_AABBCCDDL)
+              .findFirst()
+              .orElseThrow();
+
+          final var section =
+            auFile.openSection(sectionDescription);
+
+          assertEquals(
+            Optional.empty(),
+            AUIdentifiers.nameOf(section.description().identifier())
+          );
+        }
+
+        {
+          final var section =
+            auFile.openEnd().orElseThrow();
+          assertEquals(0L, section.description().size());
+
+          try (var ch = section.sectionDataChannel()) {
+            assertEquals(0L, ch.size());
+          }
+
+          assertEquals(
+            "END",
+            AUIdentifiers.nameOf(section.description().identifier())
+              .orElseThrow()
+          );
+        }
+      }
+    }
+  }
+
 
   private static Path resource(
     final Path outputDirectory,

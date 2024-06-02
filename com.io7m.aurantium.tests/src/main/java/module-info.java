@@ -31,7 +31,10 @@ open module com.io7m.aurantium.tests
 
   requires com.io7m.aurantium.parser.api;
   requires com.io7m.aurantium.vanilla;
+  requires com.io7m.jbssio.api;
+  requires com.io7m.jbssio.vanilla;
   requires com.io7m.jmulticlose.core;
+  requires com.io7m.wendover.core;
   requires net.jqwik.api;
   requires org.slf4j;
 
