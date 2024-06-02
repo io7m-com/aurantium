@@ -93,6 +93,10 @@ public final class AUParserTest
             new AUVersion(23, 3),
             section.identifier().version()
           );
+
+          try (var ch = section.sectionDataChannel()) {
+            assertEquals(32L, ch.size());
+          }
         }
 
         {
@@ -148,6 +152,10 @@ public final class AUParserTest
           }
 
           assertEquals(2, clips.size());
+
+          try (var ch = section.sectionDataChannel()) {
+            assertEquals(1472L, ch.size());
+          }
         }
 
         {
@@ -182,6 +190,10 @@ public final class AUParserTest
             );
           }
           assertEquals(1, assigns.size());
+
+          try (var ch = section.sectionDataChannel()) {
+            assertEquals(112L, ch.size());
+          }
         }
 
         {
@@ -201,12 +213,20 @@ public final class AUParserTest
           assertEquals("value8", meta.get("key8").get(0));
           assertEquals("value9", meta.get("key9").get(0));
           assertEquals(10, meta.size());
+
+          try (var ch = section.sectionDataChannel()) {
+            assertEquals(208L, ch.size());
+          }
         }
 
         {
           final var section =
             auFile.openEnd().orElseThrow();
           assertEquals(0L, section.description().size());
+
+          try (var ch = section.sectionDataChannel()) {
+            assertEquals(0L, ch.size());
+          }
         }
       }
     }

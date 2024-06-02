@@ -21,6 +21,7 @@ import com.io7m.aurantium.api.AUSectionDescription;
 import com.io7m.aurantium.api.AUSectionReadableType;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
 import com.io7m.wendover.core.ReadOnlySeekableByteChannel;
 import com.io7m.wendover.core.SubrangeSeekableByteChannel;
 
@@ -86,8 +87,10 @@ public abstract class AU1SectionReadableAbstract
   public final SeekableByteChannel sectionDataChannel()
     throws IOException
   {
+    final var baseNotCloseable =
+      new CloseShieldSeekableByteChannel(this.request.channel());
     final var baseReadable =
-      new ReadOnlySeekableByteChannel(this.request.channel());
+      new ReadOnlySeekableByteChannel(baseNotCloseable);
 
     final var channel =
       new SubrangeSeekableByteChannel(
