@@ -20,7 +20,10 @@ import java.io.Closeable;
 import java.util.List;
 import java.util.Optional;
 
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionEndIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionIdentifierIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionKeyAssignmentsIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionMetadataIdentifier;
 
 /**
@@ -80,6 +83,57 @@ public interface AUFileReadableType extends Closeable
       if (description.identifier() == sectionEndIdentifier()) {
         return Optional.of(
           (AUSectionReadableEndType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * @return The first available identifier section, if one exists
+   */
+
+  default Optional<AUSectionReadableIdentifierType> openIdentifier()
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionIdentifierIdentifier()) {
+        return Optional.of(
+          (AUSectionReadableIdentifierType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * @return The first available clips section, if one exists
+   */
+
+  default Optional<AUSectionReadableClipsType> openClips()
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionClipsIdentifier()) {
+        return Optional.of(
+          (AUSectionReadableClipsType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * @return The first available key assignments section, if one exists
+   */
+
+  default Optional<AUSectionReadableKeyAssignmentsType> openKeyAssignments()
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionKeyAssignmentsIdentifier()) {
+        return Optional.of(
+          (AUSectionReadableKeyAssignmentsType) this.openSection(section)
         );
       }
     }

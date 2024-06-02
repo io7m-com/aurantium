@@ -17,9 +17,8 @@
 package com.io7m.aurantium.tests;
 
 import com.io7m.aurantium.parser.api.AUParseRequest;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.channels.FileChannel;
@@ -31,30 +30,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public final class AUParseRequestTest
 {
-  private Path directory;
-
-  @BeforeEach
-  public void setup()
-    throws IOException
-  {
-    this.directory = AUTestDirectories.createTempDirectory();
-  }
-
-  @AfterEach
-  public void tearDown()
-    throws IOException
-  {
-    AUTestDirectories.deleteDirectory(this.directory);
-  }
-
   @Test
-  public void testBuilder()
+  public void testBuilder(
+    final @TempDir Path directory)
     throws IOException
   {
     final var file0 =
-      this.directory.resolve("hello0.txt");
+      directory.resolve("hello0.txt");
     final var file1 =
-      this.directory.resolve("hello1.txt");
+      directory.resolve("hello1.txt");
 
     Files.writeString(file0, "hello");
 
@@ -64,10 +48,7 @@ public final class AUParseRequestTest
       FileChannel.open(file0, READ);
 
     final var builder =
-      AUParseRequest.builder(
-        channel0,
-        file0.toUri()
-      );
+      AUParseRequest.builder(channel0, file0.toUri());
 
     builder.setChannel(channel1);
     builder.setDescriptorLengthLimit(128L);

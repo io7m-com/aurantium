@@ -105,30 +105,4 @@ public abstract class AU1SectionReadableAbstract
   {
 
   }
-
-  protected final String errorLimitExceeded(
-    final long length,
-    final long limit,
-    final String limitName)
-  {
-    final var lineSeparator = System.lineSeparator();
-    final var text = new StringBuilder(128);
-    text.append("Limit exceeded.");
-    text.append(lineSeparator);
-    text.append("  At file offset 0x");
-    text.append(Long.toUnsignedString(
-      this.reader().offsetCurrentAbsolute(),
-      16));
-    text.append(" we encountered data with a size specified as ");
-    text.append(Long.toUnsignedString(length));
-    text.append(" octets.");
-    text.append(lineSeparator);
-    text.append("  The ");
-    text.append(limitName);
-    text.append(" is configured as ");
-    text.append(Long.toUnsignedString(limit));
-    text.append(" octets.");
-    text.append(lineSeparator);
-    return text.toString();
-  }
 }
