@@ -18,6 +18,7 @@ package com.io7m.aurantium.vanilla.internal;
 
 import com.io7m.aurantium.api.AUClipDeclarations;
 import com.io7m.aurantium.api.AUClipDescription;
+import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUSectionWritableClipsType;
 import com.io7m.aurantium.api.AUSectionWritableType;
 import com.io7m.aurantium.api.AUWritableClipsType;
@@ -89,7 +90,7 @@ public final class AU1SectionWritableClips
         final var e = this.expressions();
         e.writeU32(writer, "size", toUnsignedLong(declarations.size()));
 
-        final var offsetsByClipId = new HashMap<Long, Long>();
+        final var offsetsByClipId = new HashMap<AUClipID, Long>();
 
         /*
          * Write out all the clip declarations, leaving the offset
@@ -97,7 +98,7 @@ public final class AU1SectionWritableClips
          */
 
         for (final var clip : declarations) {
-          e.writeU32(writer, "id", clip.id());
+          e.writeU32(writer, "id", clip.id().value());
           e.writeUTF8(writer, clip.name());
           e.writeUTF8(writer, clip.format().descriptor().value());
           e.writeU32(writer, "sampleRate", clip.sampleRate());
@@ -110,7 +111,7 @@ public final class AU1SectionWritableClips
           e.writeUTF8(writer, hash.value());
 
           offsetsByClipId.put(
-            Long.valueOf(clip.id()),
+            clip.id(),
             Long.valueOf(writer.offsetCurrentRelative())
           );
           e.writeU64(writer, "offset", 0L);
@@ -149,10 +150,8 @@ public final class AU1SectionWritableClips
          */
 
         for (final var clip : descriptions) {
-          final var idBox =
-            Long.valueOf(clip.id());
           final var offsetField =
-            offsetsByClipId.get(idBox).longValue();
+            offsetsByClipId.get(clip.id()).longValue();
 
           writer.seekTo(offsetField);
           e.writeU64(writer, "offset", clip.offset());
@@ -188,11 +187,13 @@ public final class AU1SectionWritableClips
 
     @Override
     public WritableByteChannel writeAudioDataForClip(
-      final long id)
+      final AUClipID id)
       throws IOException
     {
+      Objects.requireNonNull(id, "id");
+
       for (final var description : this.descriptions) {
-        if (description.id() == id) {
+        if (Objects.equals(description.id(), id)) {
           final var offset =
             this.fileSectionDataStart + description.offset();
 

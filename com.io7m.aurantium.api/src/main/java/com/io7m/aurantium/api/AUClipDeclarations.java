@@ -41,9 +41,7 @@ public record AUClipDeclarations(
     AUClipDeclaration declarationPrevious = null;
     for (final var declaration : declarations) {
       if (declarationPrevious != null) {
-        if (Long.compareUnsigned(
-          declarationPrevious.id(),
-          declaration.id()) >= 0) {
+        if (declarationPrevious.id().compareTo(declaration.id()) >= 0) {
           throw new IllegalArgumentException(
             "Clip IDs must be strictly increasing."
           );

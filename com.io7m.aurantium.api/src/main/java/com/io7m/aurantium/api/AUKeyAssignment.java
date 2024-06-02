@@ -40,11 +40,11 @@ import java.util.Set;
  */
 
 public record AUKeyAssignment(
-  long id,
+  AUKeyAssignmentID id,
   long keyValueStart,
   long keyValueCenter,
   long keyValueEnd,
-  long clipId,
+  AUClipID clipId,
   double amplitudeAtKeyStart,
   double amplitudeAtKeyCenter,
   double amplitudeAtKeyEnd,
@@ -78,7 +78,9 @@ public record AUKeyAssignment(
 
   public AUKeyAssignment
   {
+    Objects.requireNonNull(id, "id");
     Objects.requireNonNull(flags, "flags");
+    Objects.requireNonNull(clipId, "clipId");
 
     checkRangeL(keyValueStart, keyValueCenter, keyValueEnd, "keyValue");
 
@@ -157,5 +159,24 @@ public record AUKeyAssignment(
         Double.valueOf(x)
       )
     );
+  }
+
+  /**
+   * Determine if this key assignment matches the given key and velocity.
+   *
+   * @param key      The key
+   * @param velocity The velocity
+   *
+   * @return {@code true} if this assignment matches
+   */
+
+  public boolean matches(
+    final long key,
+    final double velocity)
+  {
+    return Long.compareUnsigned(this.keyValueStart, key) <= 0
+           && Long.compareUnsigned(key, this.keyValueEnd) <= 0
+           && this.atVelocityStart <= velocity
+           && velocity <= this.atVelocityEnd;
   }
 }

@@ -7,6 +7,8 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.Reals.Reals.
 Require Import Coq.Program.Basics.
 
+Require Import Psatz.
+
 Require Import Aurantium.Alignment.
 Require Import Aurantium.Divisible8.
 Require Import Aurantium.Identifier.
@@ -494,8 +496,7 @@ Proof.
     exact Hnz.
   }
   remember (x mod a) as y eqn:Heqy.
-  apply Minus.le_plus_minus_r.
-  apply (Nat.lt_le_incl _ _ Hxma).
+  lia.
 Qed.
 
 Theorem binaryEvalPaddedBytesAligned : forall bs a (Hnz : 0 <> a),

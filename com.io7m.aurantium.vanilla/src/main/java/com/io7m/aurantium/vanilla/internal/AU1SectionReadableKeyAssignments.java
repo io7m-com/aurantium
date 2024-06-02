@@ -16,10 +16,12 @@
 
 package com.io7m.aurantium.vanilla.internal;
 
+import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUFileSectionDescription;
 import com.io7m.aurantium.api.AUKeyAssignment;
 import com.io7m.aurantium.api.AUKeyAssignmentFlagType;
 import com.io7m.aurantium.api.AUKeyAssignmentFlags;
+import com.io7m.aurantium.api.AUKeyAssignmentID;
 import com.io7m.aurantium.api.AUKeyAssignments;
 import com.io7m.aurantium.api.AUSectionReadableKeyAssignmentsType;
 import com.io7m.aurantium.parser.api.AUParseRequest;
@@ -149,11 +151,11 @@ public final class AU1SectionReadableKeyAssignments
         try {
           assignments.add(
             new AUKeyAssignment(
-              id,
+              new AUKeyAssignmentID(id),
               keyValueStart,
               keyValueCenter,
               keyValueEnd,
-              clipId,
+              new AUClipID(clipId),
               amplitudeAtKeyStart,
               amplitudeAtKeyCenter,
               amplitudeAtKeyEnd,

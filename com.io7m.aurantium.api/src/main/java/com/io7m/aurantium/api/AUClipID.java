@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2024 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,19 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+
+package com.io7m.aurantium.api;
+
 /**
- * Aurantium format (API specification)
+ * The type of clip IDs.
+ *
+ * @param value The ID value
  */
 
-module com.io7m.aurantium.api
+public record AUClipID(
+  long value)
+  implements Comparable<AUClipID>
 {
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
+  @Override
+  public String toString()
+  {
+    return Long.toUnsignedString(this.value);
+  }
 
-  requires com.io7m.abstand.core;
-  requires com.io7m.jinterp.core;
-  requires com.io7m.junsigned.core;
-  requires com.io7m.lanark.core;
-
-  exports com.io7m.aurantium.api;
+  @Override
+  public int compareTo(
+    final AUClipID other)
+  {
+    return Long.compareUnsigned(this.value, other.value);
+  }
 }

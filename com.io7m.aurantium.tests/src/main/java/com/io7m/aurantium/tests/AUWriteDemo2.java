@@ -16,45 +16,23 @@
 
 package com.io7m.aurantium.tests;
 
-import com.io7m.aurantium.api.AUClipDeclaration;
-import com.io7m.aurantium.api.AUClipDeclarations;
-import com.io7m.aurantium.api.AUHashValue;
 import com.io7m.aurantium.api.AUIdentifier;
-import com.io7m.aurantium.api.AUKeyAssignment;
-import com.io7m.aurantium.api.AUKeyAssignments;
-import com.io7m.aurantium.api.AUOctetOrder;
-import com.io7m.aurantium.api.AUSectionReadableClipsType;
-import com.io7m.aurantium.api.AUSectionReadableMetadataType;
 import com.io7m.aurantium.api.AUVersion;
-import com.io7m.aurantium.parser.api.AUParseRequest;
-import com.io7m.aurantium.vanilla.AU1Parsers;
 import com.io7m.aurantium.vanilla.AU1Writers;
 import com.io7m.aurantium.writer.api.AUWriteRequest;
 import com.io7m.jbssio.vanilla.BSSWriters;
 import com.io7m.jmulticlose.core.CloseableCollection;
 import com.io7m.lanark.core.RDottedName;
-import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Set;
 
-import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearFloat;
-import static com.io7m.aurantium.api.AUHashAlgorithm.HA_SHA256;
-import static com.io7m.aurantium.api.AUOctetOrder.BIG_ENDIAN;
-import static java.lang.Integer.toUnsignedLong;
 import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.READ;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.nio.file.StandardOpenOption.WRITE;
-import static java.util.Map.entry;
-import static java.util.Map.ofEntries;
 
 public final class AUWriteDemo2
 {

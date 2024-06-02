@@ -41,9 +41,7 @@ public record AUKeyAssignments(
     AUKeyAssignment declarationPrevious = null;
     for (final var declaration : assignments) {
       if (declarationPrevious != null) {
-        if (Long.compareUnsigned(
-          declarationPrevious.id(),
-          declaration.id()) >= 0) {
+        if (declarationPrevious.id().compareTo(declaration.id()) >= 0) {
           throw new IllegalArgumentException(
             "Key assignment IDs must be strictly increasing."
           );

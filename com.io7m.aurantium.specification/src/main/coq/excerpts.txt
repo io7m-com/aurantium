@@ -68,6 +68,7 @@
 4035 ! Theorem keyAssignmentValuesEqDec
 4036 ! Definition keyAssignmentCompatCompare
 4037 ! Definition keyAssignmentsCompatCompareChanged
+4038 ! Definition semitonesPitchRatio (
 
 5000 ! Definition clipsCompatCompareFull
 5001 ! Definition clipsRemoved

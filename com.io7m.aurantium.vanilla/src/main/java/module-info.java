@@ -29,16 +29,17 @@ module com.io7m.aurantium.vanilla
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.io7m.aurantium.api;
-  requires transitive com.io7m.aurantium.parser.api;
-  requires transitive com.io7m.aurantium.validation.api;
-  requires transitive com.io7m.aurantium.writer.api;
+  requires com.io7m.aurantium.api;
+  requires com.io7m.aurantium.parser.api;
+  requires com.io7m.aurantium.validation.api;
+  requires com.io7m.aurantium.writer.api;
 
   requires com.io7m.jaffirm.core;
   requires com.io7m.jbssio.api;
   requires com.io7m.jbssio.ext.bounded;
   requires com.io7m.jdeferthrow.core;
   requires com.io7m.jxtrand.vanilla;
+  requires com.io7m.lanark.core;
   requires com.io7m.wendover.core;
   requires org.slf4j;
 

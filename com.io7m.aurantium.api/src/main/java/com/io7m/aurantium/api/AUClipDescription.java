@@ -34,7 +34,7 @@ import java.util.Objects;
  */
 
 public record AUClipDescription(
-  long id,
+  AUClipID id,
   String name,
   AUAudioFormatType format,
   long sampleRate,
@@ -62,6 +62,7 @@ public record AUClipDescription(
 
   public AUClipDescription
   {
+    Objects.requireNonNull(id, "id");
     Objects.requireNonNull(name, "name");
     Objects.requireNonNull(format, "format");
     Objects.requireNonNull(endianness, "endianness");

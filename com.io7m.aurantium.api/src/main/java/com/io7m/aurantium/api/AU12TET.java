@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2024 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,31 +14,32 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+
 package com.io7m.aurantium.api;
 
-import java.io.IOException;
-import java.nio.channels.WritableByteChannel;
-
 /**
- * The writable audio data for clips.
- *
- * Users are expected to retrieve the byte channel associated with each clip
- * using {@link #writeAudioDataForClip(AUClipID)}, and are expected to write audio
- * data to the byte channel in accordance with the declared clip.
+ * Functions relating to 12-tone equal temperament tuning.
  */
 
-public interface AUWritableClipsType
+public final class AU12TET
 {
+  private AU12TET()
+  {
+
+  }
+
   /**
-   * Retrieve the byte channel associated with a clip's audio.
+   * Determine the pitch ratio for a change in frequency of a given number
+   * of semitones.
    *
-   * @param id The clip ID
+   * @param semitones The semitone change
    *
-   * @return A byte channel that must receive audio data
-   *
-   * @throws IOException On errors
+   * @return The pitch ratio
    */
 
-  WritableByteChannel writeAudioDataForClip(AUClipID id)
-    throws IOException;
+  public static double semitonesPitchRatio(
+    final long semitones)
+  {
+    return StrictMath.pow(2.0, (double) semitones / 12.0);
+  }
 }

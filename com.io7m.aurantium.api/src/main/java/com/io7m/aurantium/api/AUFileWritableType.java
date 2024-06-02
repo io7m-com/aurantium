@@ -22,9 +22,9 @@ import java.util.List;
 
 import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionEndIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionIdentifierIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionKeyAssignmentsIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionMetadataIdentifier;
-import static com.io7m.aurantium.api.AUIdentifiers.sectionIdentifierIdentifier;
 
 /**
  * A writable file.

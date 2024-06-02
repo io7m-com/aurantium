@@ -696,26 +696,38 @@ Proof.
   }
 Qed.
 
-(** 
-  For a given frequency _f_, multiply _f_ by this value to yield 
-  a frequency exactly one semitone lower.
+(** A small proof to check that Coq's Rpower really means x ^ y. *)
+Lemma powCheck : Rpower 2.0 4.0 = 16.0.
+Proof.
+  assert (2.0 = INR 2%nat) as H2 by (simpl; lra).
+  assert (4.0 = INR 4%nat) as H4 by (simpl; lra).
+  assert (16.0 = INR 16%nat) as H16 by (simpl; lra).
+  rewrite H2.
+  rewrite H4.
+  rewrite H16.
+  rewrite Rpower_pow.
+  simpl; lra.
+  simpl; lra.
+Qed.
 
-  This constant is the reciprocal of the twelfth square root of 2
-  to 64 decimal places.
-*)
+(** Determine the pitch ratio for a change in frequency of a given number
+    of semitones. *)
 
-Definition semitoneDown : R :=
-  0.9438743126816934966419131566675343760075683033387428137421251423.
+Definition semitonesPitchRatio (semitones : R) : R :=
+  Rpower 2.0 (Rdiv semitones 12.0).
 
-(** 
-  For a given frequency _f_, multiply _f_ by this value to yield 
-  a frequency exactly one semitone higher. 
+(** The pitch ratio is always non-negative. *)
 
-  This constant is the twelfth square root of 2 to 64 decimal places.
-*)
-
-Definition semitoneUp : R :=
-  1.0594630943592952645618252949463417007792043174941856285592084314.
+Lemma semitonesPitchRatioNonNegative : forall s,
+  Rle 0 (semitonesPitchRatio s).
+Proof.
+  intros s.
+  unfold semitonesPitchRatio.
+  unfold Rpower.
+  remember (s / 12.0 * ln 2.0) as x.
+  pose proof (exp_pos x) as Hp.
+  lra.
+Qed.
 
 (** Evaluate the playback rate of the given key assignment based on 
     the key. *)
@@ -733,10 +745,10 @@ Definition keyAssignmentEvaluateRate
       | Eq => 1
       | Lt =>
         let delta := minus kMid key in
-          Rmult semitoneDown (INR delta)
+          semitonesPitchRatio (-(INR delta))
       | Gt =>
         let delta := minus key kMid in
-          Rmult semitoneUp (INR delta)
+          semitonesPitchRatio (INR delta)
       end
   end.
 
@@ -756,17 +768,9 @@ Proof.
     destruct (Nat.compare_spec k (kaValueCenter a)) as [Heq|Hlt|Hgt]. {
       intuition.
     } {
-      unfold semitoneDown.
-      apply Rmult_le_pos.
-      lra.
-      apply (le_INR 0 (kaValueCenter a - k)).
-      lia.
+      apply semitonesPitchRatioNonNegative.
     } {
-      unfold semitoneUp.
-      apply Rmult_le_pos.
-      lra.
-      apply (le_INR 0 (k - kaValueCenter a)).
-      lia.
+      apply semitonesPitchRatioNonNegative.
     }
   }
 Qed.

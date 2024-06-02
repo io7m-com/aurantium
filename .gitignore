@@ -1,7 +1,8 @@
 *.iml
 .idea
-pom.xml.versionsBackup
-target
 .jqwik-database
+.nra.cache
 dependency-reduced-pom.xml
 pom.xml.versionsBackup
+pom.xml.versionsBackup
+target

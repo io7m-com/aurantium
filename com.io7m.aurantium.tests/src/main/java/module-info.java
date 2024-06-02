@@ -30,10 +30,14 @@ open module com.io7m.aurantium.tests
   requires org.junit.platform.launcher;
 
   requires com.io7m.aurantium.parser.api;
+  requires com.io7m.aurantium.validation.api;
   requires com.io7m.aurantium.vanilla;
+  requires com.io7m.aurantium.writer.api;
+
   requires com.io7m.jbssio.api;
   requires com.io7m.jbssio.vanilla;
   requires com.io7m.jmulticlose.core;
+  requires com.io7m.lanark.core;
   requires com.io7m.wendover.core;
   requires net.jqwik.api;
   requires org.slf4j;

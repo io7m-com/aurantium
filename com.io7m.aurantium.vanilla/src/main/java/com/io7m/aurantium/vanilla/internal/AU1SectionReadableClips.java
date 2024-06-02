@@ -18,6 +18,7 @@ package com.io7m.aurantium.vanilla.internal;
 
 import com.io7m.aurantium.api.AUAudioFormats;
 import com.io7m.aurantium.api.AUClipDescription;
+import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUFileSectionDescription;
 import com.io7m.aurantium.api.AUHashAlgorithm;
 import com.io7m.aurantium.api.AUHashValue;
@@ -128,7 +129,7 @@ public final class AU1SectionReadableClips
 
           clips.add(
             new AUClipDescription(
-              id,
+              new AUClipID(id),
               name,
               format,
               sampleRate,

@@ -17,11 +17,12 @@
 
 package com.io7m.aurantium.tests;
 
+import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUHashAlgorithm;
 import com.io7m.aurantium.api.AUHashValue;
 import com.io7m.aurantium.api.AUIdentifiers;
 import com.io7m.aurantium.api.AUKeyAssignment;
-import com.io7m.aurantium.api.AUSectionReadableMetadataType;
+import com.io7m.aurantium.api.AUKeyAssignmentID;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.aurantium.parser.api.AUParsers;
@@ -29,7 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
@@ -41,7 +41,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearFloat;
-import static com.io7m.aurantium.api.AUIdentifiers.sectionMetadataIdentifier;
 import static com.io7m.aurantium.api.AUOctetOrder.BIG_ENDIAN;
 import static com.io7m.aurantium.api.AUOctetOrder.LITTLE_ENDIAN;
 import static java.nio.file.StandardOpenOption.READ;
@@ -121,7 +120,7 @@ public final class AUParserTest
             assertEquals(48000L, c.sampleRate());
             assertEquals(1L, c.channels());
             assertEquals(32L, c.sampleDepth());
-            assertEquals(0L, c.id());
+            assertEquals(new AUClipID(0L), c.id());
             assertEquals(AFPCMLinearFloat, c.format());
             assertEquals(BIG_ENDIAN, c.endianness());
             assertEquals(
@@ -144,7 +143,7 @@ public final class AUParserTest
             assertEquals(48000L, c.sampleRate());
             assertEquals(1L, c.channels());
             assertEquals(32L, c.sampleDepth());
-            assertEquals(1L, c.id());
+            assertEquals(new AUClipID(1L), c.id());
             assertEquals(AFPCMLinearFloat, c.format());
             assertEquals(LITTLE_ENDIAN, c.endianness());
             assertEquals(
@@ -186,11 +185,11 @@ public final class AUParserTest
             final var a = assigns.get(0);
             assertEquals(
               new AUKeyAssignment(
-                0L,
+                new AUKeyAssignmentID(0L),
                 0L,
                 30L,
                 60L,
-                0L,
+                new AUClipID(0L),
                 1.0,
                 1.0,
                 1.0,

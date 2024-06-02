@@ -271,19 +271,27 @@
         </Paragraph>
         <Paragraph>
           A matching key assignment's <Term type="term">playback rate</Term> is calculated by taking the value
-          of the current key <Term type="expression">k</Term> and determining how many semitones (if any),
+          of the current key <Term type="expression">k</Term> and determining how many semitones, if any,
           <Term type="expression">k</Term> is above or below <Term type="expression">kaValueCenter</Term>.
-          If <Term type="expression">k = kaValueCenter</Term>, the resulting
-          playback rate is <Term type="constant">1.0</Term>. If <Term type="expression">k</Term> is
-          <Term type="expression">n</Term> semitones below <Term type="expression">kaValueCenter</Term>,
-          then the resulting playback rate is <Term type="expression">n * semitoneDown</Term>,
-          where <Term type="expression">semitoneDown</Term> is equal to one minus the twelfth square root
-          of 12.
-          If <Term type="expression">k</Term> is
-          <Term type="expression">n</Term> semitones above <Term type="expression">kaValueCenter</Term>,
-          then the resulting playback rate is <Term type="expression">n * semitoneUp</Term>,
-          where <Term type="expression">semitoneUp</Term> is equal to the twelfth square root
-          of 12. This is described by the <Term type="expression">keyAssignmentEvaluateRate</Term>
+          The number of semitones is used to calculate a <Term type="term">pitch ratio</Term> for the
+          playback rate:
+        </Paragraph>
+        <FormalItem title="Semitone Pitch Ratio">
+          <Verbatim><xi:include href="4038.txt" parse="text"/></Verbatim>
+        </FormalItem>
+        <Paragraph>
+          Intuitively, if the difference between <Term type="expression">k</Term> and
+          <Term type="expression">kaValueCenter</Term> is <Term type="expression">0</Term>, the resulting
+          ratio is <Term type="expression">1.0</Term>.
+          If the difference between <Term type="expression">k</Term> and
+          <Term type="expression">kaValueCenter</Term> is <Term type="expression">12</Term>, the resulting
+          ratio is <Term type="expression">2.0</Term>.
+          If the difference between <Term type="expression">k</Term> and
+          <Term type="expression">kaValueCenter</Term> is <Term type="expression">-12</Term>, the resulting
+          ratio is <Term type="expression">0.5</Term>.
+        </Paragraph>
+        <Paragraph>
+          The pitch ratio is returned by the <Term type="expression">keyAssignmentEvaluateRate</Term>
           function:
         </Paragraph>
         <FormalItem title="Key Assignment Rate Evaluation">

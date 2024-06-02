@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2024 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,19 +14,31 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/**
- * Aurantium format (API specification)
- */
 
-module com.io7m.aurantium.api
+package com.io7m.aurantium.tests;
+
+import com.io7m.aurantium.api.AU12TET;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public final class AU12TETTest
 {
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
+  @Test
+  public void testRatio0()
+  {
+    assertEquals(1.0, AU12TET.semitonesPitchRatio(0L));
+  }
 
-  requires com.io7m.abstand.core;
-  requires com.io7m.jinterp.core;
-  requires com.io7m.junsigned.core;
-  requires com.io7m.lanark.core;
+  @Test
+  public void testRatio1()
+  {
+    assertEquals(2.0, AU12TET.semitonesPitchRatio(12L));
+  }
 
-  exports com.io7m.aurantium.api;
+  @Test
+  public void testRatio2()
+  {
+    assertEquals(0.5, AU12TET.semitonesPitchRatio(-12L));
+  }
 }

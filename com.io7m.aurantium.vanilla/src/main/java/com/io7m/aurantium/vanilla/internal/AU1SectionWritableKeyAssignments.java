@@ -78,13 +78,13 @@ public final class AU1SectionWritableKeyAssignments
         e.writeU32(writer, "count", toUnsignedLong(input.size()));
 
         for (final var ka : input) {
-          e.writeU32(writer, "id", ka.id());
+          e.writeU32(writer, "id", ka.id().value());
 
           e.writeU32(writer, "keyValueStart", ka.keyValueStart());
           e.writeU32(writer, "keyValueCenter", ka.keyValueCenter());
           e.writeU32(writer, "keyValueEnd", ka.keyValueEnd());
 
-          e.writeU32(writer, "clipId", ka.clipId());
+          e.writeU32(writer, "clipId", ka.clipId().value());
 
           e.writeF64(writer, "amplitudeAtKeyStart", ka.amplitudeAtKeyStart());
           e.writeF64(writer, "amplitudeAtKeyCenter", ka.amplitudeAtKeyCenter());

@@ -18,9 +18,11 @@ package com.io7m.aurantium.tests;
 
 import com.io7m.aurantium.api.AUClipDeclaration;
 import com.io7m.aurantium.api.AUClipDeclarations;
+import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUHashValue;
 import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUKeyAssignment;
+import com.io7m.aurantium.api.AUKeyAssignmentID;
 import com.io7m.aurantium.api.AUKeyAssignments;
 import com.io7m.aurantium.api.AUOctetOrder;
 import com.io7m.aurantium.api.AUSectionReadableClipsType;
@@ -56,6 +58,8 @@ public final class AUWriteDemo
 {
   private static final Logger LOG =
     LoggerFactory.getLogger(AUWriteDemo.class);
+  public static final AUClipID CLIP_0 = new AUClipID(0L);
+  public static final AUClipID CLIP_1 = new AUClipID(1L);
 
   private AUWriteDemo()
   {
@@ -101,7 +105,7 @@ public final class AUWriteDemo
           new AUClipDeclarations(
             List.of(
               new AUClipDeclaration(
-                0L,
+                CLIP_0,
                 "0.wav",
                 AFPCMLinearFloat,
                 48000L,
@@ -112,7 +116,7 @@ public final class AUWriteDemo
                 128L * 4L
               ),
               new AUClipDeclaration(
-                1L,
+                CLIP_1,
                 "1.wav",
                 AFPCMLinearFloat,
                 48000L,
@@ -126,7 +130,7 @@ public final class AUWriteDemo
           )
         );
 
-        try (var ch = clips.writeAudioDataForClip(0L)) {
+        try (var ch = clips.writeAudioDataForClip(CLIP_0)) {
           final var buf = ByteBuffer.allocate(128 * 4);
           buf.order(ByteOrder.BIG_ENDIAN);
           for (int index = 0; index < 128; index += 1) {
@@ -135,7 +139,7 @@ public final class AUWriteDemo
           ch.write(buf);
         }
 
-        try (var ch = clips.writeAudioDataForClip(1L)) {
+        try (var ch = clips.writeAudioDataForClip(CLIP_1)) {
           final var buf = ByteBuffer.allocate(128 * 4);
           buf.order(ByteOrder.LITTLE_ENDIAN);
           for (int index = 0; index < 128; index += 1) {
@@ -150,11 +154,11 @@ public final class AUWriteDemo
           new AUKeyAssignments(
             List.of(
               new AUKeyAssignment(
-                0L,
+                new AUKeyAssignmentID(0L),
                 0L,
                 30L,
                 60L,
-                0L,
+                new AUClipID(0L),
                 1.0,
                 1.0,
                 1.0,
