@@ -41,7 +41,7 @@
     <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
 
     <!-- Third-party dependencies. -->
-    <org.junit.version>5.10.2</org.junit.version>
+    <org.junit.version>5.10.3</org.junit.version>
     <jqwik.version>1.8.5</jqwik.version>
   </properties>
 
