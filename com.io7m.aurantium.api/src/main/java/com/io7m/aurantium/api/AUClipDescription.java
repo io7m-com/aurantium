@@ -75,8 +75,25 @@ public record AUClipDescription(
 
   public long frames()
   {
-    final var sampleOctets = this.sampleDepth >>> 3L;
-    return this.size / sampleOctets;
+    return this.size / this.sampleSizeOctets();
+  }
+
+  /**
+   * @return The size of a single sample in octets
+   */
+
+  public long sampleSizeOctets()
+  {
+    return this.sampleDepth >>> 3L;
+  }
+
+  /**
+   * @return The size of a single frame in octets
+   */
+
+  public long frameSizeOctets()
+  {
+    return this.sampleSizeOctets() * this.channels;
   }
 
   /**
