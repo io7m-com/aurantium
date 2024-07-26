@@ -19,7 +19,7 @@ package com.io7m.aurantium.api;
 import java.util.Objects;
 
 /**
- * A clip description.
+ * A clip declaration.
  *
  * @param id          The clip ID
  * @param name        The clip name
@@ -44,7 +44,7 @@ public record AUClipDeclaration(
   long size)
 {
   /**
-   * A clip description.
+   * A clip declaration.
    *
    * @param id          The clip ID
    * @param name        The clip name

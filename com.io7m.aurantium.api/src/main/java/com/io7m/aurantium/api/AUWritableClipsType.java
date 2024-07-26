@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.nio.channels.WritableByteChannel;
 
 /**
- * The writable audio data for clips.
+ * <p>The writable audio data for clips.</p>
  *
- * Users are expected to retrieve the byte channel associated with each clip
- * using {@link #writeAudioDataForClip(AUClipID)}, and are expected to write audio
- * data to the byte channel in accordance with the declared clip.
+ * <p>Users are expected to retrieve the byte channel associated with each clip
+ * using {@link #writeAudioDataForClip(AUClipID)}, and are expected to write
+ * audio data to the byte channel in accordance with the declared clip.</p>
  */
 
 public interface AUWritableClipsType
