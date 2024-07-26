@@ -30,7 +30,7 @@ import java.util.Objects;
  * @param endianness  The endianness
  * @param hash        The hash value
  * @param offset      The audio offset
- * @param size        The audio size
+ * @param size        The audio size in octets
  */
 
 public record AUClipDescription(
@@ -57,7 +57,7 @@ public record AUClipDescription(
    * @param endianness  The endianness
    * @param hash        The hash value
    * @param offset      The audio offset
-   * @param size        The audio size
+   * @param size        The audio size in octets
    */
 
   public AUClipDescription
