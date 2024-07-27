@@ -17,6 +17,7 @@
 
 package com.io7m.aurantium.tests;
 
+import com.io7m.aurantium.api.AUClipDescription;
 import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUHashAlgorithm;
 import com.io7m.aurantium.api.AUHashValue;
@@ -36,6 +37,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -323,6 +325,36 @@ public final class AUParserTest
     }
   }
 
+  @Test
+  public void testSample(
+    final @TempDir Path directory)
+    throws Exception
+  {
+    final var file =
+      resource(directory, "sample.aam");
+
+    try (var channel = FileChannel.open(file, READ)) {
+      final var request =
+        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+
+      try (var parser = this.parsers.createParser(request)) {
+        final var auFile = parser.execute();
+        assertEquals(0L, auFile.trailingOctets());
+
+        final var clips =
+          auFile.openClips()
+            .orElseThrow();
+        final var clipList = clips.clips();
+        assertEquals(12L, (long) clipList.size());
+
+        final var keys =
+          auFile.openKeyAssignments()
+            .orElseThrow();
+        final var keyList = keys.keyAssignments().assignments();
+        assertEquals(12L, (long) keyList.size());
+      }
+    }
+  }
 
   private static Path resource(
     final Path outputDirectory,
