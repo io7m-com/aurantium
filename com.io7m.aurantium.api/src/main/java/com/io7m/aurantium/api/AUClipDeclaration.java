@@ -64,5 +64,15 @@ public record AUClipDeclaration(
     Objects.requireNonNull(format, "format");
     Objects.requireNonNull(endianness, "endianness");
     Objects.requireNonNull(hash, "hash");
+
+    if (sampleRate == 0L) {
+      throw new IllegalArgumentException("Sample rate must be non-zero.");
+    }
+    if (sampleDepth == 0L) {
+      throw new IllegalArgumentException("Sample depth must be non-zero.");
+    }
+    if (channels == 0L) {
+      throw new IllegalArgumentException("Channels must be non-zero.");
+    }
   }
 }

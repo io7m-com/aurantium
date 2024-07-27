@@ -18,7 +18,6 @@ package com.io7m.aurantium.vanilla.internal;
 
 import com.io7m.jbssio.api.BSSReaderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
-import com.io7m.jbssio.api.BSSWriterType;
 import com.io7m.jbssio.ext.bounded.BSSBounded;
 
 import java.io.IOException;
@@ -59,7 +58,7 @@ public final class AU1BinaryExpressions
    */
 
   public void writeU32(
-    final BSSWriterType writer,
+    final BSSWriterRandomAccessType writer,
     final String name,
     final long x)
     throws IOException
@@ -78,7 +77,7 @@ public final class AU1BinaryExpressions
    */
 
   public void writeU64(
-    final BSSWriterType writer,
+    final BSSWriterRandomAccessType writer,
     final String name,
     final long x)
     throws IOException
@@ -97,7 +96,7 @@ public final class AU1BinaryExpressions
    */
 
   public void writeF64(
-    final BSSWriterType writer,
+    final BSSWriterRandomAccessType writer,
     final String name,
     final double x)
     throws IOException
@@ -116,7 +115,7 @@ public final class AU1BinaryExpressions
    */
 
   public void writeBytes(
-    final BSSWriterType writer,
+    final BSSWriterRandomAccessType writer,
     final String name,
     final byte[] x)
     throws IOException
@@ -135,7 +134,7 @@ public final class AU1BinaryExpressions
    */
 
   public void writeUTF8(
-    final BSSWriterType writer,
+    final BSSWriterRandomAccessType writer,
     final String x)
     throws IOException
   {
@@ -161,7 +160,7 @@ public final class AU1BinaryExpressions
      */
 
     void write(
-      BSSWriterType writer,
+      BSSWriterRandomAccessType writer,
       T value)
       throws IOException;
   }
@@ -179,7 +178,7 @@ public final class AU1BinaryExpressions
    */
 
   public <T> void writeArray(
-    final BSSWriterType writer,
+    final BSSWriterRandomAccessType writer,
     final String name,
     final List<T> items,
     final AUBinarySubExpressionType<T> f)

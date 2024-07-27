@@ -116,9 +116,9 @@ public final class AUWriteDemo3
           "sample_mono_48k_f64.wav",
           1L,
           AFPCMLinearFloat,
-          0L,
           48000L,
           64L,
+          1L,
           LITTLE_ENDIAN
         );
       final var dataMono2 =

@@ -93,8 +93,11 @@ public final class AU1SectionReadableClips
       final var exceptions =
         new ExceptionTracker<IOException>();
 
+      var offStart = 0L;
       for (int index = 0; index < count; ++index) {
         try {
+          offStart = r.offsetCurrentAbsolute();
+
           final var id =
             e.readU32(r, "id");
           final var name =
@@ -117,6 +120,9 @@ public final class AU1SectionReadableClips
             e.readU64(r, "offset");
           final var size =
             e.readU64(r, "size");
+
+          final var offNow =
+            r.offsetCurrentAbsolute();
 
           final var format =
             AUAudioFormats.parse(formatName);

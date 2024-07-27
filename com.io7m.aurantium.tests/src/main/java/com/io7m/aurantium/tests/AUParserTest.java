@@ -17,6 +17,7 @@
 
 package com.io7m.aurantium.tests;
 
+import com.io7m.aurantium.api.AUAudioFormatType;
 import com.io7m.aurantium.api.AUClipDescription;
 import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUHashAlgorithm;
@@ -43,6 +44,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearFloat;
+import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearIntegerSigned;
+import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearIntegerUnsigned;
 import static com.io7m.aurantium.api.AUOctetOrder.BIG_ENDIAN;
 import static com.io7m.aurantium.api.AUOctetOrder.LITTLE_ENDIAN;
 import static java.nio.file.StandardOpenOption.READ;
@@ -345,13 +348,135 @@ public final class AUParserTest
           auFile.openClips()
             .orElseThrow();
         final var clipList = clips.clips();
-        assertEquals(12L, (long) clipList.size());
+        assertEquals(12L, clipList.size());
+
+        {
+          final var c = clipList.get(0);
+          assertEquals("sample_mono_48k_f32.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(32L, c.sampleDepth());
+          assertEquals(1L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearFloat, c.format());
+        }
+
+        {
+          final var c = clipList.get(1);
+          assertEquals("sample_mono_48k_f64.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(64L, c.sampleDepth());
+          assertEquals(1L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearFloat, c.format());
+        }
+
+        {
+          final var c = clipList.get(2);
+          assertEquals("sample_mono_48k_s16.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(16L, c.sampleDepth());
+          assertEquals(1L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearIntegerSigned, c.format());
+        }
+
+        {
+          final var c = clipList.get(3);
+          assertEquals("sample_mono_48k_s24.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(24L, c.sampleDepth());
+          assertEquals(1L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearIntegerSigned, c.format());
+        }
+
+        {
+          final var c = clipList.get(4);
+          assertEquals("sample_mono_48k_s32.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(32L, c.sampleDepth());
+          assertEquals(1L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearIntegerSigned, c.format());
+        }
+
+        {
+          final var c = clipList.get(5);
+          assertEquals("sample_mono_48k_u8.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(8L, c.sampleDepth());
+          assertEquals(1L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearIntegerUnsigned, c.format());
+        }
+
+        // Stereo clips.
+
+        {
+          final var c = clipList.get(6);
+          assertEquals("sample_stereo_48k_f32.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(32L, c.sampleDepth());
+          assertEquals(2L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearFloat, c.format());
+        }
+
+        {
+          final var c = clipList.get(7);
+          assertEquals("sample_stereo_48k_f64.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(64L, c.sampleDepth());
+          assertEquals(2L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearFloat, c.format());
+        }
+
+        {
+          final var c = clipList.get(8);
+          assertEquals("sample_stereo_48k_s16.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(16L, c.sampleDepth());
+          assertEquals(2L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearIntegerSigned, c.format());
+        }
+
+        {
+          final var c = clipList.get(9);
+          assertEquals("sample_stereo_48k_s24.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(24L, c.sampleDepth());
+          assertEquals(2L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearIntegerSigned, c.format());
+        }
+
+        {
+          final var c = clipList.get(10);
+          assertEquals("sample_stereo_48k_s32.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(32L, c.sampleDepth());
+          assertEquals(2L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearIntegerSigned, c.format());
+        }
+
+        {
+          final var c = clipList.get(11);
+          assertEquals("sample_stereo_48k_u8.wav", c.name());
+          assertEquals(48000L, c.sampleRate());
+          assertEquals(8L, c.sampleDepth());
+          assertEquals(2L, c.channels());
+          assertEquals(LITTLE_ENDIAN, c.endianness());
+          assertEquals(AFPCMLinearIntegerUnsigned, c.format());
+        }
 
         final var keys =
           auFile.openKeyAssignments()
             .orElseThrow();
         final var keyList = keys.keyAssignments().assignments();
-        assertEquals(12L, (long) keyList.size());
+        assertEquals(12L, keyList.size());
       }
     }
   }
