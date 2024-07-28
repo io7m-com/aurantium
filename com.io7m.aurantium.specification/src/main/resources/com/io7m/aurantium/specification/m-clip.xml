@@ -28,10 +28,10 @@
           <Term type="term">FLAC</Term>, and etc.
         </Item>
         <Item>
-          The <Term type="term">sample rate</Term> of the audio data, expressed in bits per second.
+          The <Term type="term">sample rate</Term> of the audio data, expressed as samples per second.
         </Item>
         <Item>
-          The <Term type="term">sample depth</Term> of the audio data, expressed in bits per channel.
+          The <Term type="term">sample depth</Term> of the audio data, expressed as bits per sample.
         </Item>
         <Item>
           The number of <Term type="term">channels</Term> in the audio data.
