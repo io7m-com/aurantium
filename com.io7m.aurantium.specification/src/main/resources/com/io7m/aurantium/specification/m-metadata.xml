@@ -33,4 +33,11 @@
     the given key by consumers.
   </Paragraph>
 
+  <Paragraph>
+    As metadata is purely informative, adding and/or removing metadata values does not affect
+    <Link target="f7967257-9e35-4a55-b577-6bf685ac0df7">compatibility</Link>. Applications
+    <Term type="term">MUST NOT</Term> change their behaviour based on the presence (or lack thereof) of particular
+    metadata values.
+  </Paragraph>
+
 </Section>

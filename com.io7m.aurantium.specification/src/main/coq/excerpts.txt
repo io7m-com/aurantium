@@ -78,6 +78,7 @@
 5005 ! Theorem clipEqDec
 5006 ! Definition clipCompatCompare
 5007 ! Definition clipsCompatCompareChanged
+5008 ! Definition clipInvariants (
 
 10077 ! Inductive binaryExp : Set
 10078 ! Fixpoint binarySize (b : binaryExp)

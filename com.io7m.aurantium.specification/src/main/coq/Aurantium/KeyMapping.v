@@ -76,6 +76,7 @@ Inductive keyAssignment : Set := {
   kaValueCenter: nat;
   (** The highest key value that will trigger this clip. *)
   kaValueEnd : nat;
+  kaValueEndRange : le kaValueEnd 294967295;
   (** The key values must be ordered. *)
   kaValueStartOrder : le kaValueStart kaValueCenter;
   kaValueCenterOrder : le kaValueCenter kaValueEnd;

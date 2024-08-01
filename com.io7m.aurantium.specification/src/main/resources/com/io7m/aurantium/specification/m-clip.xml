@@ -288,6 +288,9 @@
     <FormalItem title="Clip">
       <Verbatim><xi:include href="2000.txt" parse="text"/></Verbatim>
     </FormalItem>
+    <FormalItem title="Clip (Invariants)">
+      <Verbatim><xi:include href="5008.txt" parse="text"/></Verbatim>
+    </FormalItem>
     <Paragraph>
       The <Term type="expression">clipId</Term> field specifies a unique (within the
       <Term type="package">aurantium</Term> file) identifier for the clip. This can be

@@ -90,8 +90,17 @@ Inductive clip : Set := clipMake {
   (** The offset of the first octet of audio data. *)
   clipOffset : nat;
   (** The size of the audio data in octets. *)
-  clipSize : nat;
+  clipSize : nat
 }.
+
+Definition clipInvariants (c : clip) : Prop :=
+     (clipId          c <= 4294967295)
+  /\ (clipSampleRate  c <= 4294967295)
+  /\ (clipSampleDepth c <= 4294967295)
+  /\ (clipChannels    c <= 4294967295)
+  /\ (clipOffset      c <= 18446744073709551615)
+  /\ (clipSize        c <= 18446744073709551615)
+  .
 
 Theorem clipEqDec : forall (x y : clip),
   {x = y}+{x <> y}.
