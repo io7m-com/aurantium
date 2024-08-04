@@ -16,7 +16,7 @@
 
 package com.io7m.aurantium.writer.api;
 
-import java.io.IOException;
+import com.io7m.seltzer.io.SIOException;
 
 /**
  * The type of writer factories.
@@ -43,10 +43,10 @@ public interface AUWriterFactoryType
    *
    * @return A new writer
    *
-   * @throws IOException On errors
+   * @throws SIOException On errors
    */
 
   AUWriterType createWriter(
     AUWriteRequest request)
-    throws IOException;
+    throws SIOException;
 }

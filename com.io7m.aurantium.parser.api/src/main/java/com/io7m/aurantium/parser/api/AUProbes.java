@@ -18,11 +18,14 @@ package com.io7m.aurantium.parser.api;
 
 import com.io7m.aurantium.api.AUIdentifiers;
 import com.io7m.aurantium.api.AUVersion;
+import com.io7m.seltzer.io.SIOException;
 
 import java.io.IOException;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.nio.ByteOrder.BIG_ENDIAN;
@@ -87,93 +90,102 @@ public final class AUProbes implements AUProbeFactoryType
 
     @Override
     public AUVersion execute()
-      throws IOException
+      throws SIOException
     {
-      final var buffer = ByteBuffer.allocate(8);
-      buffer.order(BIG_ENDIAN);
+      try {
+        final var buffer = ByteBuffer.allocate(8);
+        buffer.order(BIG_ENDIAN);
 
-      this.channel.position(0L);
+        this.channel.position(0L);
 
-      buffer.rewind();
-      buffer.limit(8);
-      {
+        buffer.rewind();
+        buffer.limit(8);
+        {
+          final var r = this.channel.read(buffer);
+          if (r != 8) {
+            throw this.errorShortRead(this.channel.position(), r, 8);
+          }
+        }
+
+        final var identifier = buffer.getLong(0);
+        if (identifier != AUIdentifiers.fileIdentifier()) {
+          throw this.errorMagicNumber(identifier);
+        }
+
+        buffer.rewind();
+        buffer.limit(4);
+        {
+          final var r = this.channel.read(buffer);
+          if (r != 4) {
+            throw this.errorShortRead(this.channel.position(), r, 4);
+          }
+        }
+
+        final var major = buffer.getInt(0);
+        buffer.rewind();
+        buffer.limit(4);
         final var r = this.channel.read(buffer);
-        if (r != 8) {
-          throw new IOException(
-            this.errorShortRead(this.channel.position(), r, 8));
+        {
+          if (r != 4) {
+            throw this.errorShortRead(this.channel.position(), r, 4);
+          }
         }
-      }
 
-      final var identifier = buffer.getLong(0);
-      if (identifier != AUIdentifiers.fileIdentifier()) {
-        throw new IOException(
-          this.errorMagicNumber(identifier));
-      }
-
-      buffer.rewind();
-      buffer.limit(4);
-      {
-        final var r = this.channel.read(buffer);
-        if (r != 4) {
-          throw new IOException(
-            this.errorShortRead(this.channel.position(), r, 4));
+        final var minor = buffer.getInt(0);
+        return new AUVersion(major, minor);
+      } catch (final IOException e) {
+        if (e instanceof final SIOException x) {
+          throw x;
         }
+        throw this.wrapException(e);
       }
-
-      final var major = buffer.getInt(0);
-      buffer.rewind();
-      buffer.limit(4);
-      final var r = this.channel.read(buffer);
-      {
-        if (r != 4) {
-          throw new IOException(
-            this.errorShortRead(this.channel.position(), r, 4));
-        }
-      }
-
-      final var minor = buffer.getInt(0);
-      return new AUVersion(major, minor);
     }
 
-    private String errorShortRead(
+    private SIOException wrapException(
+      final IOException e)
+    {
+      final var attrs = new HashMap<String, String>(4);
+      attrs.put("File", this.source.toString());
+
+      return new SIOException(
+        "IO error.",
+        e,
+        "error-io",
+        Map.copyOf(attrs)
+      );
+    }
+
+    private SIOException errorShortRead(
       final long position,
       final int octets,
       final int expected)
     {
-      final var lineSeparator = System.lineSeparator();
-      return new StringBuilder(64)
-        .append("File is truncated.")
-        .append(lineSeparator)
-        .append("  File: ")
-        .append(this.source)
-        .append(lineSeparator)
-        .append("  At offset 0x")
-        .append(Long.toUnsignedString(position, 16))
-        .append(" we expected to read ")
-        .append(Integer.toUnsignedString(expected))
-        .append(" but only received ")
-        .append(octets)
-        .append(lineSeparator)
-        .toString();
+      final var attrs = new HashMap<String, String>(4);
+      attrs.put("File", this.source.toString());
+      attrs.put("Offset", "0x" + Long.toUnsignedString(position, 16));
+      attrs.put("Expected", Integer.toUnsignedString(expected));
+      attrs.put("Received", Integer.toUnsignedString(octets));
+
+      return new SIOException(
+        "File is truncated.",
+        "error-file-truncated",
+        Map.copyOf(attrs)
+      );
     }
 
-    private String errorMagicNumber(
+    private SIOException errorMagicNumber(
       final long identifier)
     {
-      final var lineSeparator = System.lineSeparator();
-      return new StringBuilder(64)
-        .append("Unrecognized file identifier.")
-        .append(lineSeparator)
-        .append("  File: ")
-        .append(this.source)
-        .append(lineSeparator)
-        .append("  Received: 0x")
-        .append(Long.toUnsignedString(identifier, 16))
-        .append(lineSeparator)
-        .append("  Expected: 0x")
-        .append(Long.toUnsignedString(AUIdentifiers.fileIdentifier(), 16))
-        .append(lineSeparator)
-        .toString();
+      final var attrs = new HashMap<String, String>(3);
+      attrs.put("File", this.source.toString());
+      attrs.put("Received", "0x" + Long.toUnsignedString(identifier, 16));
+      attrs.put("Expected", "0x" + Long.toUnsignedString(AUIdentifiers.fileIdentifier(), 16));
+
+      return new SIOException(
+        "Unrecognized file identifier.",
+        "error-file-identifier",
+        Map.copyOf(attrs)
+      );
     }
   }
 }

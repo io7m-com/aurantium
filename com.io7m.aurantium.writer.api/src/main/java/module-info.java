@@ -23,7 +23,8 @@ module com.io7m.aurantium.writer.api
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.io7m.aurantium.api;
+  requires com.io7m.aurantium.api;
+  requires com.io7m.seltzer.io;
 
   uses com.io7m.aurantium.writer.api.AUWriterFactoryType;
 

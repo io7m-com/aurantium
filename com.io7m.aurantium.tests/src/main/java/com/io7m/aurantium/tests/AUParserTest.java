@@ -17,8 +17,6 @@
 
 package com.io7m.aurantium.tests;
 
-import com.io7m.aurantium.api.AUAudioFormatType;
-import com.io7m.aurantium.api.AUClipDescription;
 import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUHashAlgorithm;
 import com.io7m.aurantium.api.AUHashValue;
@@ -38,7 +36,6 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;

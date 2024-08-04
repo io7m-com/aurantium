@@ -16,7 +16,8 @@
 
 package com.io7m.aurantium.parser.api;
 
-import java.io.IOException;
+import com.io7m.seltzer.io.SIOException;
+
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 
@@ -34,11 +35,11 @@ public interface AUProbeFactoryType
    *
    * @return A version probe
    *
-   * @throws IOException On I/O errors
+   * @throws SIOException On I/O errors
    */
 
   AUProbeType createProbe(
     URI source,
     SeekableByteChannel channel)
-    throws IOException;
+    throws SIOException;
 }

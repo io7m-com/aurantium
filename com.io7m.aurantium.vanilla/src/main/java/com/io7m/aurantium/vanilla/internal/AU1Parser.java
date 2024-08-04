@@ -25,11 +25,14 @@ import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.aurantium.parser.api.AUParserType;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.seltzer.io.SIOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -67,7 +70,7 @@ public final class AU1Parser implements AUParserType
 
   @Override
   public AUFileReadableType execute()
-    throws IOException
+    throws SIOException
   {
     this.reader.seekTo(0L);
 
@@ -79,10 +82,10 @@ public final class AU1Parser implements AUParserType
       this.reader.readU32BE("versionMinor");
 
     if (identifier != AUIdentifiers.fileIdentifier()) {
-      throw new IOException(this.errorMagicNumber(identifier));
+      throw this.errorMagicNumber(identifier);
     }
     if (major != 1L) {
-      throw new IOException(this.errorUnsupportedMajorVersion(major));
+      throw this.errorUnsupportedMajorVersion(major);
     }
 
     final var fileSections =
@@ -127,41 +130,34 @@ public final class AU1Parser implements AUParserType
     );
   }
 
-  private String errorUnsupportedMajorVersion(
+  private SIOException errorUnsupportedMajorVersion(
     final long major)
   {
-    final var lineSeparator = System.lineSeparator();
-    return new StringBuilder(64)
-      .append("Unrecognized major version.")
-      .append(lineSeparator)
-      .append("  File: ")
-      .append(this.request.source())
-      .append(lineSeparator)
-      .append("  Received: Major version ")
-      .append(Long.toUnsignedString(major))
-      .append(lineSeparator)
-      .append("  Expected: Major version 1")
-      .append(lineSeparator)
-      .toString();
+    final var attrs = new HashMap<String, String>(3);
+    attrs.put("File", this.request.source().toString());
+    attrs.put("Expected", "Major version 1");
+    attrs.put("Received", Long.toUnsignedString(major));
+
+    return new SIOException(
+      "Unrecognized major version.",
+      "error-unrecognized-major-version",
+      Map.copyOf(attrs)
+    );
   }
 
-  private String errorMagicNumber(
+  private SIOException errorMagicNumber(
     final long identifier)
   {
-    final var lineSeparator = System.lineSeparator();
-    return new StringBuilder(64)
-      .append("Unrecognized file identifier.")
-      .append(lineSeparator)
-      .append("  File: ")
-      .append(this.request.source())
-      .append(lineSeparator)
-      .append("  Received: 0x")
-      .append(Long.toUnsignedString(identifier, 16))
-      .append(lineSeparator)
-      .append("  Expected: ")
-      .append(Long.toUnsignedString(AUIdentifiers.fileIdentifier(), 16))
-      .append(lineSeparator)
-      .toString();
+    final var attrs = new HashMap<String, String>(3);
+    attrs.put("File", this.request.source().toString());
+    attrs.put("Expected", "0x" + Long.toUnsignedString(AUIdentifiers.fileIdentifier(), 16));
+    attrs.put("Received", "0x" + Long.toUnsignedString(identifier, 16));
+
+    return new SIOException(
+      "Unrecognized file identifier.",
+      "error-unrecognized-file-identifier",
+      Map.copyOf(attrs)
+    );
   }
 
   @Override

@@ -25,7 +25,8 @@ module com.io7m.aurantium.parser.api
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.io7m.aurantium.api;
+  requires com.io7m.aurantium.api;
+  requires com.io7m.seltzer.io;
 
   exports com.io7m.aurantium.parser.api;
 }

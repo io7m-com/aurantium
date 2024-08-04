@@ -2,8 +2,7 @@
 
 <Section title="Sections"
          id="a41fe24e-6092-4190-9229-3195ce540317"
-         xmlns="urn:com.io7m.structural:8:0"
-         xmlns:xi="http://www.w3.org/2001/XInclude">
+         xmlns="urn:com.io7m.structural:8:0">
 
   <Paragraph id="d04c7f6d-4fd8-4a2c-a1fc-aa2e7723c836">
     <Term type="package">aurantium</Term>

@@ -17,9 +17,9 @@
 package com.io7m.aurantium.writer.api;
 
 import com.io7m.aurantium.api.AUFileWritableType;
+import com.io7m.seltzer.io.SIOException;
 
 import java.io.Closeable;
-import java.io.IOException;
 
 /**
  * A file writer.
@@ -32,9 +32,9 @@ public interface AUWriterType extends Closeable
    *
    * @return A writable file
    *
-   * @throws IOException On errors
+   * @throws SIOException On errors
    */
 
   AUFileWritableType execute()
-    throws IOException;
+    throws SIOException;
 }

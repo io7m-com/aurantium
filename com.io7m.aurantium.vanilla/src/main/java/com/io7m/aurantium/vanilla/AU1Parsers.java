@@ -21,8 +21,8 @@ import com.io7m.aurantium.parser.api.AUParserFactoryType;
 import com.io7m.aurantium.parser.api.AUParserType;
 import com.io7m.aurantium.vanilla.internal.AU1Parser;
 import com.io7m.jbssio.api.BSSReaderProviderType;
+import com.io7m.seltzer.io.SIOException;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
@@ -80,7 +80,7 @@ public final class AU1Parsers implements AUParserFactoryType
   @Override
   public AUParserType createParser(
     final AUParseRequest request)
-    throws IOException
+    throws SIOException
   {
     return new AU1Parser(
       request,

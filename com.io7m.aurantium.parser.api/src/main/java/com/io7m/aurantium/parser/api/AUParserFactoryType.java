@@ -16,7 +16,7 @@
 
 package com.io7m.aurantium.parser.api;
 
-import java.io.IOException;
+import com.io7m.seltzer.io.SIOException;
 
 /**
  * A factory of parsers.
@@ -43,10 +43,10 @@ public interface AUParserFactoryType
    *
    * @return A new parser
    *
-   * @throws IOException On errors
+   * @throws SIOException On errors
    */
 
   AUParserType createParser(
     AUParseRequest request)
-    throws IOException;
+    throws SIOException;
 }

@@ -18,8 +18,8 @@ package com.io7m.aurantium.parser.api;
 
 
 import com.io7m.aurantium.api.AUVersion;
+import com.io7m.seltzer.io.SIOException;
 
-import java.io.IOException;
 
 /**
  * A version probe.
@@ -32,9 +32,9 @@ public interface AUProbeType
    *
    * @return The file version
    *
-   * @throws IOException On I/O errors
+   * @throws SIOException On I/O errors
    */
 
   AUVersion execute()
-    throws IOException;
+    throws SIOException;
 }

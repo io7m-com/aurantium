@@ -23,8 +23,11 @@ import com.io7m.aurantium.writer.api.AUWriteRequest;
 import com.io7m.aurantium.writer.api.AUWriterType;
 import com.io7m.jbssio.api.BSSWriterProviderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
+import com.io7m.seltzer.io.SIOException;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -64,11 +67,11 @@ public final class AU1Writer implements AUWriterType
 
   @Override
   public AUFileWritableType execute()
-    throws IOException
+    throws SIOException
   {
     final var version = this.request.version();
     if (version.major() != 1L) {
-      throw new IOException(this.errorUnsupportedMajorVersion(version.major()));
+      throw this.errorUnsupportedMajorVersion(version.major());
     }
 
     this.writer.seekTo(0L);
@@ -89,20 +92,18 @@ public final class AU1Writer implements AUWriterType
     }
   }
 
-  private String errorUnsupportedMajorVersion(
+  private SIOException errorUnsupportedMajorVersion(
     final long major)
   {
-    final var lineSeparator = System.lineSeparator();
-    return new StringBuilder(64)
-      .append("Unsupported major version.")
-      .append(lineSeparator)
-      .append("  File: ")
-      .append(this.request.target())
-      .append("  Received: Major version ")
-      .append(Long.toUnsignedString(major))
-      .append(lineSeparator)
-      .append("  Expected: Major version 1")
-      .append(lineSeparator)
-      .toString();
+    final var attrs = new HashMap<String, String>(3);
+    attrs.put("File", this.request.target().toString());
+    attrs.put("Expected", "Major version 1");
+    attrs.put("Received", Long.toUnsignedString(major));
+
+    return new SIOException(
+      "Unrecognized major version.",
+      "error-unrecognized-major-version",
+      Map.copyOf(attrs)
+    );
   }
 }

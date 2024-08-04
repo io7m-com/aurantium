@@ -17,9 +17,9 @@
 package com.io7m.aurantium.parser.api;
 
 import com.io7m.aurantium.api.AUFileReadableType;
+import com.io7m.seltzer.io.SIOException;
 
 import java.io.Closeable;
-import java.io.IOException;
 
 /**
  * A parser.
@@ -32,9 +32,9 @@ public interface AUParserType extends Closeable
    *
    * @return The file
    *
-   * @throws IOException On errors
+   * @throws SIOException On errors
    */
 
   AUFileReadableType execute()
-    throws IOException;
+    throws SIOException;
 }

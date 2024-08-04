@@ -21,8 +21,8 @@ import com.io7m.aurantium.writer.api.AUWriteRequest;
 import com.io7m.aurantium.writer.api.AUWriterFactoryType;
 import com.io7m.aurantium.writer.api.AUWriterType;
 import com.io7m.jbssio.api.BSSWriterProviderType;
+import com.io7m.seltzer.io.SIOException;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
@@ -80,7 +80,7 @@ public final class AU1Writers implements AUWriterFactoryType
   @Override
   public AUWriterType createWriter(
     final AUWriteRequest request)
-    throws IOException
+    throws SIOException
   {
     final var rootWriter =
       this.writers.createWriterFromChannel(
