@@ -27,6 +27,7 @@ import com.io7m.aurantium.api.AUSectionReadableKeyAssignmentsType;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 import com.io7m.jdeferthrow.core.ExceptionTracker;
+import com.io7m.seltzer.io.SIOException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -141,8 +142,16 @@ public final class AU1SectionReadableKeyAssignments
             exceptions.addException(
               r.createException(
                 ex.getMessage(),
+                ex,
                 Map.of(),
-                IOException::new
+                (message, cause, attributes) -> {
+                  return new SIOException(
+                    message,
+                    cause.orElseThrow(),
+                    "error-invalid",
+                    attributes
+                  );
+                }
               )
             );
           }
@@ -172,8 +181,16 @@ public final class AU1SectionReadableKeyAssignments
           exceptions.addException(
             r.createException(
               ex.getMessage(),
+              ex,
               Map.of(),
-              IOException::new
+              (message, cause, attributes) -> {
+                return new SIOException(
+                  message,
+                  cause.orElseThrow(),
+                  "error-invalid",
+                  attributes
+                );
+              }
             )
           );
         }

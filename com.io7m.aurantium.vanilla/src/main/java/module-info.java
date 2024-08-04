@@ -42,6 +42,7 @@ module com.io7m.aurantium.vanilla
   requires com.io7m.lanark.core;
   requires com.io7m.wendover.core;
   requires org.slf4j;
+  requires com.io7m.seltzer.io;
 
   opens com.io7m.aurantium.vanilla.internal
     to com.io7m.jxtrand.vanilla;

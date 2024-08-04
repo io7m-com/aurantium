@@ -27,6 +27,7 @@ import com.io7m.aurantium.api.AUSectionReadableClipsType;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 import com.io7m.jdeferthrow.core.ExceptionTracker;
+import com.io7m.seltzer.io.SIOException;
 import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
 import com.io7m.wendover.core.ReadOnlySeekableByteChannel;
 import com.io7m.wendover.core.SubrangeSeekableByteChannel;
@@ -149,7 +150,19 @@ public final class AU1SectionReadableClips
           );
         } catch (final IllegalArgumentException ex) {
           exceptions.addException(
-            r.createException(ex.getMessage(), Map.of(), IOException::new)
+            r.createException(
+              ex.getMessage(),
+              ex,
+              Map.of(),
+              (message, cause, attributes) -> {
+                return new SIOException(
+                  message,
+                  cause.orElseThrow(),
+                  "error-invalid",
+                  attributes
+                );
+              }
+            )
           );
         }
       }
