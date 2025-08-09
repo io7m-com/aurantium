@@ -1,0 +1,4 @@
+## aurantium
+
+The `aurantium` package provides a strongly-specified file format for storing audio samples mapped to instrument keys.
+
