@@ -20,6 +20,7 @@
 
   <modules>
     <module>com.io7m.aurantium.api</module>
+    <module>com.io7m.aurantium.json.schemagen</module>
     <module>com.io7m.aurantium.parser.api</module>
     <module>com.io7m.aurantium.specification</module>
     <module>com.io7m.aurantium.tests</module>
@@ -33,7 +34,7 @@
 
     <!-- Configuration. -->
     <io7m.api.previousVersion>0.0.2-SNAPSHOT</io7m.api.previousVersion>
-    <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
+    <io7m.java.targetJavaVersion>25</io7m.java.targetJavaVersion>
 
     <!-- io7m dependencies. -->
     <com.io7m.jbssio.version>3.0.0</com.io7m.jbssio.version>
@@ -148,18 +149,17 @@
       </dependency>
       <dependency>
         <groupId>com.io7m.jbssio</groupId>
-        <artifactId>com.io7m.jbssio.api</artifactId>
+        <artifactId>com.io7m.jbssio.bom</artifactId>
         <version>${com.io7m.jbssio.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
-        <groupId>com.io7m.jbssio</groupId>
-        <artifactId>com.io7m.jbssio.vanilla</artifactId>
-        <version>${com.io7m.jbssio.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.io7m.jbssio</groupId>
-        <artifactId>com.io7m.jbssio.ext.bounded</artifactId>
-        <version>${com.io7m.jbssio.version}</version>
+        <groupId>com.io7m.sumjack</groupId>
+        <artifactId>com.io7m.sumjack.bom</artifactId>
+        <version>1.0.0</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.io7m.jmulticlose</groupId>
@@ -190,6 +190,33 @@
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
         <version>1.5.20</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.dixmont</groupId>
+        <artifactId>com.io7m.dixmont.core</artifactId>
+        <version>3.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>3.0.3</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.entomos</groupId>
+        <artifactId>com.io7m.entomos.core</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.verona</groupId>
+        <artifactId>com.io7m.verona.core</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml</groupId>
+        <artifactId>classmate</artifactId>
+        <version>1.7.1</version>
       </dependency>
 
       <!-- Test suite -->

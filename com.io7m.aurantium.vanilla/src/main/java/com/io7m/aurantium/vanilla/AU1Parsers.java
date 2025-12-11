@@ -16,10 +16,15 @@
 
 package com.io7m.aurantium.vanilla;
 
+import com.io7m.aurantium.api.AUIdentifiers;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.aurantium.parser.api.AUParserFactoryType;
 import com.io7m.aurantium.parser.api.AUParserType;
 import com.io7m.aurantium.vanilla.internal.AU1Parser;
+import com.io7m.aurantium.vanilla.internal.AUFileFormats;
+import com.io7m.entomos.core.EoException;
+import com.io7m.entomos.core.EoFileReaderType;
+import com.io7m.entomos.core.EoFileReadersChecked;
 import com.io7m.jbssio.api.BSSReaderProviderType;
 import com.io7m.seltzer.io.SIOException;
 
@@ -34,6 +39,7 @@ import java.util.ServiceLoader;
 public final class AU1Parsers implements AUParserFactoryType
 {
   private final BSSReaderProviderType readers;
+  private final EoFileReadersChecked fileReaders;
 
   /**
    * A parser factory supporting major version 1.
@@ -53,7 +59,10 @@ public final class AU1Parsers implements AUParserFactoryType
   public AU1Parsers(
     final BSSReaderProviderType inReaders)
   {
-    this.readers = Objects.requireNonNull(inReaders, "readers");
+    this.readers =
+      Objects.requireNonNull(inReaders, "readers");
+    this.fileReaders =
+      new EoFileReadersChecked(this.readers);
   }
 
   private static BSSReaderProviderType loadReadersFromServiceLoader()
@@ -82,12 +91,28 @@ public final class AU1Parsers implements AUParserFactoryType
     final AUParseRequest request)
     throws SIOException
   {
-    return new AU1Parser(
-      request,
-      this.readers.createReaderFromChannel(
+    final EoFileReaderType fileReader;
+    try {
+      fileReader = this.fileReaders.forChannel(
         request.source(),
+        AUIdentifiers.fileIdentifier(),
+        AUIdentifiers.sectionEndIdentifier(),
         request.channel(),
-        "root")
+        AUFileFormats.fileFormats()
+      );
+    } catch (final EoException e) {
+      throw new SIOException(
+        e,
+        e.errorCode(),
+        e.attributes(),
+        e.remediatingAction()
+      );
+    }
+
+    return new AU1Parser(
+      this.readers,
+      request,
+      fileReader
     );
   }
 }

@@ -22,7 +22,8 @@ package com.io7m.aurantium.api;
 
 public sealed interface AUSectionReadableStandardType
   extends AUSectionReadableType
-  permits AUSectionReadableClipsType,
+  permits AUSectionReadableClipDataType,
+  AUSectionReadableClipDefinitionsType,
   AUSectionReadableEndType,
   AUSectionReadableIdentifierType,
   AUSectionReadableKeyAssignmentsType,

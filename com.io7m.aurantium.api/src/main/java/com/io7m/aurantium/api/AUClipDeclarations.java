@@ -16,6 +16,7 @@
 
 package com.io7m.aurantium.api;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,5 +50,9 @@ public record AUClipDeclarations(
       }
       declarationPrevious = declaration;
     }
+
+    declarations = declarations.stream()
+      .sorted(Comparator.comparing(AUClipDeclaration::id))
+      .toList();
   }
 }

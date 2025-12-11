@@ -21,10 +21,12 @@ import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUSectionReadableIdentifierType;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
-import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.jbssio.api.BSSReaderProviderType;
 import com.io7m.lanark.core.RDottedName;
+import com.io7m.seltzer.io.SIOException;
 
 import java.io.IOException;
+import java.nio.channels.SeekableByteChannel;
 
 /**
  * A readable identifier section.
@@ -36,55 +38,40 @@ public final class AU1SectionReadableIdentifier
   /**
    * A readable identifier section.
    *
+   * @param readers       The reader provider
    * @param inDescription The description
    * @param inReader      The reader
    * @param inRequest     The request
    */
 
   AU1SectionReadableIdentifier(
-    final BSSReaderRandomAccessType inReader,
+    final BSSReaderProviderType readers,
+    final SeekableByteChannel inReader,
     final AUParseRequest inRequest,
     final AUFileSectionDescription inDescription)
+    throws SIOException
   {
-    super(inReader, inRequest, inDescription);
+    super(readers, inReader, inRequest, inDescription);
   }
 
   @Override
   public AUIdentifier identifier()
     throws IOException
   {
+    final var e =
+      this.expressions();
     final var reader =
-      this.reader();
-    final var fileOffset =
-      this.fileSectionDescription().fileOffset();
-    final var sectionSize =
-      this.description().size();
-
-    reader.seekTo(fileOffset);
-    reader.skip(16L);
-
-    final String name;
-    final int major;
-    final int minor;
-
-    try (var subReader =
-           reader.createSubReaderAtBounded(
-             "identifier", 0L, sectionSize)) {
-
-      final var e = this.expressions();
-
-      name = e.readUTF8(
-        subReader,
-        Math.toIntExact(this.request().descriptorLengthLimit()),
-        "name"
-      );
-      major = (int) e.readU32(subReader, "versionMajor");
-      minor = (int) e.readU32(subReader, "versionMinor");
-    }
+      this.sectionDataReader();
+    final var name =
+      e.readUTF8(reader, (int) this.description().size(), "Name");
+    final var major =
+      e.readU32(reader, "VersionMajor");
+    final var minor =
+      e.readU32(reader, "VersionMinor");
 
     return new AUIdentifier(
       new RDottedName(name),
-      new AUVersion(major, minor)
+      new AUVersion((int) major, (int) minor)
     );
   }
 }

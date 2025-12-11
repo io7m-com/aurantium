@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="JSON Expressions"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      The <Term type="package">aurantium</Term> binary encoding embeds
+      <LinkExternal target="https://www.json.org/">JSON</LinkExternal>
+      text into the file format for complex structured data. This section of the
+      specification defines a formal model for JSON expressions, and describes
+      how those expressions are converted to text.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Expressions"
+              id="9f50e748-1651-4ac3-944b-909267e4ec03">
+    <Paragraph>
+      A <Term type="term">JSON expression</Term> is a value of the
+      <Term type="type">json</Term>
+      type:
+    </Paragraph>
+    <FormalItem title="JSON Expression"
+                id="101776b7-f581-4ad0-8016-c16ac802040e">
+      <Verbatim>
+        <xi:include href="18000.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      An expression <Term type="expression">JsonBoolean b</Term> represents a
+      boolean constant <Term type="expression">b</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JsonInteger n</Term> represents an
+      integer constant <Term type="expression">n</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JsonFloat</Term> represents a
+      floating-point constant
+      <LinkFootnote target="cd1b1818-7e47-4830-92ac-a27a1ac826cf"/>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JsonString s</Term> represents a
+      string constant <Term type="expression">s</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JsonObject o</Term> represents a
+      JSON object with properties <Term type="expression">o</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JsonArray a</Term> represents a JSON
+      array with values <Term type="expression">a</Term>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Tokens"
+              id="5d92ab0c-fd17-4e2c-b7e3-06266459966e">
+    <Paragraph>
+      In order to serialize a
+      <Link target="9f50e748-1651-4ac3-944b-909267e4ec03">JSON expression</Link>
+      , we convert the expression to a sequence of
+      <Term type="term">JSON tokens</Term>. A
+      <Term type="term">JSON token</Term>
+      is a value of type
+      <Term type="type">jsonToken</Term>:
+    </Paragraph>
+    <FormalItem title="JSON Token"
+                id="05b4e0aa-b262-49f6-a6a2-72944c1d5c87">
+      <Verbatim>
+        <xi:include href="18001.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      An expression <Term type="expression">JTTrue</Term> represents a boolean
+      constant <Term type="expression">true</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTFalse</Term> represents a boolean
+      constant <Term type="expression">false</Term> .
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTInteger n</Term> represents an
+      integer constant <Term type="expression">n</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTFloat</Term> represents a floating
+      point constant
+      <LinkFootnote target="cd1b1818-7e47-4830-92ac-a27a1ac826cf"/>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTString s</Term> represents a
+      string constant <Term type="expression">s</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTObjectStart</Term> represents a
+      character constant <Term type="expression">{ U+007B</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTObjectEnd</Term> represents a
+      character constant <Term type="expression">} U+007D</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTEquals</Term> represents a
+      character constant <Term type="expression">= U+003D</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTComma</Term> represents a
+      character constant <Term type="expression">, U+002C</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTArrayStart</Term> represents a
+      character constant <Term type="expression">[ U+005B</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">JTArrayEnd</Term> represents a
+      character constant <Term type="expression">] U+005D</Term>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Token (Strings)"
+              id="2bd2342d-567a-43ee-9ad4-42cc62bdcfe7">
+    <Paragraph>
+      A token is converted to a string via the
+      <Term type="expression">jsonStringOne</Term>
+      function:
+    </Paragraph>
+    <FormalItem title="JSON Token String"
+                id="9ef1fee7-1875-4976-a2b2-bb7f36d205ce">
+      <Verbatim>
+        <xi:include href="18002.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Serialization"
+              id="6e1e5d6c-976e-4fe3-9a4f-8892c5af8981">
+    <Paragraph>
+      Given a
+      <Link target="9f50e748-1651-4ac3-944b-909267e4ec03">JSON expression</Link>
+      <Term type="expression">j</Term>, we can serialize
+      <Term type="expression">j</Term>
+      to a sequence of
+      <Link target="5d92ab0c-fd17-4e2c-b7e3-06266459966e">JSON tokens</Link>
+      by evaluating
+      <Term type="expression">jsonSerialize j</Term>, defined as:
+    </Paragraph>
+    <FormalItem title="JSON Serialize"
+                id="ff26eb72-f426-4f01-8544-4ed1d712b269">
+      <Verbatim>
+        <xi:include href="18003.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The <Term type="expression">jsonComma</Term> function is defined as:
+    </Paragraph>
+    <FormalItem title="JSON Comma"
+                id="2e45f904-b71e-4469-958e-47ce01fca2a3">
+      <Verbatim>
+        <xi:include href="18004.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Expression -> String"
+              id="f3c88150-a9f1-4361-bbc1-f9a2444c4813">
+    <Paragraph>
+      Given an initial
+      <Link target="9f50e748-1651-4ac3-944b-909267e4ec03">JSON expression</Link>
+      , the full serialization process to convert the expression to text is
+      defined as the
+      <Term type="expression">jsonSerializeString</Term>
+      function:
+    </Paragraph>
+    <FormalItem title="JSON Serialize"
+                id="3a44222b-799e-45e0-9c8e-dd2c03f8b951">
+      <Verbatim>
+        <xi:include href="18005.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Clips"
+              id="e2235867-a9d7-492d-aac8-56546b8b90bc">
+    <Paragraph>
+      A
+      <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clip</Link>
+      is serialized to a JSON expression as follows:
+    </Paragraph>
+    <FormalItem title="Clips (JSON)"
+                id="75273357-29a5-431e-954c-deadeec49dfc">
+      <Verbatim>
+        <xi:include href="18006.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      A
+      <Term type="term">loop range</Term>
+      is serialized to a JSON expression as follows:
+    </Paragraph>
+    <FormalItem title="Clips (Loop Range [Optional])"
+                id="14776e1f-411d-499c-a5b8-cb6fb0493b44">
+      <Verbatim>
+        <xi:include href="18007.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Clips (Loop Range)"
+                id="7472c8bb-b086-4046-9012-d06ba1929049">
+      <Verbatim>
+        <xi:include href="18008.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      A
+      <Link target="be55d457-fc8c-4b2c-b456-a727816f9751">hash value</Link>
+      is serialized to a JSON expression as follows:
+    </Paragraph>
+    <FormalItem title="Clips (Hash)"
+                id="a8de6717-426c-4001-94c8-e64bbdab7d6c">
+      <Verbatim>
+        <xi:include href="18009.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The top-level object that contains the full set of
+      <Term type="term">clips</Term>
+      is serialized to a JSON expression as follows:
+    </Paragraph>
+    <FormalItem title="Clips (Container)"
+                id="5d5ef8d2-369a-4de3-970c-5ee2caa43ae9">
+      <Verbatim>
+        <xi:include href="18010.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Key Assignments"
+              id="5cd14d83-2d32-48ff-ad6e-76af69947f60">
+    <Paragraph>
+      A
+      <Link target="31ea3dcf-0dd7-4653-929b-295a33775f4f">key assignment</Link>
+      is serialized to a JSON expression as follows:
+    </Paragraph>
+    <FormalItem title="Key Assignments (JSON)"
+                id="a7bfe3c2-7b46-4fdd-9020-fec2da03b034">
+      <Verbatim>
+        <xi:include href="18011.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Key Assignments (Flags)"
+                id="125d0f94-75a3-4ec0-864c-2df7d173a3e9">
+      <Verbatim>
+        <xi:include href="18012.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The top-level object that contains the full set of
+      <Term type="term">key assignments</Term>
+      is serialized to a JSON expression as follows:
+    </Paragraph>
+    <FormalItem title="Key Assignments (Container)"
+                id="4c9f8115-1fb7-44ab-bb2d-4e9fc0f72a34">
+      <Verbatim>
+        <xi:include href="18013.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Metadata"
+              id="6aabae38-78e8-4490-96a5-0902a8ce9333">
+    <Paragraph>
+      <Link target="40f048bd-8c93-4086-9758-a91849d2aa6f">Metadata</Link>
+      is serialized to a JSON expression as follows:
+    </Paragraph>
+    <FormalItem title="Metadata (JSON)"
+                id="3d667836-3b59-4b8f-8da3-abacf433f876">
+      <Verbatim>
+        <xi:include href="18014.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The top-level object that contains the full set of
+      <Term type="term">metadata</Term>
+      is serialized to a JSON expression as follows:
+    </Paragraph>
+    <FormalItem title="Metadata (Container)"
+                id="d1a24cea-aeba-4efa-bbc7-d521907bbe7d">
+      <Verbatim>
+        <xi:include href="18015.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Schema"
+              id="65adbee7-bfb9-451e-a97a-ecd970b1fb8f">
+    <Paragraph>
+      The serialized objects described in this section will conform to the
+      following
+      <LinkExternal target="https://json-schema.org/">JSON schema</LinkExternal>:
+    </Paragraph>
+    <FormalItem title="Schema"
+                id="5a05fa81-1eeb-4275-b1fb-c6e79c74c028">
+      <Verbatim>
+        <xi:include href="schema.json"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Footnote id="cd1b1818-7e47-4830-92ac-a27a1ac826cf">
+    Please note that, due to limitations in the specification language and
+    libraries, we currently cannot express actual floating point values. We
+    therefore substitute a single
+    <Term type="expression">JsonFloat</Term>
+    value in the specification to conceptually represent the full set of values
+    expressible as IEEE754 binary64 values.
+  </Footnote>
+
+</Section>

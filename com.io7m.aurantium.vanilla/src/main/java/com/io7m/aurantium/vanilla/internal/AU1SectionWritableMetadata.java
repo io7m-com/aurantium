@@ -18,6 +18,8 @@ package com.io7m.aurantium.vanilla.internal;
 
 import com.io7m.aurantium.api.AUSectionWritableMetadataType;
 import com.io7m.aurantium.api.AUSectionWritableType;
+import com.io7m.aurantium.vanilla.internal.json.AU1Mappers;
+import com.io7m.aurantium.vanilla.internal.json.AU1Metadata;
 import com.io7m.aurantium.writer.api.AUWriteRequest;
 import com.io7m.jbssio.api.BSSWriterProviderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
@@ -26,8 +28,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import static java.lang.Integer.toUnsignedLong;
+import java.util.TreeMap;
 
 /**
  * A writable metadata section.
@@ -72,18 +73,12 @@ public final class AU1SectionWritableMetadata
       try (var writer =
              this.writers.createWriterFromChannel(
                targetURI, channel, "metadata")) {
-
         final var e = this.expressions();
-        e.writeU32(writer, "count", toUnsignedLong(metadata.size()));
-
-        for (final var entry : metadata.entrySet()) {
-          final var key = entry.getKey();
-          final var values = entry.getValue();
-          for (final var value : values) {
-            e.writeUTF8(writer, key);
-            e.writeUTF8(writer, value);
-          }
-        }
+        final var mapper = AU1Mappers.mapper();
+        final var data = mapper.writeValueAsBytes(
+          new AU1Metadata(AU1Mappers.SCHEMA_1, new TreeMap<>(metadata))
+        );
+        e.writeBytes(writer, "Data", data);
       }
     }
   }

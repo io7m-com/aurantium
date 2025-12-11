@@ -23,6 +23,8 @@ import com.io7m.aurantium.parser.api.AUParsers;
 import com.io7m.aurantium.validation.api.AUValidationRequest;
 import com.io7m.aurantium.validation.api.AUValidatorType;
 import com.io7m.aurantium.validation.api.AUValidators;
+import com.io7m.seltzer.io.SIOException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -139,106 +141,6 @@ public final class AUValidatorTest
           this.createValidator(auFile, file);
 
         assertEquals(List.of(), validator.execute());
-      }
-    }
-  }
-
-  @Test
-  public void testEndMissing(
-    final @TempDir Path directory)
-    throws Exception
-  {
-    final var file =
-      resource(directory, "end-missing.aam");
-
-    try (var channel = FileChannel.open(file, READ)) {
-      final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
-
-      try (var parser = this.parsers.createParser(request)) {
-        final var auFile =
-          parser.execute();
-        final var validator =
-          this.createValidator(auFile, file);
-
-        final var errors = validator.execute();
-        assertEquals("Missing an end section.", errors.get(0).message());
-        assertEquals(1, errors.size());
-      }
-    }
-  }
-
-  @Test
-  public void testEndWrongSize(
-    final @TempDir Path directory)
-    throws Exception
-  {
-    final var file =
-      resource(directory, "end-wrong-size.aam");
-
-    try (var channel = FileChannel.open(file, READ)) {
-      final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
-
-      try (var parser = this.parsers.createParser(request)) {
-        final var auFile =
-          parser.execute();
-        final var validator =
-          this.createValidator(auFile, file);
-
-        final var errors = validator.execute();
-        assertEquals("The end section is of a non-zero size (16).", errors.get(0).message());
-        assertEquals(1, errors.size());
-      }
-    }
-  }
-
-  @Test
-  public void testEndTrailing(
-    final @TempDir Path directory)
-    throws Exception
-  {
-    final var file =
-      resource(directory, "end-trailing.aam");
-
-    try (var channel = FileChannel.open(file, READ)) {
-      final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
-
-      try (var parser = this.parsers.createParser(request)) {
-        final var auFile =
-          parser.execute();
-        final var validator =
-          this.createValidator(auFile, file);
-
-        final var errors = validator.execute();
-        assertEquals("File has 16 octets of trailing data.", errors.get(0).message());
-        assertEquals(1, errors.size());
-      }
-    }
-  }
-
-  @Test
-  public void testUnaligned(
-    final @TempDir Path directory)
-    throws Exception
-  {
-    final var file =
-      resource(directory, "unaligned.aam");
-
-    try (var channel = FileChannel.open(file, READ)) {
-      final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
-
-      try (var parser = this.parsers.createParser(request)) {
-        final var auFile =
-          parser.execute();
-        final var validator =
-          this.createValidator(auFile, file);
-
-        final var errors = validator.execute();
-        assertEquals("Section 0x4155524d454e4421 is not correctly aligned (@ 0x6c)", errors.get(0).message());
-        assertEquals(1, errors.size());
       }
     }
   }

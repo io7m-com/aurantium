@@ -20,11 +20,16 @@ package com.io7m.aurantium.vanilla.internal;
 import com.io7m.aurantium.api.AUFileSectionDescription;
 import com.io7m.aurantium.api.AUSectionReadableMetadataType;
 import com.io7m.aurantium.parser.api.AUParseRequest;
-import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.aurantium.vanilla.internal.json.AU1Mappers;
+import com.io7m.aurantium.vanilla.internal.json.AU1Metadata;
+import com.io7m.jbssio.api.BSSReaderProviderType;
+import com.io7m.seltzer.io.SIOException;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
+import tools.jackson.core.type.TypeReference;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.nio.channels.Channels;
+import java.nio.channels.SeekableByteChannel;
 import java.util.List;
 import java.util.Map;
 
@@ -38,17 +43,20 @@ public final class AU1SectionReadableMetadata
   /**
    * A readable metadata section.
    *
+   * @param readers       The reader provider
    * @param inDescription The description
    * @param inReader      The reader
    * @param inRequest     The request
    */
 
   AU1SectionReadableMetadata(
-    final BSSReaderRandomAccessType inReader,
+    final BSSReaderProviderType readers,
+    final SeekableByteChannel inReader,
     final AUParseRequest inRequest,
     final AUFileSectionDescription inDescription)
+    throws SIOException
   {
-    super(inReader, inRequest, inDescription);
+    super(readers, inReader, inRequest, inDescription);
   }
 
   @Override
@@ -56,46 +64,23 @@ public final class AU1SectionReadableMetadata
     throws IOException
   {
     final var reader =
-      this.reader();
-    final var fileOffset =
-      this.fileSectionDescription().fileOffset();
-    final var sectionSize =
-      this.description().size();
+      this.sectionDataReader();
+    final var size =
+      reader.readU32BE("Size");
+    final var mapper =
+      AU1Mappers.mapper();
 
-    reader.seekTo(fileOffset);
-    reader.skip(16L);
-
-    final var metadata = new HashMap<String, List<String>>();
-    try (var subReader =
-           reader.createSubReaderAtBounded(
-             "metadata", 0L, sectionSize)) {
-
-      if (subReader.bytesRemaining().orElse(0L) == 0L) {
-        return Map.of();
-      }
-
-      final int count =
-        (int) (subReader.readU32BE("count") & 0xffff_ffffL);
-
-      final var e =
-        this.expressions();
-      final var limit =
-        (int) this.request().keyValueDatumLimit();
-
-      for (int index = 0; index < count; ++index) {
-        final var key =
-          e.readUTF8(subReader, limit, "key");
-        final var val =
-          e.readUTF8(subReader, limit, "value");
-
-        List<String> values = metadata.get(key);
-        if (values == null) {
-          values = new ArrayList<>();
-        }
-        values.add(val);
-        metadata.put(key, values);
+    final var baseChannel = this.sectionDataChannel();
+    try (var bounded =
+           new SubrangeSeekableByteChannel(baseChannel, 4L, size)) {
+      try (var stream = Channels.newInputStream(bounded)) {
+        return mapper.readValue(
+          stream,
+          new TypeReference<AU1Metadata>()
+          {
+          }
+        ).metadata();
       }
     }
-    return Map.copyOf(metadata);
   }
 }

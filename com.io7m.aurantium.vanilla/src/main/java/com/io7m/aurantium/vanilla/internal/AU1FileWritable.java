@@ -32,7 +32,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsDataIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsDescriptionsIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionEndIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionIdentifierIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionKeyAssignmentsIdentifier;
@@ -143,8 +144,8 @@ public final class AU1FileWritable implements AUFileWritableType
         this::onSectionClosed
       );
     }
-    if (identifier == sectionClipsIdentifier()) {
-      return new AU1SectionWritableClips(
+    if (identifier == sectionKeyAssignmentsIdentifier()) {
+      return new AU1SectionWritableKeyAssignments(
         this.writers,
         this.writer,
         this.request,
@@ -152,8 +153,17 @@ public final class AU1FileWritable implements AUFileWritableType
         this::onSectionClosed
       );
     }
-    if (identifier == sectionKeyAssignmentsIdentifier()) {
-      return new AU1SectionWritableKeyAssignments(
+    if (identifier == sectionClipsDataIdentifier()) {
+      return new AU1SectionWritableClipsData(
+        this.writers,
+        this.writer,
+        this.request,
+        identifier,
+        this::onSectionClosed
+      );
+    }
+    if (identifier == sectionClipsDescriptionsIdentifier()) {
+      return new AU1SectionWritableClipsDescriptions(
         this.writers,
         this.writer,
         this.request,

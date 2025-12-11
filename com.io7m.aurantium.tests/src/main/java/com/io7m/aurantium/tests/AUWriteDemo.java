@@ -18,14 +18,15 @@ package com.io7m.aurantium.tests;
 
 import com.io7m.aurantium.api.AUClipDeclaration;
 import com.io7m.aurantium.api.AUClipDeclarations;
+import com.io7m.aurantium.api.AUClipDescription;
 import com.io7m.aurantium.api.AUClipID;
+import com.io7m.aurantium.api.AUClipLoopRange;
 import com.io7m.aurantium.api.AUHashValue;
 import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUKeyAssignment;
 import com.io7m.aurantium.api.AUKeyAssignmentID;
 import com.io7m.aurantium.api.AUKeyAssignments;
 import com.io7m.aurantium.api.AUOctetOrder;
-import com.io7m.aurantium.api.AUSectionReadableClipsType;
 import com.io7m.aurantium.api.AUSectionReadableMetadataType;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
@@ -42,7 +43,9 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.SortedMap;
 
 import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearFloat;
 import static com.io7m.aurantium.api.AUHashAlgorithm.HA_SHA256;
@@ -66,7 +69,7 @@ public final class AUWriteDemo
 
   }
 
-  public static void main(
+  static void main(
     final String[] args)
     throws Exception
   {
@@ -100,35 +103,40 @@ public final class AUWriteDemo
         ));
       }
 
-      try (var section = writable.createSectionClips()) {
-        final var clips = section.createClips(
-          new AUClipDeclarations(
-            List.of(
-              new AUClipDeclaration(
-                CLIP_0,
-                "0.wav",
-                AFPCMLinearFloat,
-                48000L,
-                32L,
-                1L,
-                BIG_ENDIAN,
-                new AUHashValue(HA_SHA256, "b82485b383d706f0275c0c6ee8de62554458ec207cbf736b93c2c560ccc3a8fa"),
-                128L * 4L
-              ),
-              new AUClipDeclaration(
-                CLIP_1,
-                "1.wav",
-                AFPCMLinearFloat,
-                48000L,
-                32L,
-                1L,
-                AUOctetOrder.LITTLE_ENDIAN,
-                new AUHashValue(HA_SHA256, "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"),
-                128L * 4L
-              )
+      final var clipDeclarations =
+        new AUClipDeclarations(
+          List.of(
+            new AUClipDeclaration(
+              CLIP_0,
+              "0.wav",
+              AFPCMLinearFloat,
+              48000L,
+              32L,
+              1L,
+              BIG_ENDIAN,
+              new AUHashValue(HA_SHA256, "b82485b383d706f0275c0c6ee8de62554458ec207cbf736b93c2c560ccc3a8fa"),
+              128L * 4L,
+              Optional.of(new AUClipLoopRange(0L, 20L))
+            ),
+            new AUClipDeclaration(
+              CLIP_1,
+              "1.wav",
+              AFPCMLinearFloat,
+              48000L,
+              32L,
+              1L,
+              AUOctetOrder.LITTLE_ENDIAN,
+              new AUHashValue(HA_SHA256, "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"),
+              128L * 4L,
+              Optional.empty()
             )
           )
         );
+
+      final SortedMap<AUClipID, AUClipDescription> clipDescriptions;
+      try (var clipDataSection = writable.createSectionClipData()) {
+        final var clips = clipDataSection.createClips(clipDeclarations);
+        clipDescriptions = clips.clipDescriptions();
 
         try (var ch = clips.writeAudioDataForClip(CLIP_0)) {
           final var buf = ByteBuffer.allocate(128 * 4);
@@ -147,6 +155,10 @@ public final class AUWriteDemo
           }
           ch.write(buf);
         }
+      }
+
+      try (var clipDefsSection = writable.createSectionClipDefinitions()) {
+        clipDefsSection.writeClipDescriptions(clipDescriptions);
       }
 
       try (var section = writable.createSectionKeyAssignments()) {
@@ -214,36 +226,7 @@ public final class AUWriteDemo
         LOG.debug("section {}", section);
 
         try (var sectionReader = readable.openSection(section)) {
-          if (sectionReader instanceof AUSectionReadableMetadataType metadata) {
-            continue;
-          }
-
-          if (sectionReader instanceof AUSectionReadableClipsType clipsSection) {
-            final var clips = clipsSection.clips();
-
-            for (final var clip : clips) {
-              final var buffer = ByteBuffer.allocate((int) clip.size());
-              buffer.order(
-                switch (clip.endianness()) {
-                  case BIG_ENDIAN -> ByteOrder.BIG_ENDIAN;
-                  case LITTLE_ENDIAN -> ByteOrder.LITTLE_ENDIAN;
-                }
-              );
-
-              try (var data = clipsSection.audioDataForClip(clip)) {
-                data.read(buffer);
-                buffer.rewind();
-
-                final var floater = buffer.asFloatBuffer();
-                for (int index = 0; index < clip.samples(); ++index) {
-                  LOG.debug(
-                    "[{}] {}",
-                    Integer.valueOf(index),
-                    Float.valueOf(floater.get())
-                  );
-                }
-              }
-            }
+          if (sectionReader instanceof final AUSectionReadableMetadataType metadata) {
             continue;
           }
         }

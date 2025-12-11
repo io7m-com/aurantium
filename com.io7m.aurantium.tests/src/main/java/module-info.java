@@ -42,6 +42,8 @@ open module com.io7m.aurantium.tests
   requires net.jqwik.api;
   requires org.slf4j;
   requires java.desktop;
+  requires com.io7m.aurantium.api;
+  requires com.io7m.seltzer.io;
 
   exports com.io7m.aurantium.tests;
 }

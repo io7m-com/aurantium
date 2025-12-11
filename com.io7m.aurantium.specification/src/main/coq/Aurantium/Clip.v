@@ -69,6 +69,30 @@ Instance audioFormatDescribable : describable audioFormatType := {
   descriptorOf c := audioFormatDescribe c
 }.
 
+(**
+  A loop range value describes a region of the clip that represents
+  a good choice for looping audio.
+*)
+Inductive loopRange : Set := {
+  lrFrameStart        : nat;
+  lrFrameEndInclusive : nat
+}.
+
+Definition loopRangeInvariants (lr : loopRange) : Prop :=
+  (lrFrameStart lr) <= (lrFrameEndInclusive lr).
+
+Theorem loopRangeEqDec : forall (x y : loopRange),
+  {x = y}+{x <> y}.
+Proof.
+  intros x y.
+  destruct x; (
+    destruct y; (
+      try decide equality;
+      try decide equality
+    )
+  ).
+Qed.
+
 (** A description of a single audio clip. *)
 Inductive clip : Set := clipMake {
   (** The unique identifier for the clip. *)
@@ -90,16 +114,44 @@ Inductive clip : Set := clipMake {
   (** The offset of the first octet of audio data. *)
   clipOffset : nat;
   (** The size of the audio data in octets. *)
-  clipSize : nat
+  clipSize : nat;
+  (** An optional loop region. *)
+  clipLoopRange : option loopRange
 }.
 
+(**
+  The number of frames in a clip is equal to the size of the
+  audio in octets divided by the size of a sample in octets.
+*)
+Definition clipFrameCount (c : clip) : nat :=
+  (clipSize c) / (clipSampleDepth c / 8).
+
+(** A loop range is only valid for a given clip if the end frame
+    of the loop range is less than the number of frames in the clip. *)
+Definition clipFrameCountLoopRange
+  (c  : clip)
+  (lr : loopRange) 
+: Prop :=
+  (clipFrameCount c) < (lrFrameEndInclusive lr).
+
+(** A restatement of the loop range proposition for optional loop ranges. *)
+Definition clipFrameCountLoopRangeOption
+  (c  : clip)
+  (lr : option loopRange) 
+: Prop :=
+  match lr with
+  | Some r => clipFrameCountLoopRange c r
+  | None   => True
+  end.
+
 Definition clipInvariants (c : clip) : Prop :=
-     (clipId          c <= 4294967295)
-  /\ (clipSampleRate  c <= 4294967295)
-  /\ (clipSampleDepth c <= 4294967295)
-  /\ (clipChannels    c <= 4294967295)
-  /\ (clipOffset      c <= 18446744073709551615)
-  /\ (clipSize        c <= 18446744073709551615)
+     (clipId                        c <= 4294967295)
+  /\ (clipSampleRate                c <= 4294967295)
+  /\ (clipSampleDepth               c <= 4294967295)
+  /\ (clipChannels                  c <= 4294967295)
+  /\ (clipOffset                    c <= 18446744073709551615)
+  /\ (clipSize                      c <= 18446744073709551615)
+  /\ (clipFrameCountLoopRangeOption c (clipLoopRange c))
   .
 
 Theorem clipEqDec : forall (x y : clip),
@@ -112,7 +164,8 @@ Proof.
       try apply string_dec;
       try decide equality;
       try apply string_dec;
-      try apply hashValueEqDec
+      try apply hashValueEqDec;
+      try apply loopRangeEqDec
     )
   ).
   apply hashAlgorithmEqDec.

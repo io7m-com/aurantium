@@ -17,6 +17,7 @@
 package com.io7m.aurantium.api;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * A clip description.
@@ -31,6 +32,7 @@ import java.util.Objects;
  * @param hash        The hash value
  * @param offset      The audio offset
  * @param size        The audio size in octets
+ * @param loopRange   The clip loop range
  */
 
 public record AUClipDescription(
@@ -43,7 +45,8 @@ public record AUClipDescription(
   AUOctetOrder endianness,
   AUHashValue hash,
   long offset,
-  long size)
+  long size,
+  Optional<AUClipLoopRange> loopRange)
 {
   /**
    * A clip description.
@@ -58,6 +61,7 @@ public record AUClipDescription(
    * @param hash        The hash value
    * @param offset      The audio offset
    * @param size        The audio size in octets
+   * @param loopRange   The clip loop range
    */
 
   public AUClipDescription
@@ -67,6 +71,7 @@ public record AUClipDescription(
     Objects.requireNonNull(format, "format");
     Objects.requireNonNull(endianness, "endianness");
     Objects.requireNonNull(hash, "hash");
+    Objects.requireNonNull(loopRange, "loopRange");
 
     if (sampleRate == 0L) {
       throw new IllegalArgumentException("Sample rate must be non-zero.");
@@ -77,6 +82,20 @@ public record AUClipDescription(
     if (channels == 0L) {
       throw new IllegalArgumentException("Channels must be non-zero.");
     }
+
+    loopRange.ifPresent(range -> {
+      final var endInclusive = range.frameEndInclusive();
+      final var endMax = size / (sampleDepth >>> 3L);
+      if (Long.compareUnsigned(endInclusive, endMax) >= 0) {
+        throw new IllegalArgumentException(
+          "Loop range inclusive end %s must be < frame count %s"
+            .formatted(
+              Long.toUnsignedString(endInclusive),
+              Long.toUnsignedString(endMax)
+            )
+        );
+      }
+    });
   }
 
   /**

@@ -17,10 +17,12 @@
 package com.io7m.aurantium.api;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsDataIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsDescriptionsIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionEndIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionIdentifierIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionKeyAssignmentsIdentifier;
@@ -53,13 +55,15 @@ public interface AUFileReadableType extends Closeable
    */
 
   AUSectionReadableType openSection(
-    AUFileSectionDescription description);
+    AUFileSectionDescription description)
+    throws IOException;
 
   /**
    * @return The first available metadata section, if one exists
    */
 
   default Optional<AUSectionReadableMetadataType> openMetadata()
+    throws IOException
   {
     for (final var section : this.sections()) {
       final var description = section.description();
@@ -77,6 +81,7 @@ public interface AUFileReadableType extends Closeable
    */
 
   default Optional<AUSectionReadableEndType> openEnd()
+    throws IOException
   {
     for (final var section : this.sections()) {
       final var description = section.description();
@@ -94,6 +99,7 @@ public interface AUFileReadableType extends Closeable
    */
 
   default Optional<AUSectionReadableIdentifierType> openIdentifier()
+    throws IOException
   {
     for (final var section : this.sections()) {
       final var description = section.description();
@@ -107,27 +113,11 @@ public interface AUFileReadableType extends Closeable
   }
 
   /**
-   * @return The first available clips section, if one exists
-   */
-
-  default Optional<AUSectionReadableClipsType> openClips()
-  {
-    for (final var section : this.sections()) {
-      final var description = section.description();
-      if (description.identifier() == sectionClipsIdentifier()) {
-        return Optional.of(
-          (AUSectionReadableClipsType) this.openSection(section)
-        );
-      }
-    }
-    return Optional.empty();
-  }
-
-  /**
    * @return The first available key assignments section, if one exists
    */
 
   default Optional<AUSectionReadableKeyAssignmentsType> openKeyAssignments()
+    throws IOException
   {
     for (final var section : this.sections()) {
       final var description = section.description();
@@ -141,11 +131,38 @@ public interface AUFileReadableType extends Closeable
   }
 
   /**
-   * Obtain the number of trailing octets in the file. This value should always
-   * be zero for valid files.
-   *
-   * @return The number of trailing octets
+   * @return The first available clip data section, if one exists
    */
 
-  long trailingOctets();
+  default Optional<AUSectionReadableClipDataType> openClipData()
+    throws IOException
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionClipsDataIdentifier()) {
+        return Optional.of(
+          (AUSectionReadableClipDataType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * @return The first available clip data section, if one exists
+   */
+
+  default Optional<AUSectionReadableClipDefinitionsType> openClipDefinitions()
+    throws IOException
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionClipsDescriptionsIdentifier()) {
+        return Optional.of(
+          (AUSectionReadableClipDefinitionsType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
 }

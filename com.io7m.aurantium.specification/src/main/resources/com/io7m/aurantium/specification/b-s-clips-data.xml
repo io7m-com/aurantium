@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Clip Data"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="926f27c5-5c01-4765-b7ba-c6a25ce3d945"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Description">
+    <Paragraph id="02543331-0772-45d9-ba86-a4b3477db70e">
+      The <Term type="term">clips data</Term> section holds all audio data
+      for
+      <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clips</Link>
+      present in the audio map.
+    </Paragraph>
+
+    <Paragraph>
+      Informally, the audio data for each clip is stored in the order specified
+      by the clip descriptions. For the sake of not formalizing
+      every possible type of audio data, this specification treats the audio
+      data as opaque reserved space:
+    </Paragraph>
+
+    <FormalItem title="Clip Data Section Encoding">
+      <Verbatim>
+        <xi:include href="12087.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Clip Data Section Encoding">
+      <Verbatim>
+        <xi:include href="12088.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      A <Term type="term">clips data</Term> section must appear in a
+      <Term type="package">aurantium</Term> audio map file exactly once.
+    </Paragraph>
+  </Subsection>
+
+</Section>

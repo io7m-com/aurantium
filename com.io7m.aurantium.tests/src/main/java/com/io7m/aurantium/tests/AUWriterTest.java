@@ -19,6 +19,7 @@ package com.io7m.aurantium.tests;
 
 import com.io7m.aurantium.api.AUClipDeclaration;
 import com.io7m.aurantium.api.AUClipDeclarations;
+import com.io7m.aurantium.api.AUClipDescription;
 import com.io7m.aurantium.api.AUFileReadableType;
 import com.io7m.aurantium.api.AUFileSectionDescription;
 import com.io7m.aurantium.api.AUFileWritableType;
@@ -41,6 +42,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import static java.nio.file.StandardOpenOption.READ;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -107,8 +110,8 @@ public final class AUWriterTest
       final var parser0 =
         resources.add(this.parsers.createParser(readRequest0));
 
-      final var rFile0 = parser0.execute();
-      assertEquals(0L, rFile0.trailingOctets());
+      final var rFile0 =
+        parser0.execute();
 
       final var chWrite =
         resources.add(FileChannel.open(fileOut, OPEN_OPTIONS));
@@ -134,8 +137,10 @@ public final class AUWriterTest
         final var id = section.description().identifier();
         if (id == AUIdentifiers.sectionIdentifierIdentifier()) {
           copyIdentifierSection(rFile0, wFile);
-        } else if (id == AUIdentifiers.sectionClipsIdentifier()) {
-          copyClipsSection(rFile0, wFile);
+        } else if (id == AUIdentifiers.sectionClipsDataIdentifier()) {
+          copyClipsDataSection(rFile0, wFile);
+        } else if (id == AUIdentifiers.sectionClipsDescriptionsIdentifier()) {
+          copyClipsDefinitionsSection(rFile0, wFile);
         } else if (id == AUIdentifiers.sectionMetadataIdentifier()) {
           copyMetadataSection(rFile0, wFile);
         } else if (id == AUIdentifiers.sectionKeyAssignmentsIdentifier()) {
@@ -162,14 +167,15 @@ public final class AUWriterTest
         resources.add(this.parsers.createParser(readRequest1));
 
       final var rFile1 = parser1.execute();
-      assertEquals(0L, rFile1.trailingOctets());
 
       for (final var section : rFile1.sections()) {
         final var id = section.description().identifier();
         if (id == AUIdentifiers.sectionIdentifierIdentifier()) {
           compareIdentifierSection(rFile0, rFile1);
-        } else if (id == AUIdentifiers.sectionClipsIdentifier()) {
-          compareClipsSection(rFile0, rFile1);
+        } else if (id == AUIdentifiers.sectionClipsDataIdentifier()) {
+          compareClipsDataSection(rFile0, rFile1);
+        } else if (id == AUIdentifiers.sectionClipsDescriptionsIdentifier()) {
+          compareClipsDefinitionsSection(rFile0, rFile1);
         } else if (id == AUIdentifiers.sectionMetadataIdentifier()) {
           compareMetadataSection(rFile0, rFile1);
         } else if (id == AUIdentifiers.sectionKeyAssignmentsIdentifier()) {
@@ -260,13 +266,13 @@ public final class AUWriterTest
     }
   }
 
-  private static void compareClipsSection(
+  private static void compareClipsDefinitionsSection(
     final AUFileReadableType rFile0,
     final AUFileReadableType rFile1)
     throws Exception
   {
-    try (var r0 = rFile0.openClips().orElseThrow()) {
-      try (var r1 = rFile1.openClips().orElseThrow()) {
+    try (var r0 = rFile0.openClipDefinitions().orElseThrow()) {
+      try (var r1 = rFile1.openClipDefinitions().orElseThrow()) {
         assertEquals(
           r0.description(),
           r1.description()
@@ -275,21 +281,33 @@ public final class AUWriterTest
           r0.clips(),
           r1.clips()
         );
+      }
+    }
+  }
 
-        for (final var clip : r0.clips()) {
-          final var data0 =
-            r0.audioDataForClip(clip);
-          final var data1 =
-            r1.audioDataForClip(clip);
-          final var buffer0 =
-            new byte[(int) data0.size()];
-          final var buffer1 =
-            new byte[(int) data1.size()];
+  private static void compareClipsDataSection(
+    final AUFileReadableType rFile0,
+    final AUFileReadableType rFile1)
+    throws Exception
+  {
+    try (var res = CloseableCollection.create()) {
+      final var r00 = res.add(rFile0.openClipDefinitions().orElseThrow());
+      final var r01 = res.add(rFile0.openClipData().orElseThrow());
+      final var r11 = res.add(rFile1.openClipData().orElseThrow());
 
-          data0.read(ByteBuffer.wrap(buffer0));
-          data1.read(ByteBuffer.wrap(buffer1));
-          assertArrayEquals(buffer0, buffer1);
-        }
+      for (final var clip : r00.clips()) {
+        final var data0 =
+          r01.audioDataForClip(clip);
+        final var data1 =
+          r11.audioDataForClip(clip);
+        final var buffer0 =
+          new byte[(int) data0.size()];
+        final var buffer1 =
+          new byte[(int) data1.size()];
+
+        data0.read(ByteBuffer.wrap(buffer0));
+        data1.read(ByteBuffer.wrap(buffer1));
+        assertArrayEquals(buffer0, buffer1);
       }
     }
   }
@@ -362,51 +380,77 @@ public final class AUWriterTest
     }
   }
 
-  private static void copyClipsSection(
+  private static void copyClipsDataSection(
     final AUFileReadableType rFile,
     final AUFileWritableType wFile)
     throws Exception
   {
-    try (var rSect = rFile.openClips().orElseThrow()) {
-      try (var wSect = wFile.createSectionClips()) {
-        final var rClips =
-          rSect.clips();
-        final var rClipDecls =
-          new ArrayList<AUClipDeclaration>(rClips.size());
+    try (var res = CloseableCollection.create()) {
+      final var rSect0 =
+        res.add(rFile.openClipData().orElseThrow());
+      final var rSect1 =
+        res.add(rFile.openClipDefinitions().orElseThrow());
+      final var wSect =
+        res.add(wFile.createSectionClipData());
 
-        for (final var clip : rClips) {
-          rClipDecls.add(new AUClipDeclaration(
-            clip.id(),
-            clip.name(),
-            clip.format(),
-            clip.sampleRate(),
-            clip.sampleDepth(),
-            clip.channels(),
-            clip.endianness(),
-            clip.hash(),
-            clip.size()
-          ));
-        }
+      final var rClips =
+        rSect1.clips();
+      final var rClipDecls =
+        new ArrayList<AUClipDeclaration>(rClips.size());
 
-        final var writer =
-          wSect.createClips(new AUClipDeclarations(rClipDecls));
+      for (final var clip : rClips) {
+        rClipDecls.add(new AUClipDeclaration(
+          clip.id(),
+          clip.name(),
+          clip.format(),
+          clip.sampleRate(),
+          clip.sampleDepth(),
+          clip.channels(),
+          clip.endianness(),
+          clip.hash(),
+          clip.size(),
+          clip.loopRange()
+        ));
+      }
 
-        for (int index = 0; index < rClips.size(); ++index) {
-          final var rClip =
-            rClips.get(index);
+      final var writer =
+        wSect.createClips(new AUClipDeclarations(rClipDecls));
 
-          try (var rData = rSect.audioDataForClip(rClip)) {
-            try (var wData = writer.writeAudioDataForClip(rClip.id())) {
-              final var buffer =
-                ByteBuffer.allocate((int) rData.size());
+      for (int index = 0; index < rClips.size(); ++index) {
+        final var rClip =
+          rClips.get(index);
 
-              rData.read(buffer);
-              buffer.flip();
-              wData.write(buffer);
-            }
+        try (var rData = rSect0.audioDataForClip(rClip)) {
+          try (var wData = writer.writeAudioDataForClip(rClip.id())) {
+            final var buffer =
+              ByteBuffer.allocate((int) rData.size());
+
+            rData.read(buffer);
+            buffer.flip();
+            wData.write(buffer);
           }
         }
       }
+    }
+  }
+
+
+  private static void copyClipsDefinitionsSection(
+    final AUFileReadableType rFile,
+    final AUFileWritableType wFile)
+    throws Exception
+  {
+    try (var res = CloseableCollection.create()) {
+      final var rSect0 =
+        res.add(rFile.openClipDefinitions().orElseThrow());
+      final var wSect =
+        res.add(wFile.createSectionClipDefinitions());
+      final var clips =
+        rSect0.clips()
+          .stream()
+          .collect(Collectors.toMap(AUClipDescription::id, d -> d));
+
+      wSect.writeClipDescriptions(new TreeMap<>(clips));
     }
   }
 

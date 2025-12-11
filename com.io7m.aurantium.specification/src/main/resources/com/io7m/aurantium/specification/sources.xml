@@ -19,6 +19,9 @@
   <FormalItem title="Aurantium/Binary.v" id="27604793-b995-5d54-bb75-408aacfb60a9">
     <Verbatim><xi:include href="Aurantium/Binary.v" parse="text"/></Verbatim>
   </FormalItem>
+  <FormalItem title="Aurantium/BinaryData.v" id="9ba175e8-c2af-579f-9982-af1e2d82c39f">
+    <Verbatim><xi:include href="Aurantium/BinaryData.v" parse="text"/></Verbatim>
+  </FormalItem>
   <FormalItem title="Aurantium/Clip.v" id="d492b6c2-b8c0-5a72-b73c-dcd208d14894">
     <Verbatim><xi:include href="Aurantium/Clip.v" parse="text"/></Verbatim>
   </FormalItem>
@@ -42,6 +45,12 @@
   </FormalItem>
   <FormalItem title="Aurantium/Intersection.v" id="f06a0839-217d-54d0-8f8b-93b95120ee4c">
     <Verbatim><xi:include href="Aurantium/Intersection.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/Json.v" id="9e9b40c5-c3f3-5675-90db-e19d348b5897">
+    <Verbatim><xi:include href="Aurantium/Json.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Aurantium/JsonData.v" id="46cf2a0c-2710-5910-9a96-d91883b7ef53">
+    <Verbatim><xi:include href="Aurantium/JsonData.v" parse="text"/></Verbatim>
   </FormalItem>
   <FormalItem title="Aurantium/KeyMapping.v" id="23f187db-ccfc-5cdf-8693-9138bea5049f">
     <Verbatim><xi:include href="Aurantium/KeyMapping.v" parse="text"/></Verbatim>

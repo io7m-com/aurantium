@@ -34,18 +34,28 @@ module com.io7m.aurantium.vanilla
   requires com.io7m.aurantium.validation.api;
   requires com.io7m.aurantium.writer.api;
 
+  requires com.fasterxml.jackson.annotation;
+  requires com.io7m.dixmont.core;
+  requires com.io7m.entomos.core;
   requires com.io7m.jaffirm.core;
   requires com.io7m.jbssio.api;
   requires com.io7m.jbssio.ext.bounded;
-  requires com.io7m.jdeferthrow.core;
   requires com.io7m.jxtrand.vanilla;
   requires com.io7m.lanark.core;
+  requires com.io7m.seltzer.io;
+  requires com.io7m.verona.core;
   requires com.io7m.wendover.core;
   requires org.slf4j;
-  requires com.io7m.seltzer.io;
+  requires tools.jackson.core;
+  requires tools.jackson.databind;
 
   opens com.io7m.aurantium.vanilla.internal
     to com.io7m.jxtrand.vanilla;
+  opens com.io7m.aurantium.vanilla.internal.json
+    to tools.jackson.databind, com.io7m.aurantium.json.schemagen;
+
+  exports com.io7m.aurantium.vanilla.internal.json
+    to com.io7m.aurantium.json.schemagen;
 
   uses BSSReaderProviderType;
   uses BSSWriterProviderType;

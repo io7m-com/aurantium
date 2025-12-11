@@ -96,16 +96,6 @@ public abstract class AU1SectionWritableAbstract
     return this.identifier;
   }
 
-  protected final long offsetStartData()
-  {
-    return this.offsetStartData;
-  }
-
-  protected final long offsetStart()
-  {
-    return this.offsetStart;
-  }
-
   protected final AUWriteRequest request()
   {
     return this.request;

@@ -18,6 +18,7 @@ package com.io7m.aurantium.api;
 
 import java.io.IOException;
 import java.nio.channels.WritableByteChannel;
+import java.util.SortedMap;
 
 /**
  * <p>The writable audio data for clips.</p>
@@ -29,6 +30,12 @@ import java.nio.channels.WritableByteChannel;
 
 public interface AUWritableClipsType
 {
+  /**
+   * @return The calculated clip descriptions
+   */
+
+  SortedMap<AUClipID, AUClipDescription> clipDescriptions();
+
   /**
    * Retrieve the byte channel associated with a clip's audio.
    *
