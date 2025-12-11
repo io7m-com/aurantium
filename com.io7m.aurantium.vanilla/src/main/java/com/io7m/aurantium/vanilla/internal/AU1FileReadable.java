@@ -19,17 +19,22 @@ package com.io7m.aurantium.vanilla.internal;
 
 import com.io7m.aurantium.api.AUFileReadableType;
 import com.io7m.aurantium.api.AUFileSectionDescription;
+import com.io7m.aurantium.api.AUSectionDescription;
 import com.io7m.aurantium.api.AUSectionReadableType;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
-import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.entomos.core.EoException;
+import com.io7m.entomos.core.EoFileReaderType;
+import com.io7m.entomos.core.EoFileSection;
+import com.io7m.jbssio.api.BSSReaderProviderType;
+import com.io7m.seltzer.io.SIOException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsDataIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsDescriptionsIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionEndIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionIdentifierIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionKeyAssignmentsIdentifier;
@@ -42,118 +47,178 @@ import static com.io7m.aurantium.api.AUIdentifiers.sectionMetadataIdentifier;
 
 public final class AU1FileReadable implements AUFileReadableType
 {
-  private final BSSReaderRandomAccessType reader;
+  private final BSSReaderProviderType readers;
+  private final EoFileReaderType reader;
   private final AUParseRequest request;
-  private final AUVersion version;
-  private final List<AUFileSectionDescription> fileSections;
-  private final long remainingOctets;
+  private final List<FileSectionMapping> fileSections;
 
-  AU1FileReadable(
-    final BSSReaderRandomAccessType inReader,
-    final AUParseRequest inRequest,
-    final AUVersion inVersion,
-    final ArrayList<AUFileSectionDescription> inFileSections,
-    final long inRemainingOctets)
+  private record FileSectionMapping(
+    EoFileSection eoFileSection,
+    AUFileSectionDescription description)
   {
-    this.reader =
-      Objects.requireNonNull(inReader, "reader");
-    this.request =
-      Objects.requireNonNull(inRequest, "request");
-    this.version =
-      Objects.requireNonNull(inVersion, "version");
+
+  }
+
+  /**
+   * Construct a readable file.
+   *
+   * @param inReaders The reader provider
+   * @param inReader  The base reader
+   * @param inRequest The request
+   */
+
+  public AU1FileReadable(
+    final BSSReaderProviderType inReaders,
+    final EoFileReaderType inReader,
+    final AUParseRequest inRequest)
+  {
+    this.readers = inReaders;
+    this.reader = inReader;
+    this.request = inRequest;
     this.fileSections =
-      List.copyOf(
-        Objects.requireNonNull(inFileSections, "fileSections"));
-    this.remainingOctets = inRemainingOctets;
+      this.reader.sections()
+        .stream()
+        .map(eoSection -> {
+          return new FileSectionMapping(
+            eoSection,
+            new AUFileSectionDescription(
+              eoSection.offset(),
+              new AUSectionDescription(
+                eoSection.tag(),
+                eoSection.dataSize()
+              )
+            )
+          );
+        })
+        .toList();
   }
 
   @Override
   public List<AUFileSectionDescription> sections()
   {
     this.checkNotClosed();
-    return this.fileSections;
+    return this.fileSections.stream()
+      .map(x -> x.description)
+      .toList();
   }
 
   @Override
   public AUVersion version()
   {
-    return this.version;
+    return new AUVersion(
+      this.reader.version().major(),
+      this.reader.version().minor()
+    );
   }
 
   private void checkNotClosed()
   {
-    if (this.reader.isClosed()) {
-      throw new IllegalStateException("File is closed.");
-    }
+
   }
 
   @Override
   public AUSectionReadableType openSection(
     final AUFileSectionDescription description)
+    throws IOException
   {
     this.checkNotClosed();
 
-    if (!this.fileSections.contains(description)) {
-      throw new IllegalArgumentException(
-        "File does not contain the provided section.");
-    }
+    final var mapping =
+      this.fileSections.stream()
+        .filter(x -> Objects.equals(x.description, description))
+        .findFirst()
+        .orElseThrow(() -> {
+          return new IllegalArgumentException(
+            "File does not contain the provided section.");
+        });
 
     final var identifier =
       description.description().identifier();
 
-    if (identifier == sectionEndIdentifier()) {
-      return new AU1SectionReadableEnd(
-        this.reader,
+    try {
+      if (identifier == sectionEndIdentifier()) {
+        return new AU1SectionReadableEnd(
+          this.readers,
+          this.reader.dataChannel(mapping.eoFileSection),
+          this.request,
+          description
+        );
+      }
+
+      if (identifier == sectionClipsDataIdentifier()) {
+        return new AU1SectionReadableClipsData(
+          this.readers,
+          this.reader.dataChannel(mapping.eoFileSection),
+          this.request,
+          description
+        );
+      }
+
+      if (identifier == sectionClipsDescriptionsIdentifier()) {
+        return new AU1SectionReadableClipsDescriptions(
+          this.readers,
+          this.reader.dataChannel(mapping.eoFileSection),
+          this.request,
+          description
+        );
+      }
+
+      if (identifier == sectionMetadataIdentifier()) {
+        return new AU1SectionReadableMetadata(
+          this.readers,
+          this.reader.dataChannel(mapping.eoFileSection),
+          this.request,
+          description
+        );
+      }
+
+      if (identifier == sectionIdentifierIdentifier()) {
+        return new AU1SectionReadableIdentifier(
+          this.readers,
+          this.reader.dataChannel(mapping.eoFileSection),
+          this.request,
+          description
+        );
+      }
+
+      if (identifier == sectionKeyAssignmentsIdentifier()) {
+        return new AU1SectionReadableKeyAssignments(
+          this.readers,
+          this.reader.dataChannel(mapping.eoFileSection),
+          this.request,
+          description
+        );
+      }
+
+      return new AU1SectionReadableOther(
+        this.readers,
+        this.reader.dataChannel(mapping.eoFileSection),
         this.request,
         description
       );
-    }
-
-    if (identifier == sectionMetadataIdentifier()) {
-      return new AU1SectionReadableMetadata(
-        this.reader,
-        this.request,
-        description
+    } catch (final EoException e) {
+      throw new SIOException(
+        e,
+        e.errorCode(),
+        e.attributes(),
+        e.remediatingAction()
       );
     }
-
-    if (identifier == sectionIdentifierIdentifier()) {
-      return new AU1SectionReadableIdentifier(
-        this.reader,
-        this.request,
-        description
-      );
-    }
-
-    if (identifier == sectionClipsIdentifier()) {
-      return new AU1SectionReadableClips(
-        this.reader,
-        this.request,
-        description
-      );
-    }
-
-    if (identifier == sectionKeyAssignmentsIdentifier()) {
-      return new AU1SectionReadableKeyAssignments(
-        this.reader,
-        this.request,
-        description
-      );
-    }
-
-    return new AU1SectionReadableOther(this.reader, this.request, description);
-  }
-
-  @Override
-  public long trailingOctets()
-  {
-    return this.remainingOctets;
   }
 
   @Override
   public void close()
     throws IOException
   {
-    this.reader.close();
+    try {
+      this.reader.close();
+    } catch (final EoException e) {
+      throw new SIOException(
+        e,
+        e.errorCode(),
+        e.attributes(),
+        e.remediatingAction()
+      );
+    }
   }
 }

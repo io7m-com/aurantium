@@ -14,7 +14,10 @@ coqc -Q Aurantium Aurantium Aurantium/Intersection.v
 coqc -Q Aurantium Aurantium Aurantium/Clip.v
 coqc -Q Aurantium Aurantium Aurantium/KeyMapping.v
 coqc -Q Aurantium Aurantium Aurantium/AudioMap.v
+coqc -Q Aurantium Aurantium Aurantium/Json.v
+coqc -Q Aurantium Aurantium Aurantium/JsonData.v
 coqc -Q Aurantium Aurantium Aurantium/Binary.v
+coqc -Q Aurantium Aurantium Aurantium/BinaryData.v
 
 mkdir -p html
 

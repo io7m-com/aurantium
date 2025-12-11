@@ -1,0 +1,288 @@
+{
+  "$schema" : "https://json-schema.org/draft/2020-12/schema",
+  "$id" : "urn:com.io7m.aurantium:1.0",
+  "title" : "Aurantium 1.0",
+  "oneOf" : [ {
+    "$ref" : "#/$defs/AU1SchemaObjectType"
+  } ],
+  "$defs" : {
+    "AU1ClipDescription" : {
+      "type" : "object",
+      "properties" : {
+        "Channels" : {
+          "description" : "The clip channel count.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "Endianness" : {
+          "description" : "The clip endianness.",
+          "$ref" : "#/$defs/RDottedName"
+        },
+        "Format" : {
+          "description" : "The clip format.",
+          "$ref" : "#/$defs/RDottedName"
+        },
+        "Hash" : {
+          "description" : "The clip hash value.",
+          "$ref" : "#/$defs/AU1HashValue"
+        },
+        "ID" : {
+          "description" : "The clip ID.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "LoopRange" : {
+          "description" : "The clip loop range.",
+          "$ref" : "#/$defs/Optional<AU1ClipLoopRange>"
+        },
+        "Name" : {
+          "description" : "The clip name.",
+          "$ref" : "#/$defs/String"
+        },
+        "Offset" : {
+          "description" : "The clip audio data offset.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "SampleDepth" : {
+          "description" : "The clip sample depth.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "SampleRate" : {
+          "description" : "The clip sample rate.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "Size" : {
+          "description" : "The clip audio data size.",
+          "$ref" : "#/$defs/BigInteger"
+        }
+      },
+      "required" : [ "Channels", "Endianness", "Format", "Hash", "ID", "Name", "Offset", "SampleDepth", "SampleRate", "Size" ]
+    },
+    "AU1ClipDescriptions" : {
+      "type" : "object",
+      "properties" : {
+        "%Schema" : {
+          "description" : "The schema identifier.",
+          "$ref" : "#/$defs/String"
+        },
+        "Clips" : {
+          "description" : "The clips.",
+          "$ref" : "#/$defs/List<AU1ClipDescription>"
+        }
+      },
+      "required" : [ "%Schema" ]
+    },
+    "AU1ClipLoopRange" : {
+      "type" : "object",
+      "properties" : {
+        "FrameEndInclusive" : {
+          "description" : "The end of the loop range in frames (inclusive).",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "FrameStart" : {
+          "description" : "The start of the loop range in frames.",
+          "$ref" : "#/$defs/BigInteger"
+        }
+      },
+      "required" : [ "FrameEndInclusive", "FrameStart" ]
+    },
+    "AU1HashString" : {
+      "description" : "A hex string.",
+      "type" : "string",
+      "pattern" : "[a-f0-9]+"
+    },
+    "AU1HashValue" : {
+      "type" : "object",
+      "properties" : {
+        "Algorithm" : {
+          "description" : "The hash algorithm.",
+          "$ref" : "#/$defs/RDottedName"
+        },
+        "Value" : {
+          "description" : "The hash value.",
+          "$ref" : "#/$defs/AU1HashString"
+        }
+      },
+      "required" : [ "Algorithm", "Value" ]
+    },
+    "AU1KeyAssignment" : {
+      "type" : "object",
+      "properties" : {
+        "AmplitudeAtKeyCenter" : {
+          "description" : "The amplitude at the center key.",
+          "$ref" : "#/$defs/double"
+        },
+        "AmplitudeAtKeyEnd" : {
+          "description" : "The amplitude at the end key.",
+          "$ref" : "#/$defs/double"
+        },
+        "AmplitudeAtKeyStart" : {
+          "description" : "The amplitude at the starting key.",
+          "$ref" : "#/$defs/double"
+        },
+        "AmplitudeAtVelocityCenter" : {
+          "description" : "The amplitude at the center velocity.",
+          "$ref" : "#/$defs/double"
+        },
+        "AmplitudeAtVelocityEnd" : {
+          "description" : "The amplitude at the end velocity.",
+          "$ref" : "#/$defs/double"
+        },
+        "AmplitudeAtVelocityStart" : {
+          "description" : "The amplitude at the starting velocity.",
+          "$ref" : "#/$defs/double"
+        },
+        "AtVelocityCenter" : {
+          "description" : "The center velocity.",
+          "$ref" : "#/$defs/double"
+        },
+        "AtVelocityEnd" : {
+          "description" : "The end velocity.",
+          "$ref" : "#/$defs/double"
+        },
+        "AtVelocityStart" : {
+          "description" : "The starting velocity.",
+          "$ref" : "#/$defs/double"
+        },
+        "ClipID" : {
+          "description" : "The clip ID.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "Flags" : {
+          "description" : "The flags.",
+          "$ref" : "#/$defs/SortedSet<String>"
+        },
+        "ID" : {
+          "description" : "The key assignment ID.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "KeyValueCenter" : {
+          "description" : "The center key value.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "KeyValueEnd" : {
+          "description" : "The end key value.",
+          "$ref" : "#/$defs/BigInteger"
+        },
+        "KeyValueStart" : {
+          "description" : "The starting key value.",
+          "$ref" : "#/$defs/BigInteger"
+        }
+      },
+      "required" : [ "AmplitudeAtKeyCenter", "AmplitudeAtKeyEnd", "AmplitudeAtKeyStart", "AmplitudeAtVelocityCenter", "AmplitudeAtVelocityEnd", "AmplitudeAtVelocityStart", "AtVelocityCenter", "AtVelocityEnd", "AtVelocityStart", "ClipID", "Flags", "ID", "KeyValueCenter", "KeyValueEnd", "KeyValueStart" ]
+    },
+    "AU1KeyAssignments" : {
+      "type" : "object",
+      "properties" : {
+        "%Schema" : {
+          "description" : "The schema identifier.",
+          "$ref" : "#/$defs/String"
+        },
+        "KeyAssignments" : {
+          "description" : "The key assignments.",
+          "$ref" : "#/$defs/List<AU1KeyAssignment>"
+        }
+      },
+      "required" : [ "%Schema" ]
+    },
+    "AU1Metadata" : {
+      "type" : "object",
+      "properties" : {
+        "%Schema" : {
+          "description" : "The schema identifier.",
+          "$ref" : "#/$defs/String"
+        },
+        "Metadata" : {
+          "description" : "The metadata values.",
+          "$ref" : "#/$defs/SortedMap<String,List<String>>"
+        }
+      },
+      "required" : [ "%Schema" ]
+    },
+    "AU1SchemaObjectType" : {
+      "oneOf" : [ {
+        "$ref" : "#/$defs/AU1ClipDescription"
+      }, {
+        "$ref" : "#/$defs/AU1ClipDescriptions"
+      }, {
+        "$ref" : "#/$defs/AU1ClipLoopRange"
+      }, {
+        "$ref" : "#/$defs/AU1HashString"
+      }, {
+        "$ref" : "#/$defs/AU1HashValue"
+      }, {
+        "$ref" : "#/$defs/AU1KeyAssignment"
+      }, {
+        "$ref" : "#/$defs/AU1KeyAssignments"
+      }, {
+        "$ref" : "#/$defs/AU1Metadata"
+      } ]
+    },
+    "BigDecimal" : {
+      "description" : "An arbitrary real number.",
+      "type" : "number"
+    },
+    "BigInteger" : {
+      "description" : "A 64-bit unsigned integer value.",
+      "type" : "number",
+      "minimum" : 0,
+      "exclusiveMaximum" : 18446744073709551616
+    },
+    "List<AU1ClipDescription>" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/AU1ClipDescription"
+      }
+    },
+    "List<AU1KeyAssignment>" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/AU1KeyAssignment"
+      }
+    },
+    "List<String>" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/String"
+      }
+    },
+    "OffsetDateTime" : {
+      "description" : "An ISO 8601 timestamp.",
+      "type" : "string",
+      "format" : "date-time"
+    },
+    "Optional<AU1ClipLoopRange>" : {
+      "$ref" : "#/$defs/AU1ClipLoopRange"
+    },
+    "RDottedName" : {
+      "description" : "A Lanark dotted name.",
+      "type" : "string",
+      "pattern" : "([a-z][a-z0-9_-]{0,63})(\\.[a-z][a-z0-9_-]{0,62}){0,15}"
+    },
+    "SortedMap<String,List<String>>" : {
+      "type" : "object",
+      "properties" : { },
+      "required" : [ ]
+    },
+    "SortedSet<String>" : {
+      "type" : "object",
+      "properties" : { },
+      "required" : [ ]
+    },
+    "String" : {
+      "description" : "An arbitrary string.",
+      "type" : "string"
+    },
+    "boolean" : {
+      "type" : "boolean"
+    },
+    "double" : {
+      "description" : "An arbitrary real number.",
+      "type" : "number"
+    },
+    "long" : {
+      "description" : "A 64-bit signed integer.",
+      "type" : "number",
+      "minimum" : -9223372036854775808,
+      "maximum" : 9223372036854775807
+    }
+  }
+}

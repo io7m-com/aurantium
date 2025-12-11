@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Clip Descriptions"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="65878ad9-50b5-4d01-b04c-b74d58d3938c"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Description">
+    <Paragraph id="eae82111-3adc-461f-9536-3db316e6b28c">
+      The <Term type="term">clip descriptions</Term> section holds all
+      clip descriptions for
+      <Link target="75cbf345-b1c6-4af7-94ab-b87202964978">clips</Link>
+      present in the audio map.
+    </Paragraph>
+
+    <FormalItem title="Clip Description Section Encoding">
+      <Verbatim>
+        <xi:include href="12086.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      A <Term type="term">clip descriptions</Term> section must appear in a
+      <Term type="package">aurantium</Term> audio map file exactly once.
+    </Paragraph>
+  </Subsection>
+
+</Section>

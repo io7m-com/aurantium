@@ -23,7 +23,7 @@
 2004 ! Inductive clipsListOffsetIsSorted :
 2005 ! Lemma clipsNonEmpty :
 
-3000 ! Inductive identifier : Set
+3000 ! Inductive identifier : Set := identifierMake {
 3001 ! Inductive compatVersionChange : Set
 3002 ! Definition compatVersionChangeMax
 3003 ! Theorem compatVersionChangeMaxRefl
@@ -100,19 +100,13 @@
 12094 ! Definition binaryIdentifier (
 12085 ! Definition binaryExpFileHeader :
 
-12100 ! Definition binaryClip (c : clip)
-12101 ! Definition binaryHash (h : hashValue)
-12102 ! Definition binaryClips (c : clips)
-12103 ! Definition binaryClipsSection (c : clips)
-12104 ! Definition binaryClipsSectionData (c : clips)
+12086 ! Definition binaryClipsDescriptionSection (
+12087 ! Definition binaryClipsDataSection (
+12088 ! Definition binaryClipsDataSectionAudio (
+12089 ! Definition binaryKeyAssignmentsSection (
+12090 ! Definition binaryExpMetadataSection (
 
-12200 ! Definition binaryKeyAssignmentFlag (
-12201 ! Definition binaryKeyAssignmentFlags (
-12202 ! Definition binaryKeyAssignment (
-12203 ! Definition binaryKeyAssignments (
 12204 ! Definition binaryKeyAssignmentsSection (
-12205 ! Definition binaryExpMetadataValue
-12206 ! Definition binaryExpMetadata (m
 12207 ! Definition binaryExpMetadataSection (m
 
 13000 ! Fixpoint intersectionPairs
@@ -138,3 +132,21 @@
 
 17000 ! Inductive metadataValue : Set
 17001 ! Inductive metadata : Set
+
+18000 ! Inductive json : Set
+18001 ! Inductive jsonToken : Set
+18002 ! Definition jsonStringOne (t : jsonToken) : string
+18003 ! Fixpoint jsonSerialize (j : json) : list jsonToken
+18004 ! Fixpoint jsonComma (ss : list (list jsonToken)) : list jsonToken
+18005 ! Definition jsonSerializeString (j : json) : string
+
+18006 ! Definition jsonClip (c : clip) : json
+18007 ! Definition jsonLoopRangeOptionProperty (lr : option loopRange) : list (string * json)
+18008 ! Definition jsonLoopRange (lr : loopRange) : json
+18009 ! Definition jsonHash (h : hashValue) : json
+18010 ! Definition jsonClips (c : list clip) : json
+18011 ! Definition jsonKeyAssignment (k : keyAssignment) : json
+18012 ! Definition flagJson (f : keyAssignmentFlag) : json
+18013 ! Definition jsonKeyAssignments (ks : list keyAssignment) : json
+18014 ! Definition jsonMetadataM (mvs : list metadataValue) : json
+18015 ! Definition jsonMetadata (m : metadata) : json

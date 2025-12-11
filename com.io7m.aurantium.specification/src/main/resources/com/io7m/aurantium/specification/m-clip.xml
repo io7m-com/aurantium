@@ -281,6 +281,29 @@
     </Subsection>
   </Subsection>
 
+  <Subsection title="Loop Ranges" id="8ee8a3a2-b50d-4328-8c5a-d509d4b14603">
+    <Paragraph>
+      A <Term type="term">loop range</Term> is a pair
+      <Term type="expression">(f, e)</Term> where
+      <Term type="expression">f</Term> is the index of the
+      starting <Term type="term">frame</Term> in a
+      <Link target="7a30f09d-c06c-41cb-bb4b-71fe9f9157c5">clip</Link>,
+      and <Term type="expression">e</Term> is the index
+      of the ending <Term type="term">frame</Term> in a clip.
+      The range of frames described by <Term type="expression">(f, e)</Term>
+      are intended to represent a region of audio that can be seamlessly
+      looped.
+    </Paragraph>
+    <Paragraph>
+      When a <Term type="term">loop range</Term> is included in a given
+      clip, implementations should treat the range as advisory. They are
+      a means for the author of an audio map to state "if you wish to
+      produce a sustained sound using this clip, this loop range will
+      result in a seamless loop of audio". Implementations are free to ignore
+      loop ranges entirely.
+    </Paragraph>
+  </Subsection>
+
   <Subsection title="Clips" id="7a30f09d-c06c-41cb-bb4b-71fe9f9157c5">
     <Paragraph>
       A clip is described by the following type:
@@ -340,6 +363,10 @@
     <Paragraph>
       The <Term type="expression">clipSize</Term> field specifies the
       size in octets of the audio data for this clip.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="expression">clipLoopRange</Term> field specifies an
+      optional loop range for this clip.
     </Paragraph>
   </Subsection>
 

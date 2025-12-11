@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2025 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,37 +16,34 @@
 
 package com.io7m.aurantium.api;
 
-import java.io.IOException;
-import java.nio.channels.SeekableByteChannel;
-import java.util.List;
-
 /**
- * The type of readable clips sections.
+ * A loop range for a clip.
+ *
+ * @param frameStart        The starting frame
+ * @param frameEndInclusive The inclusive ending frame
  */
 
-public non-sealed interface AUSectionReadableClipsType
-  extends AUSectionReadableStandardType
+public record AUClipLoopRange(
+  long frameStart,
+  long frameEndInclusive)
 {
   /**
-   * @return The clips
+   * A loop range for a clip.
    *
-   * @throws IOException On I/O errors
+   * @param frameStart        The starting frame
+   * @param frameEndInclusive The inclusive ending frame
    */
 
-  List<AUClipDescription> clips()
-    throws IOException;
-
-  /**
-   * Return the readable audio data for the given clip.
-   *
-   * @param description The clip
-   *
-   * @return The audio data
-   *
-   * @throws IOException On I/O errors
-   */
-
-  SeekableByteChannel audioDataForClip(
-    AUClipDescription description)
-    throws IOException;
+  public AUClipLoopRange
+  {
+    if (Long.compareUnsigned(frameStart, frameEndInclusive) > 0) {
+      throw new IllegalArgumentException(
+        "Frame start %s must be <= frame inclusive end %s"
+          .formatted(
+            Long.toUnsignedString(frameStart),
+            Long.toUnsignedString(frameEndInclusive)
+          )
+      );
+    }
+  }
 }

@@ -69,18 +69,18 @@ public final class AU1Validator implements AUValidatorType
       this.checkSectionAlignment(section);
     }
 
-    this.file.openMetadata()
-      .ifPresent(this::checkMetadata);
-    this.file.openEnd()
-      .ifPresentOrElse(this::checkEnd, () -> {
-        this.publishError(this.errorFactory.errorNoEndSection());
-      });
+    try {
+      this.file.openMetadata()
+        .ifPresent(this::checkMetadata);
 
+      this.file.openEnd()
+        .ifPresentOrElse(this::checkEnd, () -> {
+          this.publishError(this.errorFactory.errorNoEndSection());
+        });
 
-    if (this.file.trailingOctets() != 0L) {
-      this.publishError(
-        this.errorFactory.warnTrailingData(0L, this.file.trailingOctets()
-        ));
+    } catch (IOException e) {
+      // XXX: Capture this as an error.
+      throw new RuntimeException(e);
     }
 
     return this.errors;

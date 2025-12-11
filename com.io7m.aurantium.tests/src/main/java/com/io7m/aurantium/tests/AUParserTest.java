@@ -20,12 +20,15 @@ package com.io7m.aurantium.tests;
 import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUHashAlgorithm;
 import com.io7m.aurantium.api.AUHashValue;
+import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUIdentifiers;
 import com.io7m.aurantium.api.AUKeyAssignment;
 import com.io7m.aurantium.api.AUKeyAssignmentID;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.aurantium.parser.api.AUParsers;
+import com.io7m.seltzer.io.SIOException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -78,7 +81,6 @@ public final class AUParserTest
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
-        assertEquals(0L, auFile.trailingOctets());
 
         {
           final var version = auFile.version();
@@ -90,13 +92,14 @@ public final class AUParserTest
           final var section =
             auFile.openIdentifier().orElseThrow();
 
+          final AUIdentifier identifier = section.identifier();
           assertEquals(
             "com.io7m.example",
-            section.identifier().name().value()
+            identifier.name().value()
           );
           assertEquals(
             new AUVersion(23, 3),
-            section.identifier().version()
+            identifier.version()
           );
 
           try (var ch = section.sectionDataChannel()) {
@@ -112,7 +115,10 @@ public final class AUParserTest
 
         {
           final var section =
-            auFile.openClips().orElseThrow();
+            auFile.openClipDefinitions().orElseThrow();
+          final var dataSection =
+            auFile.openClipData().orElseThrow();
+
           final var clips =
             section.clips();
 
@@ -134,7 +140,7 @@ public final class AUParserTest
             );
             assertEquals(128L, c.samples());
 
-            try (var data = section.audioDataForClip(c)) {
+            try (var data = dataSection.audioDataForClip(c)) {
               assertEquals(c.samples() * 4L, data.size());
             }
           }
@@ -157,19 +163,22 @@ public final class AUParserTest
             );
             assertEquals(128L, c.samples());
 
-            try (var data = section.audioDataForClip(c)) {
+            try (var data = dataSection.audioDataForClip(c)) {
               assertEquals(c.samples() * 4L, data.size());
             }
           }
 
           assertEquals(2, clips.size());
 
-          try (var ch = section.sectionDataChannel()) {
-            assertEquals(1472L, ch.size());
+          try (var ch = dataSection.sectionDataChannel()) {
+            assertEquals(
+              clips.get(0).size() + clips.get(1).size(),
+              ch.size()
+            );
           }
 
           assertEquals(
-            "CLIPS",
+            "CLIPS_DESCRIPTIONS",
             AUIdentifiers.nameOf(section.description().identifier())
               .orElseThrow()
           );
@@ -209,7 +218,7 @@ public final class AUParserTest
           assertEquals(1, assigns.size());
 
           try (var ch = section.sectionDataChannel()) {
-            assertEquals(112L, ch.size());
+            assertEquals(384L, ch.size());
           }
 
           assertEquals(
@@ -238,7 +247,7 @@ public final class AUParserTest
           assertEquals(10, meta.size());
 
           try (var ch = section.sectionDataChannel()) {
-            assertEquals(208L, ch.size());
+            assertEquals(240L, ch.size());
           }
 
           assertEquals(
@@ -281,7 +290,6 @@ public final class AUParserTest
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
-        assertEquals(0L, auFile.trailingOctets());
 
         {
           final var version = auFile.version();
@@ -339,10 +347,9 @@ public final class AUParserTest
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
-        assertEquals(0L, auFile.trailingOctets());
 
         final var clips =
-          auFile.openClips()
+          auFile.openClipDefinitions()
             .orElseThrow();
         final var clipList = clips.clips();
         assertEquals(12L, clipList.size());
@@ -474,6 +481,68 @@ public final class AUParserTest
             .orElseThrow();
         final var keyList = keys.keyAssignments().assignments();
         assertEquals(12L, keyList.size());
+      }
+    }
+  }
+
+  @Test
+  public void testEndMissing(
+    final @TempDir Path directory)
+    throws Exception
+  {
+    final var file =
+      resource(directory, "end-missing.aam");
+
+    try (var channel = FileChannel.open(file, READ)) {
+      final var request =
+        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+
+      final var ex = Assertions.assertThrows(SIOException.class, () -> {
+        this.parsers.createParser(request);
+      });
+
+      Assertions.assertTrue(
+        ex.message().contains("missing an 'end' section")
+      );
+    }
+  }
+
+  @Test
+  public void testEndWrongSize(
+    final @TempDir Path directory)
+    throws Exception
+  {
+    final var file =
+      resource(directory, "end-wrong-size.aam");
+
+    try (var channel = FileChannel.open(file, READ)) {
+      final var request =
+        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+
+      final var ex = Assertions.assertThrows(SIOException.class, () -> {
+        this.parsers.createParser(request);
+      });
+
+      Assertions.assertTrue(
+        ex.message().contains("'end' section of a non-zero size.")
+      );
+    }
+  }
+
+  @Test
+  public void testEndTrailing(
+    final @TempDir Path directory)
+    throws Exception
+  {
+    final var file =
+      resource(directory, "end-trailing.aam");
+
+    try (var channel = FileChannel.open(file, READ)) {
+      final var request =
+        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+
+      try (var parser = this.parsers.createParser(request)) {
+        parser.execute();
       }
     }
   }

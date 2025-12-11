@@ -20,7 +20,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 
-import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsDataIdentifier;
+import static com.io7m.aurantium.api.AUIdentifiers.sectionClipsDescriptionsIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionEndIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionIdentifierIdentifier;
 import static com.io7m.aurantium.api.AUIdentifiers.sectionKeyAssignmentsIdentifier;
@@ -106,18 +107,33 @@ public interface AUFileWritableType extends Closeable
   }
 
   /**
-   * Create a new clips section.
+   * Create a new clip data section.
    *
    * @return A new section
    *
    * @throws IOException On errors
    */
 
-  default AUSectionWritableClipsType createSectionClips()
+  default AUSectionWritableClipDataType createSectionClipData()
     throws IOException
   {
-    return (AUSectionWritableClipsType)
-      this.createSection(sectionClipsIdentifier());
+    return (AUSectionWritableClipDataType)
+      this.createSection(sectionClipsDataIdentifier());
+  }
+
+  /**
+   * Create a new clip definitions section.
+   *
+   * @return A new section
+   *
+   * @throws IOException On errors
+   */
+
+  default AUSectionWritableClipDefinitionsType createSectionClipDefinitions()
+    throws IOException
+  {
+    return (AUSectionWritableClipDefinitionsType)
+      this.createSection(sectionClipsDescriptionsIdentifier());
   }
 
   /**

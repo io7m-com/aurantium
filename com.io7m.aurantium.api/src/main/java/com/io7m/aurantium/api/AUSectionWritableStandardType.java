@@ -22,7 +22,9 @@ package com.io7m.aurantium.api;
 
 public sealed interface AUSectionWritableStandardType
   extends AUSectionWritableType
-  permits AUSectionWritableClipsType,
+  permits AUSectionWritableClipDataType,
+  AUSectionWritableClipDefinitionsType,
+  AUSectionWritableClipsType,
   AUSectionWritableEndType,
   AUSectionWritableIdentifierType,
   AUSectionWritableKeyAssignmentsType,

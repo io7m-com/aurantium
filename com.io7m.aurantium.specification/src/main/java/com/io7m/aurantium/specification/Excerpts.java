@@ -1,5 +1,8 @@
 package com.io7m.aurantium.specification;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +15,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public final class Excerpts
 {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(Excerpts.class);
+
   private Excerpts()
   {
 
@@ -70,15 +76,17 @@ public final class Excerpts
     final List<Path> sources;
     try (var stream = Files.walk(srcDirectory)) {
       sources = stream.filter(p -> p.getFileName().toString().endsWith(".v"))
-        .collect(Collectors.toList());
+        .toList();
     }
     final var lines = new ArrayList<FileLine>(1024);
     for (final var path : sources) {
+      LOG.info("Including source: {}", path);
+
       lines.addAll(
         Files.readAllLines(path, UTF_8)
           .stream()
           .map(line -> new FileLine(path.getFileName().toString(), line))
-          .collect(Collectors.toList())
+          .toList()
       );
     }
 
@@ -134,7 +142,7 @@ public final class Excerpts
         output.add(lineText);
       }
     }
-    return false;
+    return matching;
   }
 
   private static boolean matchProof(

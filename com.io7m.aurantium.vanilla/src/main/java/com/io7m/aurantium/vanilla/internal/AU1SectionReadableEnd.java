@@ -19,7 +19,10 @@ package com.io7m.aurantium.vanilla.internal;
 import com.io7m.aurantium.api.AUFileSectionDescription;
 import com.io7m.aurantium.api.AUSectionReadableEndType;
 import com.io7m.aurantium.parser.api.AUParseRequest;
-import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.jbssio.api.BSSReaderProviderType;
+import com.io7m.seltzer.io.SIOException;
+
+import java.nio.channels.SeekableByteChannel;
 
 /**
  * A readable end section.
@@ -31,16 +34,19 @@ public final class AU1SectionReadableEnd
   /**
    * A readable end section.
    *
+   * @param readers       The reader provider
    * @param inDescription The description
    * @param inReader      The reader
    * @param inRequest     The request
    */
 
   public AU1SectionReadableEnd(
-    final BSSReaderRandomAccessType inReader,
+    final BSSReaderProviderType readers,
+    final SeekableByteChannel inReader,
     final AUParseRequest inRequest,
     final AUFileSectionDescription inDescription)
+    throws SIOException
   {
-    super(inReader, inRequest, inDescription);
+    super(readers, inReader, inRequest, inDescription);
   }
 }

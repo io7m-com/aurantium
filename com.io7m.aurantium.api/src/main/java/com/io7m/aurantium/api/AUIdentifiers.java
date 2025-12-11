@@ -30,12 +30,14 @@ public final class AUIdentifiers
     0x4155_524D_454E_4421L;
   private static final long SECTION_IDENTIFIER_IDENTIFIER =
     0x4155_524D_5F49_4421L;
-  private static final long SECTION_CLIPS_IDENTIFIER =
-    0x4155_524D_434C_4950L;
   private static final long SECTION_KEY_ASSIGNMENTS_IDENTIFIER =
     0x4155_524D_4B45_5953L;
   private static final long SECTION_METADATA_IDENTIFIER =
     0x4155_524D_4D45_5441L;
+  private static final long SECTION_CLIPS_DATA_IDENTIFIER =
+    0x4155_524D_4344_4154L;
+  private static final long SECTION_CLIPS_DESCRIPTIONS_IDENTIFIER =
+    0x4155_524D_4344_4553L;
 
   private AUIdentifiers()
   {
@@ -79,21 +81,30 @@ public final class AUIdentifiers
   }
 
   /**
-   * @return The identifier used to identify {@code clips} sections
-   */
-
-  public static long sectionClipsIdentifier()
-  {
-    return SECTION_CLIPS_IDENTIFIER;
-  }
-
-  /**
    * @return The identifier used to identify {@code key assignments} sections
    */
 
   public static long sectionKeyAssignmentsIdentifier()
   {
     return SECTION_KEY_ASSIGNMENTS_IDENTIFIER;
+  }
+
+  /**
+   * @return The identifier used to identify {@code clips data} sections
+   */
+
+  public static long sectionClipsDataIdentifier()
+  {
+    return SECTION_CLIPS_DATA_IDENTIFIER;
+  }
+
+  /**
+   * @return The identifier used to identify {@code clips description} sections
+   */
+
+  public static long sectionClipsDescriptionsIdentifier()
+  {
+    return SECTION_CLIPS_DESCRIPTIONS_IDENTIFIER;
   }
 
   /**
@@ -113,8 +124,11 @@ public final class AUIdentifiers
     if (identifier == SECTION_IDENTIFIER_IDENTIFIER) {
       return Optional.of("IDENTIFIER");
     }
-    if (identifier == SECTION_CLIPS_IDENTIFIER) {
-      return Optional.of("CLIPS");
+    if (identifier == SECTION_CLIPS_DATA_IDENTIFIER) {
+      return Optional.of("CLIPS_DATA");
+    }
+    if (identifier == SECTION_CLIPS_DESCRIPTIONS_IDENTIFIER) {
+      return Optional.of("CLIPS_DESCRIPTIONS");
     }
     if (identifier == SECTION_KEY_ASSIGNMENTS_IDENTIFIER) {
       return Optional.of("KEY_ASSIGNMENTS");

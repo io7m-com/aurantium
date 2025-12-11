@@ -20,10 +20,9 @@ import com.io7m.aurantium.api.AUFileSectionDescription;
 import com.io7m.aurantium.api.AUSectionDescription;
 import com.io7m.aurantium.api.AUSectionReadableType;
 import com.io7m.aurantium.parser.api.AUParseRequest;
+import com.io7m.jbssio.api.BSSReaderProviderType;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
-import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
-import com.io7m.wendover.core.ReadOnlySeekableByteChannel;
-import com.io7m.wendover.core.SubrangeSeekableByteChannel;
+import com.io7m.seltzer.io.SIOException;
 
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
@@ -36,24 +35,38 @@ import java.util.Objects;
 public abstract class AU1SectionReadableAbstract
   implements AUSectionReadableType
 {
-  private final BSSReaderRandomAccessType reader;
+  private final SeekableByteChannel dataChannel;
   private final AUParseRequest request;
   private final AUFileSectionDescription description;
   private final AU1BinaryExpressions expressions;
+  private final BSSReaderProviderType readers;
+  private final BSSReaderRandomAccessType reader;
 
   protected AU1SectionReadableAbstract(
-    final BSSReaderRandomAccessType inReader,
+    final BSSReaderProviderType inReaders,
+    final SeekableByteChannel inDataChannel,
     final AUParseRequest inRequest,
     final AUFileSectionDescription inDescription)
+    throws SIOException
   {
-    this.reader =
-      Objects.requireNonNull(inReader, "reader");
+    this.readers =
+      Objects.requireNonNull(inReaders, "readers");
+    this.dataChannel =
+      Objects.requireNonNull(inDataChannel, "reader");
     this.request =
       Objects.requireNonNull(inRequest, "request");
     this.description =
       Objects.requireNonNull(inDescription, "description");
     this.expressions =
       new AU1BinaryExpressions();
+    this.reader =
+      this.readers.createReaderFromChannelBounded(
+        this.request.source(),
+        this.dataChannel,
+        "Data",
+        this.description.description()
+          .size()
+      );
   }
 
   protected final AU1BinaryExpressions expressions()
@@ -66,15 +79,15 @@ public abstract class AU1SectionReadableAbstract
     return this.request;
   }
 
+  protected final BSSReaderProviderType readers()
+  {
+    return this.readers;
+  }
+
   @Override
   public final AUFileSectionDescription fileSectionDescription()
   {
     return this.description;
-  }
-
-  protected final BSSReaderRandomAccessType reader()
-  {
-    return this.reader;
   }
 
   @Override
@@ -87,25 +100,17 @@ public abstract class AU1SectionReadableAbstract
   public final SeekableByteChannel sectionDataChannel()
     throws IOException
   {
-    final var baseNotCloseable =
-      new CloseShieldSeekableByteChannel(this.request.channel());
-    final var baseReadable =
-      new ReadOnlySeekableByteChannel(baseNotCloseable);
-
-    final var channel =
-      new SubrangeSeekableByteChannel(
-        baseReadable,
-        this.description.fileOffsetData(),
-        this.description.description().size()
-      );
-
-    channel.position(0L);
-    return channel;
+    return this.dataChannel;
   }
 
   @Override
   public final void close()
   {
 
+  }
+
+  protected final BSSReaderRandomAccessType sectionDataReader()
+  {
+    return this.reader;
   }
 }

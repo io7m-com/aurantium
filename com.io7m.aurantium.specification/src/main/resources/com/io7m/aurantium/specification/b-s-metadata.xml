@@ -9,16 +9,6 @@
     <Paragraph>
       Metadata sections are encoded as follows:
     </Paragraph>
-
-    <FormalItem title="Metadata Value">
-      <Verbatim><xi:include href="12205.txt" parse="text"/></Verbatim>
-    </FormalItem>
-    <FormalItem title="Metadata Values">
-      <Verbatim><xi:include href="12206.txt" parse="text"/></Verbatim>
-    </FormalItem>
-    <FormalItem title="Metadata Section">
-      <Verbatim><xi:include href="12207.txt" parse="text"/></Verbatim>
-    </FormalItem>
   </Subsection>
 
   <Subsection title="Cardinality">

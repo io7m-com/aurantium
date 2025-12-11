@@ -19,6 +19,7 @@ package com.io7m.aurantium.tests;
 import com.io7m.aurantium.api.AUAudioFormatType;
 import com.io7m.aurantium.api.AUClipDeclaration;
 import com.io7m.aurantium.api.AUClipDeclarations;
+import com.io7m.aurantium.api.AUClipDescription;
 import com.io7m.aurantium.api.AUClipID;
 import com.io7m.aurantium.api.AUHashValue;
 import com.io7m.aurantium.api.AUIdentifier;
@@ -27,6 +28,7 @@ import com.io7m.aurantium.api.AUKeyAssignmentID;
 import com.io7m.aurantium.api.AUKeyAssignments;
 import com.io7m.aurantium.api.AUOctetOrder;
 import com.io7m.aurantium.api.AUVersion;
+import com.io7m.aurantium.api.AUWritableClipsType;
 import com.io7m.aurantium.vanilla.AU1Parsers;
 import com.io7m.aurantium.vanilla.AU1Writers;
 import com.io7m.aurantium.writer.api.AUWriteRequest;
@@ -46,7 +48,9 @@ import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.SortedMap;
 
 import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearFloat;
 import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearIntegerSigned;
@@ -223,7 +227,8 @@ public final class AUWriteDemo3
           LITTLE_ENDIAN
         );
 
-      try (var section = writable.createSectionClips()) {
+      final SortedMap<AUClipID, AUClipDescription> clipDescriptions;
+      try (var section = writable.createSectionClipData()) {
         final var clipList =
           List.of(
             dataMono0,
@@ -240,7 +245,7 @@ public final class AUWriteDemo3
             dataStereo5
           );
 
-        final var clips =
+        final AUWritableClipsType clips =
           section.createClips(
             new AUClipDeclarations(
               clipList.stream()
@@ -249,11 +254,16 @@ public final class AUWriteDemo3
             )
           );
 
+        clipDescriptions = clips.clipDescriptions();
         for (final var cc : clipList) {
           try (var c = clips.writeAudioDataForClip(cc.clip.id())) {
             c.write(cc.data);
           }
         }
+      }
+
+      try (var section = writable.createSectionClipDefinitions()) {
+        section.writeClipDescriptions(clipDescriptions);
       }
 
       try (var section = writable.createSectionKeyAssignments()) {
@@ -356,7 +366,8 @@ public final class AUWriteDemo3
               HA_SHA256,
               HexFormat.of().formatHex(digestValue)
             ),
-            Integer.toUnsignedLong(bytes.length)
+            Integer.toUnsignedLong(bytes.length),
+            Optional.empty()
           ),
           ByteBuffer.wrap(bytes)
         );

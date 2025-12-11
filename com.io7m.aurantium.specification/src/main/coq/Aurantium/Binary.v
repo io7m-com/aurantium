@@ -1,3 +1,19 @@
+(*
+ * Copyright © 2025 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *)
+
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Strings.String.
 Require Import Coq.Lists.List.
@@ -214,146 +230,6 @@ Definition utf8 (s : string) : binaryExp :=
 Definition u32 := BiU32.
 Definition u64 := BiU64.
 Definition f64 := BiF64.
-
-(** The file header. *)
-Definition binaryExpFileHeader : binaryExp :=
-  BiRecord [
-    ("id",           u64 0x894155520D0A1A0A);
-    ("versionMajor", u32 1);
-    ("versionMinor", u32 0)
-  ].
-
-(** The binary encoding of an identifier. *)
-Definition binaryIdentifier (i : identifier) : binaryExp :=
-  BiRecord [
-    ("name",         utf8 (idName i));
-    ("versionMajor", u32 (idVersionMajor i));
-    ("versionMinor", u32 (idVersionMinor i))
-  ].
-
-(** The AURM_ID! section. *)
-Definition binaryIdentifierSection (i : identifier) : binaryExp :=
-  BiRecord [
-    ("id",   u64 0x4155524D5F494421);
-    ("size", u64 (binarySizePadded16 (binaryIdentifier i)));
-    ("data", binaryIdentifier i)
-  ].
-
-(** The AURMEND! section. *)
-Definition binaryEndSection : binaryExp := BiRecord [
-  ("id",   u64 0x4155524D454E4421);
-  ("size", u64 0)
-].
-
-(** The binary encoding of a hash. *)
-Definition binaryHash (h : hashValue) : binaryExp :=
-  BiRecord [
-    ("algorithm", utf8 (descriptorOf (hvAlgorithm h)));
-    ("value",     utf8 (hvValue h))
-  ].
-
-(** The binary encoding of a clip. *)
-Definition binaryClip (c : clip) : binaryExp :=
-  BiRecord [
-    ("id",          u32 (clipId c));
-    ("name",        utf8 (clipName c));
-    ("format",      utf8 (descriptorOf (clipFormat c)));
-    ("sampleRate",  u32 (clipSampleRate c));
-    ("sampleDepth", u32 (clipSampleDepth c));
-    ("channels",    u32 (clipChannels c));
-    ("endianness",  utf8 (descriptorOf (clipEndianness c)));
-    ("hash",        binaryHash (clipHash c));
-    ("offset",      u64 (clipOffset c));
-    ("size",        u64 (clipSize c))
-  ].
-
-(** The binary encoding of an array of clips. *)
-Definition binaryClips (c : clips) : binaryExp :=
-  BiArray (map binaryClip (clipsList c)).
-
-(** The AURMCLIP section. *)
-Definition binaryClipsSectionData (c : clips) : binaryExp :=
-  let audioDataStart  := clipOffset (clipFirst c) in
-  let encClips        := binaryClips c in
-  let encClipsSize    := binarySize encClips in
-  let encClipsPad     := audioDataStart - encClipsSize in
-  let audioDataSize   := clipAudioDataSizeTotal c in
-  let audioDataSize16 := asMultipleOf16 audioDataSize in
-    BiRecord [
-      ("clips",     encClips);
-      ("clipsPad",  BiReserve encClipsPad);
-      ("clipsData", BiReserve audioDataSize16)
-    ].
-
-Definition binaryClipsSection (c : clips) : binaryExp :=
-  BiRecord [
-    ("id",   u64 0x4155524D434C4950);
-    ("size", u64 (binarySizePadded16 (binaryClipsSectionData c)));
-    ("data", binaryClipsSectionData c)
-  ].
-
-Definition binaryKeyAssignmentFlag (f : keyAssignmentFlag) : binaryExp :=
-  utf8 (descriptorOf f).
-
-Definition binaryKeyAssignmentFlags (f : list keyAssignmentFlag) : binaryExp :=
-  BiArray (map binaryKeyAssignmentFlag f).
-
-Definition binaryKeyAssignment (k : keyAssignment) : binaryExp :=
-  BiRecord [
-    ("id",                        u32 (kaId k));
-    ("atKeyStart",                u32 (kaValueStart k));
-    ("atKeyCenter",               u32 (kaValueCenter k));
-    ("atKeyEnd",                  u32 (kaValueEnd k));
-    ("clipId",                    u32 (kaClipId k));
-    ("amplitudeAtKeyStart",       f64 (kaAmplitudeAtKeyStart k));
-    ("amplitudeAtKeyCenter",      f64 (kaAmplitudeAtKeyCenter k));
-    ("amplitudeAtKeyEnd",         f64 (kaAmplitudeAtKeyEnd k));
-    ("atVelocityStart",           f64 (kaAtVelocityStart k));
-    ("atVelocityCenter",          f64 (kaAtVelocityCenter k));
-    ("atVelocityEnd",             f64 (kaAtVelocityEnd k));
-    ("amplitudeAtVelocityStart",  f64 (kaAmplitudeAtVelocityStart k));
-    ("amplitudeAtVelocityCenter", f64 (kaAmplitudeAtVelocityCenter k));
-    ("amplitudeAtVelocityEnd",    f64 (kaAmplitudeAtVelocityEnd k));
-    ("flags",                     binaryKeyAssignmentFlags (kaFlags k))
-  ].
-
-Definition binaryKeyAssignments (f : list keyAssignment) : binaryExp :=
-  BiArray (map binaryKeyAssignment f).
-
-(** The AURMKEYS section. *)
-Definition binaryKeyAssignmentsSection (c : list keyAssignment) : binaryExp :=
-  BiRecord [
-    ("id",   u64 0x4155524D4b455953);
-    ("size", u64 (binarySizePadded16 (binaryKeyAssignments c)));
-    ("data", binaryKeyAssignments c)
-  ].
-
-Definition binaryExpMetadataValue (m : metadataValue) : binaryExp :=
-  BiRecord [
-    ("key",   utf8 (mKey m));
-    ("value", utf8 (mValue m))
-  ].
-
-Definition binaryExpMetadata (m : metadata) : binaryExp :=
-  BiArray (map binaryExpMetadataValue (mValues m)).
-
-(** The AURMMETA section. *)
-Definition binaryExpMetadataSection (m : metadata) : binaryExp := 
-  BiRecord [
-    ("id",   u64 0x4155524D4D455441);
-    ("size", u64 (binarySizePadded16 (binaryExpMetadata m)));
-    ("data", binaryExpMetadata m)
-  ].
-
-(** An example audio map file as a binary expression. *)
-Example binaryExampleFile (m : audioMap) : binaryExp :=
-  BiRecord [
-    ("file",  binaryExpFileHeader);
-    ("id",    binaryIdentifierSection (amIdentifier m));
-    ("clips", binaryClipsSection (amClips m));
-    ("keys",  binaryKeyAssignmentsSection (kasList (amKeyAssignments m)));
-    ("end",   binaryEndSection)
-  ].
 
 Lemma fold_right_add_cons : forall x xs,
   x + fold_right plus 0 xs = fold_right plus 0 (x :: xs).

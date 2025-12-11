@@ -20,10 +20,13 @@ package com.io7m.aurantium.tests;
 import com.io7m.aurantium.api.AUAudioFormatType;
 import com.io7m.aurantium.api.AUClipDescription;
 import com.io7m.aurantium.api.AUClipID;
+import com.io7m.aurantium.api.AUClipLoopRange;
 import com.io7m.aurantium.api.AUHashAlgorithm;
 import com.io7m.aurantium.api.AUHashValue;
 import com.io7m.aurantium.api.AUOctetOrder;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -45,7 +48,8 @@ public final class AUClipDescriptionTest
         AUOctetOrder.BIG_ENDIAN,
         new AUHashValue(AUHashAlgorithm.HA_SHA256, "abcd"),
         0L,
-        0L
+        0L,
+        Optional.empty()
       );
     });
     assertTrue(ex.getMessage().contains("rate"));
@@ -66,7 +70,8 @@ public final class AUClipDescriptionTest
           AUOctetOrder.BIG_ENDIAN,
           new AUHashValue(AUHashAlgorithm.HA_SHA256, "abcd"),
           0L,
-          0L
+          0L,
+          Optional.empty()
         );
       });
     assertTrue(ex.getMessage().contains("depth"));
@@ -87,9 +92,32 @@ public final class AUClipDescriptionTest
           AUOctetOrder.BIG_ENDIAN,
           new AUHashValue(AUHashAlgorithm.HA_SHA256, "abcd"),
           0L,
-          0L
+          0L,
+          Optional.empty()
         );
       });
     assertTrue(ex.getMessage().contains("Channel"));
+  }
+
+  @Test
+  public void testClipDescriptionLoopRange0()
+  {
+    final var ex =
+      assertThrows(IllegalArgumentException.class, () -> {
+        new AUClipDescription(
+          new AUClipID(0L),
+          "example.wav",
+          AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearFloat,
+          48000L,
+          16L,
+          1L,
+          AUOctetOrder.BIG_ENDIAN,
+          new AUHashValue(AUHashAlgorithm.HA_SHA256, "abcd"),
+          0L,
+          8L,
+          Optional.of(new AUClipLoopRange(0L, 8L))
+        );
+      });
+    assertTrue(ex.getMessage().contains("Loop range"));
   }
 }

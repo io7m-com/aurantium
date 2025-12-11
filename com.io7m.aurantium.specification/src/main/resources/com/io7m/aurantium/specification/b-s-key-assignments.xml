@@ -12,31 +12,14 @@
     </Paragraph>
 
     <Paragraph>
-      Key assignments are encoded as follows:
-    </Paragraph>
-
-    <FormalItem title="Key Assignment Encoding">
-      <Verbatim><xi:include href="12202.txt" parse="text"/></Verbatim>
-    </FormalItem>
-
-    <FormalItem title="Key Assignment Array Encoding">
-      <Verbatim><xi:include href="12203.txt" parse="text"/></Verbatim>
-    </FormalItem>
-
-    <FormalItem title="Key Assignment Flag Encoding">
-      <Verbatim><xi:include href="12200.txt" parse="text"/></Verbatim>
-    </FormalItem>
-
-    <FormalItem title="Key Assignment Flags Encoding">
-      <Verbatim><xi:include href="12201.txt" parse="text"/></Verbatim>
-    </FormalItem>
-
-    <Paragraph>
       Key assignment sections are encoded as follows:
     </Paragraph>
 
     <FormalItem title="Key Assignment Section Encoding">
-      <Verbatim><xi:include href="12204.txt" parse="text"/></Verbatim>
+      <Verbatim>
+        <xi:include href="12089.txt"
+                    parse="text"/>
+      </Verbatim>
     </FormalItem>
   </Subsection>
 

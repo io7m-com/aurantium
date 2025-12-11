@@ -16,18 +16,24 @@
 
 package com.io7m.aurantium.vanilla.internal;
 
+import com.io7m.aurantium.api.AUKeyAssignment;
+import com.io7m.aurantium.api.AUKeyAssignmentFlagType;
 import com.io7m.aurantium.api.AUKeyAssignments;
 import com.io7m.aurantium.api.AUSectionWritableKeyAssignmentsType;
 import com.io7m.aurantium.api.AUSectionWritableType;
+import com.io7m.aurantium.vanilla.internal.json.AU1KeyAssignment;
+import com.io7m.aurantium.vanilla.internal.json.AU1KeyAssignments;
+import com.io7m.aurantium.vanilla.internal.json.AU1Mappers;
 import com.io7m.aurantium.writer.api.AUWriteRequest;
 import com.io7m.jbssio.api.BSSWriterProviderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
 
 import java.io.IOException;
-import java.util.Comparator;
+import java.math.BigInteger;
 import java.util.Objects;
-
-import static java.lang.Integer.toUnsignedLong;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * A writable key assignments section.
@@ -60,6 +66,44 @@ public final class AU1SectionWritableKeyAssignments
     this.writers = Objects.requireNonNull(inWriters, "inWriters");
   }
 
+  private static BigInteger bigUnsigned(
+    final long value)
+  {
+    return new BigInteger(Long.toUnsignedString(value));
+  }
+
+  private static AU1KeyAssignment keyAssignment(
+    final AUKeyAssignment ka)
+  {
+    return new AU1KeyAssignment(
+      bigUnsigned(ka.id().value()),
+      bigUnsigned(ka.keyValueStart()),
+      bigUnsigned(ka.keyValueCenter()),
+      bigUnsigned(ka.keyValueEnd()),
+      bigUnsigned(ka.clipId().value()),
+      ka.amplitudeAtKeyStart(),
+      ka.amplitudeAtKeyCenter(),
+      ka.amplitudeAtKeyEnd(),
+      ka.atVelocityStart(),
+      ka.atVelocityCenter(),
+      ka.atVelocityEnd(),
+      ka.amplitudeAtVelocityStart(),
+      ka.amplitudeAtVelocityCenter(),
+      ka.amplitudeAtVelocityEnd(),
+      flags(ka.flags())
+    );
+  }
+
+  private static SortedSet<String> flags(
+    final Set<AUKeyAssignmentFlagType> flags)
+  {
+    final var out = new TreeSet<String>();
+    for (final var flag : flags) {
+      out.add(flag.descriptor().toString());
+    }
+    return out;
+  }
+
   @Override
   public void setKeyAssignments(
     final AUKeyAssignments assignments)
@@ -75,50 +119,21 @@ public final class AU1SectionWritableKeyAssignments
 
         final var e = this.expressions();
         final var input = assignments.assignments();
-        e.writeU32(writer, "count", toUnsignedLong(input.size()));
 
-        for (final var ka : input) {
-          e.writeU32(writer, "id", ka.id().value());
+        final var output =
+          input.stream()
+            .map(AU1SectionWritableKeyAssignments::keyAssignment)
+            .toList();
 
-          e.writeU32(writer, "keyValueStart", ka.keyValueStart());
-          e.writeU32(writer, "keyValueCenter", ka.keyValueCenter());
-          e.writeU32(writer, "keyValueEnd", ka.keyValueEnd());
+        final var mapper =
+          AU1Mappers.mapper();
+        final var data =
+          mapper.writeValueAsBytes(
+            new AU1KeyAssignments(AU1Mappers.SCHEMA_1, output)
+          );
 
-          e.writeU32(writer, "clipId", ka.clipId().value());
-
-          e.writeF64(writer, "amplitudeAtKeyStart", ka.amplitudeAtKeyStart());
-          e.writeF64(writer, "amplitudeAtKeyCenter", ka.amplitudeAtKeyCenter());
-          e.writeF64(writer, "amplitudeAtKeyEnd", ka.amplitudeAtKeyEnd());
-
-          e.writeF64(writer, "atVelocityStart", ka.atVelocityStart());
-          e.writeF64(writer, "atVelocityCenter", ka.atVelocityCenter());
-          e.writeF64(writer, "atVelocityEnd", ka.atVelocityEnd());
-
-          e.writeF64(
-            writer,
-            "amplitudeAtVelocityStart",
-            ka.amplitudeAtVelocityStart());
-          e.writeF64(
-            writer,
-            "amplitudeAtVelocityCenter",
-            ka.amplitudeAtVelocityCenter());
-          e.writeF64(
-            writer,
-            "amplitudeAtVelocityEnd",
-            ka.amplitudeAtVelocityEnd());
-
-          final var flags = ka.flags();
-          e.writeU32(writer, "flagsSize", toUnsignedLong(flags.size()));
-
-          final var sortedFlags =
-            flags.stream()
-              .sorted(Comparator.comparing(o -> o.descriptor().value()))
-              .toList();
-
-          for (final var flag : sortedFlags) {
-            e.writeUTF8(writer, flag.descriptor().value());
-          }
-        }
+        e.writeBytes(writer, "Data", data);
+        writer.align(16);
       }
     }
   }
