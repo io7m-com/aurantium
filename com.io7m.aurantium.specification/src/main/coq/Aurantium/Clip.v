@@ -132,7 +132,7 @@ Definition clipFrameCountLoopRange
   (c  : clip)
   (lr : loopRange) 
 : Prop :=
-  (clipFrameCount c) < (lrFrameEndInclusive lr).
+  (lrFrameEndInclusive lr) < (clipFrameCount c).
 
 (** A restatement of the loop range proposition for optional loop ranges. *)
 Definition clipFrameCountLoopRangeOption

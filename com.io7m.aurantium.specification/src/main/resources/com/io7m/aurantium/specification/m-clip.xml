@@ -314,6 +314,15 @@
     <FormalItem title="Clip (Invariants)">
       <Verbatim><xi:include href="5008.txt" parse="text"/></Verbatim>
     </FormalItem>
+    <FormalItem title="Clip Frame Count">
+      <Verbatim><xi:include href="5009.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Clip Loop Range">
+      <Verbatim><xi:include href="5010.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Clip Loop Range (Optional)">
+      <Verbatim><xi:include href="5011.txt" parse="text"/></Verbatim>
+    </FormalItem>
     <Paragraph>
       The <Term type="expression">clipId</Term> field specifies a unique (within the
       <Term type="package">aurantium</Term> file) identifier for the clip. This can be

@@ -79,6 +79,9 @@
 5006 ! Definition clipCompatCompare
 5007 ! Definition clipsCompatCompareChanged
 5008 ! Definition clipInvariants (
+5009 ! Definition clipFrameCount (
+5010 ! Definition clipFrameCountLoopRange
+5011 ! Definition clipFrameCountLoopRangeOption
 
 10077 ! Inductive binaryExp : Set
 10078 ! Fixpoint binarySize (b : binaryExp)
