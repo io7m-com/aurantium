@@ -523,7 +523,7 @@
 
   <Footnote id="f64d0168-f2eb-4ef0-b714-9c0472fe142c">
     The functions are specified as returning a value of type <Term type="expression">R</Term> due to
-    limitations in the Coq standard library's handling of the conversion of real number values to integers.
+    limitations in the Rocq standard library's handling of the conversion of real number values to integers.
     The functions should be understood to have their return values rounded to integer values in practice.
   </Footnote>
 
