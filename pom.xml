@@ -33,7 +33,7 @@
     <io7m.workID>4440b069-8624-3c53-af55-820a50ce32e1</io7m.workID>
 
     <!-- Configuration. -->
-    <io7m.api.previousVersion>1.0.0-beta0001</io7m.api.previousVersion>
+    <io7m.api.previousVersion>1.0.0-SNAPSHOT</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>25</io7m.java.targetJavaVersion>
 
     <!-- io7m dependencies. -->
