@@ -23,23 +23,27 @@ import java.util.Objects;
 /**
  * An audio map identifier.
  *
+ * @param group   The group name
  * @param name    The name
  * @param version The version
  */
 
 public record AUIdentifier(
+  RDottedName group,
   RDottedName name,
   AUVersion version)
 {
   /**
    * An audio map identifier.
    *
+   * @param group   The group name
    * @param name    The name
    * @param version The version
    */
 
   public AUIdentifier
   {
+    Objects.requireNonNull(group, "group");
     Objects.requireNonNull(name, "name");
     Objects.requireNonNull(version, "version");
   }

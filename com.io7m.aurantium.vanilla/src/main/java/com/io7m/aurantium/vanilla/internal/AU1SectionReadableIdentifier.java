@@ -62,6 +62,8 @@ public final class AU1SectionReadableIdentifier
       this.expressions();
     final var reader =
       this.sectionDataReader();
+    final var group =
+      e.readUTF8(reader, (int) this.description().size(), "Group");
     final var name =
       e.readUTF8(reader, (int) this.description().size(), "Name");
     final var major =
@@ -70,6 +72,7 @@ public final class AU1SectionReadableIdentifier
       e.readU32(reader, "VersionMinor");
 
     return new AUIdentifier(
+      new RDottedName(group),
       new RDottedName(name),
       new AUVersion((int) major, (int) minor)
     );

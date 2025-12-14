@@ -100,6 +100,7 @@ public final class AUWriteDemo3
 
       try (var section = writable.createSectionIdentifier()) {
         section.setIdentifier(new AUIdentifier(
+          new RDottedName("com.io7m.example_group"),
           new RDottedName("com.io7m.example"),
           new AUVersion(1, 0)
         ));

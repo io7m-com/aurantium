@@ -48,7 +48,7 @@ public enum AU1UnsignedInteger
     return () -> {
       final var mapper = configuration.mapper();
       final var object = mapper.createObjectNode();
-      object.put("type", "number");
+      object.put("type", "integer");
       object.put("description", "An unsigned integer.");
       object.put("minimum", 0);
       object.put("exclusiveMaximum", new BigInteger("18446744073709551616"));

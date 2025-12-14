@@ -54,7 +54,8 @@
           "$ref" : "#/$defs/BigInteger"
         }
       },
-      "required" : [ "Channels", "Endianness", "Format", "Hash", "ID", "Name", "Offset", "SampleDepth", "SampleRate", "Size" ]
+      "required" : [ "Channels", "Endianness", "Format", "Hash", "ID", "Name", "Offset", "SampleDepth", "SampleRate", "Size" ],
+      "additionalProperties" : false
     },
     "AU1ClipDescriptions" : {
       "type" : "object",
@@ -68,7 +69,8 @@
           "$ref" : "#/$defs/List<AU1ClipDescription>"
         }
       },
-      "required" : [ "%Schema" ]
+      "required" : [ "%Schema" ],
+      "additionalProperties" : false
     },
     "AU1ClipLoopRange" : {
       "type" : "object",
@@ -82,11 +84,12 @@
           "$ref" : "#/$defs/BigInteger"
         }
       },
-      "required" : [ "FrameEndInclusive", "FrameStart" ]
+      "required" : [ "FrameEndInclusive", "FrameStart" ],
+      "additionalProperties" : false
     },
     "AU1HashString" : {
-      "description" : "A hex string.",
       "type" : "string",
+      "description" : "A hexadecimal hash string.",
       "pattern" : "[a-f0-9]+"
     },
     "AU1HashValue" : {
@@ -101,7 +104,8 @@
           "$ref" : "#/$defs/AU1HashString"
         }
       },
-      "required" : [ "Algorithm", "Value" ]
+      "required" : [ "Algorithm", "Value" ],
+      "additionalProperties" : false
     },
     "AU1KeyAssignment" : {
       "type" : "object",
@@ -167,7 +171,8 @@
           "$ref" : "#/$defs/BigInteger"
         }
       },
-      "required" : [ "AmplitudeAtKeyCenter", "AmplitudeAtKeyEnd", "AmplitudeAtKeyStart", "AmplitudeAtVelocityCenter", "AmplitudeAtVelocityEnd", "AmplitudeAtVelocityStart", "AtVelocityCenter", "AtVelocityEnd", "AtVelocityStart", "ClipID", "Flags", "ID", "KeyValueCenter", "KeyValueEnd", "KeyValueStart" ]
+      "required" : [ "AmplitudeAtKeyCenter", "AmplitudeAtKeyEnd", "AmplitudeAtKeyStart", "AmplitudeAtVelocityCenter", "AmplitudeAtVelocityEnd", "AmplitudeAtVelocityStart", "AtVelocityCenter", "AtVelocityEnd", "AtVelocityStart", "ClipID", "Flags", "ID", "KeyValueCenter", "KeyValueEnd", "KeyValueStart" ],
+      "additionalProperties" : false
     },
     "AU1KeyAssignments" : {
       "type" : "object",
@@ -181,7 +186,8 @@
           "$ref" : "#/$defs/List<AU1KeyAssignment>"
         }
       },
-      "required" : [ "%Schema" ]
+      "required" : [ "%Schema" ],
+      "additionalProperties" : false
     },
     "AU1Metadata" : {
       "type" : "object",
@@ -195,7 +201,8 @@
           "$ref" : "#/$defs/SortedMap<String,List<String>>"
         }
       },
-      "required" : [ "%Schema" ]
+      "required" : [ "%Schema" ],
+      "additionalProperties" : false
     },
     "AU1SchemaObjectType" : {
       "oneOf" : [ {
@@ -216,13 +223,9 @@
         "$ref" : "#/$defs/AU1Metadata"
       } ]
     },
-    "BigDecimal" : {
-      "description" : "An arbitrary real number.",
-      "type" : "number"
-    },
     "BigInteger" : {
-      "description" : "A 64-bit unsigned integer value.",
-      "type" : "number",
+      "type" : "integer",
+      "description" : "An unsigned integer.",
       "minimum" : 0,
       "exclusiveMaximum" : 18446744073709551616
     },
@@ -253,36 +256,30 @@
       "$ref" : "#/$defs/AU1ClipLoopRange"
     },
     "RDottedName" : {
-      "description" : "A Lanark dotted name.",
       "type" : "string",
+      "description" : "A Lanark dotted name.",
       "pattern" : "([a-z][a-z0-9_-]{0,63})(\\.[a-z][a-z0-9_-]{0,62}){0,15}"
     },
     "SortedMap<String,List<String>>" : {
       "type" : "object",
-      "properties" : { },
-      "required" : [ ]
+      "additionalProperties" : {
+        "$ref" : "#/$defs/List<String>"
+      }
     },
     "SortedSet<String>" : {
-      "type" : "object",
-      "properties" : { },
-      "required" : [ ]
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/String"
+      }
     },
     "String" : {
-      "description" : "An arbitrary string.",
       "type" : "string"
     },
-    "boolean" : {
-      "type" : "boolean"
-    },
     "double" : {
-      "description" : "An arbitrary real number.",
-      "type" : "number"
-    },
-    "long" : {
-      "description" : "A 64-bit signed integer.",
       "type" : "number",
-      "minimum" : -9223372036854775808,
-      "maximum" : 9223372036854775807
+      "description" : "A normalized floating point value.",
+      "minimum" : 0,
+      "maximum" : 1
     }
   }
 }

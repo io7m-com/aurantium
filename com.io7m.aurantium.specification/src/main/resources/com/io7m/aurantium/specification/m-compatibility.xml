@@ -83,7 +83,9 @@
       <Verbatim><xi:include href="3000.txt" parse="text"/></Verbatim>
     </FormalItem>
     <Paragraph>
-      The <Term type="expression">idName</Term> field specifies a unique identifier for this audio map file.
+      The  <Term type="expression">idGroup</Term> and
+      <Term type="expression">idName</Term> fields specify unique identifiers for this audio map file
+      <LinkFootnote target="a0549309-94b3-4438-ad9e-a6822611715d"/>.
     </Paragraph>
     <Paragraph>
       Identifiers must be <Link target="f873764c-01dd-4c90-9efe-a6e29c2af477">Lanark dotted strings</Link>.
@@ -140,5 +142,13 @@
       <Verbatim><xi:include href="3005.txt" parse="text"/></Verbatim>
     </FormalItem>
   </Subsection>
+
+  <Footnote id="a0549309-94b3-4438-ad9e-a6822611715d">
+    The combination of a <Term type="term">group</Term>,
+    <Term type="term">name</Term>, and
+    <Term type="term">version</Term> makes sample maps compatible with
+    software repositories such as
+    <LinkExternal target="https://central.sonatype.com">Maven Central</LinkExternal>.
+  </Footnote>
 
 </Section>

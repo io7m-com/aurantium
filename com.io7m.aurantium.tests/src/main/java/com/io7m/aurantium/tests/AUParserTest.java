@@ -94,6 +94,10 @@ public final class AUParserTest
 
           final AUIdentifier identifier = section.identifier();
           assertEquals(
+            "com.io7m.example_group",
+            identifier.group().value()
+          );
+          assertEquals(
             "com.io7m.example",
             identifier.name().value()
           );
@@ -103,7 +107,7 @@ public final class AUParserTest
           );
 
           try (var ch = section.sectionDataChannel()) {
-            assertEquals(32L, ch.size());
+            assertEquals(64L, ch.size());
           }
 
           assertEquals(

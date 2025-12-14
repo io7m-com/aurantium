@@ -21,6 +21,7 @@ Local Open Scope string_scope.
 Local Open Scope char_scope.
 
 Inductive identifier : Set := identifierMake {
+  idGroup             : string;
   idName              : string;
   idVersionMajor      : nat;
   idVersionMinor      : nat;
