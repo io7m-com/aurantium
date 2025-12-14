@@ -14,9 +14,9 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Reals.Reals.
-Require Import Coq.Reals.ROrderedType.
-Require Import Psatz.
+From Stdlib Require Import Reals.Reals.
+From Stdlib Require Import Reals.ROrderedType.
+From Stdlib Require Import Psatz.
 
 (* Set Mangle Names. *)
 

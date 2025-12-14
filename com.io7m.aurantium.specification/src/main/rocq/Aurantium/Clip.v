@@ -14,12 +14,12 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Init.Nat.
-Require Import Coq.Reals.Reals.
-Require Import Psatz.
+From Stdlib Require Import Strings.String.
+From Stdlib Require Import Strings.Ascii.
+From Stdlib Require Import Lists.List.
+From Stdlib Require Import Init.Nat.
+From Stdlib Require Import Reals.Reals.
+From Stdlib Require Import Psatz.
 
 Import ListNotations.
 

@@ -14,16 +14,16 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Lists.List.
-Require Import Coq.Init.Nat.
-Require Import Coq.Arith.Peano_dec.
-Require Import Coq.Arith.PeanoNat.
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Reals.Reals.
-Require Import Coq.Reals.ROrderedType.
+From Stdlib Require Import Lists.List.
+From Stdlib Require Import Init.Nat.
+From Stdlib Require Import Arith.Peano_dec.
+From Stdlib Require Import Arith.PeanoNat.
+From Stdlib Require Import Strings.String.
+From Stdlib Require Import Strings.Ascii.
+From Stdlib Require Import Reals.Reals.
+From Stdlib Require Import Reals.ROrderedType.
 
-Require Import Psatz.
+From Stdlib Require Import Psatz.
 
 Require Import Aurantium.Compatibility.
 Require Import Aurantium.Intersection.
@@ -337,35 +337,73 @@ Definition keyAssignmentMatches
   let p3 := (velocity <= (kaAtVelocityEnd assignment))%R in
     p0 /\ p1 /\ p2 /\ p3.
 
+Close Scope R_scope.
+
+Lemma keyAssignmentNoMatchKeyTooLow : forall k v a,
+  k < (kaValueStart a) -> ~keyAssignmentMatches k v a.
+Proof.
+  intros k v a Hlt.
+  unfold not; intro Hcontra; inversion Hcontra.
+  intuition.
+Qed.
+
+Lemma keyAssignmentNoMatchKeyTooHigh : forall k v a,
+  (kaValueEnd a) < k -> ~keyAssignmentMatches k v a.
+Proof.
+  intros k v a Hlt.
+  unfold not; intro Hcontra; inversion Hcontra.
+  intuition.
+Qed.
+
+Local Open Scope R_scope.
+
+Lemma keyAssignmentNoMatchVelocityTooLow : forall k v a,
+  v < (kaAtVelocityStart a) -> ~keyAssignmentMatches k v a.
+Proof.
+  intros k v a Hlt.
+  unfold not; intro Hcontra; inversion Hcontra.
+  intuition.
+  lra.
+Qed.
+
+Lemma keyAssignmentNoMatchVelocityTooHigh : forall k v a,
+  (kaAtVelocityEnd a) < v -> ~keyAssignmentMatches k v a.
+Proof.
+  intros k v a Hlt.
+  unfold not; intro Hcontra; inversion Hcontra.
+  intuition.
+  lra.
+Qed.
+
 (** Whether or not a key assignment matches is decidable. *)
 Theorem keyAssignmentMatchesDecidable : forall k v a,
   {keyAssignmentMatches k v a}+{~keyAssignmentMatches k v a}.
 Proof.
   intros k v a.
-  destruct (le_dec (kaValueStart a) k) as [H0L|H0R]. {
-    destruct (le_dec k (kaValueEnd a)) as [H1L|H1R]. {
-      destruct (Rle_dec (kaAtVelocityStart a) v) as [H2L|H2R]. {
-        destruct (Rle_dec v (kaAtVelocityEnd a)) as [H3L|H3R]. {
-          left. constructor; auto.
+  destruct (Compare_dec.le_dec (kaValueStart a) k) as [HksL|HksR]. {
+    destruct (Compare_dec.le_dec k (kaValueEnd a)) as [HkeL|HkeR]. {
+      destruct (Rle_dec (kaAtVelocityStart a) v) as [HvsL|HvsR]. {
+        destruct (Rle_dec v (kaAtVelocityEnd a)) as [HveL|HveR]. {
+          left; constructor; auto.
         } {
           right.
-          unfold not; intro Hcontra; inversion Hcontra.
-          intuition.
+          apply keyAssignmentNoMatchVelocityTooHigh.
+          apply Rnot_le_lt. exact HveR.
         }
       } {
         right.
-        unfold not; intro Hcontra; inversion Hcontra.
-        intuition.
+        apply keyAssignmentNoMatchVelocityTooLow.
+        apply Rnot_le_lt. exact HvsR.
       }
     } {
       right.
-      unfold not; intro Hcontra; inversion Hcontra.
-      intuition.
+      apply keyAssignmentNoMatchKeyTooHigh.
+      rewrite Nat.nle_gt in HkeR. exact HkeR.
     }
   } {
     right.
-    unfold not; intro Hcontra; inversion Hcontra.
-    intuition.
+    apply keyAssignmentNoMatchKeyTooLow.
+    rewrite Nat.nle_gt in HksR. exact HksR.
   }
 Qed.
 
@@ -550,7 +588,7 @@ Definition keyAssignmentEvaluateAmplitudeForKey
     match Nat.compare key kMid with
     | Eq => kaAmplitudeAtKeyCenter assignment
     | Lt =>
-      match lt_dec kLow kMid with
+      match Compare_dec.lt_dec kLow kMid with
       | right _  => kaAmplitudeAtKeyCenter assignment
       | left _ =>
         let f := between (INR key) (INR kLow) (INR kMid) in
@@ -560,7 +598,7 @@ Definition keyAssignmentEvaluateAmplitudeForKey
             f
       end
     | Gt =>
-      match lt_dec kMid kTop with
+      match Compare_dec.lt_dec kMid kTop with
       | right _  => kaAmplitudeAtKeyCenter assignment
       | left _ =>
         let f := between (INR key) (INR kMid) (INR kTop) in
@@ -599,7 +637,7 @@ Proof.
     remember (between rk rks rkc) as f.
 
     (* If the starting key is < the center key... *)
-    destruct (lt_dec ks kc) as [Hklt|Hknlt]. {
+    destruct (Compare_dec.lt_dec ks kc) as [Hklt|Hknlt]. {
       assert (isNormalized f) as Hnorm. {
         rewrite Heqf.
         rewrite Heqrk.
@@ -653,7 +691,7 @@ Proof.
     remember (between rk rkc rke) as f.
 
     (* If the center key is < the end key... *)
-    destruct (lt_dec kc ke) as [Hklt|Hknlt]. {
+    destruct (Compare_dec.lt_dec kc ke) as [Hklt|Hknlt]. {
       assert (isNormalized f) as Hnorm. {
         rewrite Heqf.
         rewrite Heqrk.

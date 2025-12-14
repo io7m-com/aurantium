@@ -14,9 +14,9 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Strings.String.
-Require Import Coq.Numbers.DecimalString.
-Require Import Coq.Lists.List.
+From Stdlib Require Import Strings.String.
+From Stdlib Require Import Numbers.DecimalString.
+From Stdlib Require Import Lists.List.
 
 Local Open Scope string_scope.
 
