@@ -20,6 +20,7 @@
 
   <modules>
     <module>com.io7m.aurantium.api</module>
+    <module>com.io7m.aurantium.bom</module>
     <module>com.io7m.aurantium.json.schemagen</module>
     <module>com.io7m.aurantium.parser.api</module>
     <module>com.io7m.aurantium.specification</module>
