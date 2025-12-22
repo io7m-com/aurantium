@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2025 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,19 +15,12 @@
  */
 
 /**
- * Aurantium format (API specification)
+ * Aurantium format (javax.media support)
  */
 
-module com.io7m.aurantium.api
-{
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
+@Export
+@Version("1.0.0")
+package com.io7m.aurantium.xmedia;
 
-  requires com.io7m.abstand.core;
-  requires com.io7m.jinterp.core;
-  requires com.io7m.junsigned.core;
-  requires com.io7m.lanark.core;
-  requires com.io7m.seltzer.api;
-
-  exports com.io7m.aurantium.api;
-}
+import org.osgi.annotation.bundle.Export;
+import org.osgi.annotation.versioning.Version;

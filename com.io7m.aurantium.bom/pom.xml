@@ -50,6 +50,11 @@
         <artifactId>com.io7m.aurantium.writer.api</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>com.io7m.aurantium.samplebuffers</artifactId>
+        <version>${project.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

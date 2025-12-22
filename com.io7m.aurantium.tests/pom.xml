@@ -49,6 +49,11 @@
       <artifactId>com.io7m.aurantium.vanilla</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>com.io7m.aurantium.xmedia</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>com.io7m.jmulticlose</groupId>

@@ -28,6 +28,7 @@
     <module>com.io7m.aurantium.validation.api</module>
     <module>com.io7m.aurantium.vanilla</module>
     <module>com.io7m.aurantium.writer.api</module>
+    <module>com.io7m.aurantium.xmedia</module>
   </modules>
 
   <properties>
@@ -218,6 +219,11 @@
         <groupId>com.fasterxml</groupId>
         <artifactId>classmate</artifactId>
         <version>1.7.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.flannel</groupId>
+        <artifactId>com.io7m.flannel.core</artifactId>
+        <version>1.0.0</version>
       </dependency>
 
       <!-- Test suite -->
