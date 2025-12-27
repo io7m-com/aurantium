@@ -84,8 +84,8 @@
       consisting of <Term type="expression">n</Term> channels, the value of
       channel <Term type="expression">0</Term> at time <Term type="expression">t</Term> is stored,
       directly followed by the value of channel <Term type="expression">1</Term> at time
-      <Term type="expression">t</Term>, continuing up the value of
-      channel <Term type="expression">n</Term> at <Term type="expression">t</Term>. The pattern is
+      <Term type="expression">t</Term>, continuing up to the value of
+      channel <Term type="expression">n - 1</Term> at <Term type="expression">t</Term>. The pattern is
       then repeated for the values at time <Term type="expression">t + 1</Term>, and so on. Note that
       the interleaving order is irrespective of
       <Link target="7dcd7294-d560-4161-9b84-ca97d594e1bf">sample endianness</Link>.
