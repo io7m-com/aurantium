@@ -138,7 +138,7 @@ public final class AUParserTest
             assertEquals(
               new AUHashValue(
                 AUHashAlgorithm.HA_SHA256,
-                "b82485b383d706f0275c0c6ee8de62554458ec207cbf736b93c2c560ccc3a8fa"
+                "ab641038204da38e4160d2e4b0767d62843deae4f5d9181acf9ab2a6906c53aa"
               ),
               c.hash()
             );
@@ -161,7 +161,7 @@ public final class AUParserTest
             assertEquals(
               new AUHashValue(
                 AUHashAlgorithm.HA_SHA256,
-                "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+                "1e627b6efb7ebc5bc4dfcab8aaf673fb8b7a1b24f44f4b0374a2d4a4241aa865"
               ),
               c.hash()
             );

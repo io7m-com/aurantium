@@ -47,6 +47,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 
+import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFFlac;
 import static com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard.AFPCMLinearFloat;
 import static com.io7m.aurantium.api.AUHashAlgorithm.HA_SHA256;
 import static com.io7m.aurantium.api.AUOctetOrder.BIG_ENDIAN;
@@ -57,14 +58,14 @@ import static java.nio.file.StandardOpenOption.WRITE;
 import static java.util.Map.entry;
 import static java.util.Map.ofEntries;
 
-public final class AUWriteDemo
+public final class AUWriteSimpleAAMNotFlac
 {
   private static final Logger LOG =
-    LoggerFactory.getLogger(AUWriteDemo.class);
+    LoggerFactory.getLogger(AUWriteSimpleAAMNotFlac.class);
   public static final AUClipID CLIP_0 = new AUClipID(0L);
   public static final AUClipID CLIP_1 = new AUClipID(1L);
 
-  private AUWriteDemo()
+  private AUWriteSimpleAAMNotFlac()
   {
 
   }
@@ -110,26 +111,14 @@ public final class AUWriteDemo
             new AUClipDeclaration(
               CLIP_0,
               "0.wav",
-              AFPCMLinearFloat,
+              AFFlac,
               48000L,
               32L,
               1L,
               BIG_ENDIAN,
-              new AUHashValue(HA_SHA256, "b82485b383d706f0275c0c6ee8de62554458ec207cbf736b93c2c560ccc3a8fa"),
+              new AUHashValue(HA_SHA256, "ab641038204da38e4160d2e4b0767d62843deae4f5d9181acf9ab2a6906c53aa"),
               128L * 4L,
               Optional.of(new AUClipLoopRange(0L, 20L))
-            ),
-            new AUClipDeclaration(
-              CLIP_1,
-              "1.wav",
-              AFPCMLinearFloat,
-              48000L,
-              32L,
-              1L,
-              AUOctetOrder.LITTLE_ENDIAN,
-              new AUHashValue(HA_SHA256, "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"),
-              128L * 4L,
-              Optional.empty()
             )
           )
         );
@@ -142,15 +131,6 @@ public final class AUWriteDemo
         try (var ch = clips.writeAudioDataForClip(CLIP_0)) {
           final var buf = ByteBuffer.allocate(128 * 4);
           buf.order(ByteOrder.BIG_ENDIAN);
-          for (int index = 0; index < 128; index += 1) {
-            buf.putFloat(index * 4, (float) index / 128.0f);
-          }
-          ch.write(buf);
-        }
-
-        try (var ch = clips.writeAudioDataForClip(CLIP_1)) {
-          final var buf = ByteBuffer.allocate(128 * 4);
-          buf.order(ByteOrder.LITTLE_ENDIAN);
           for (int index = 0; index < 128; index += 1) {
             buf.putFloat(index * 4, (float) index / 128.0f);
           }
