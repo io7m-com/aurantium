@@ -108,7 +108,7 @@ public final class AUWriteDemo4
       }
 
       try (var section = writable.createSectionMetadata()) {
-        section.setMetadata(Map.of());
+        section.setMetadata(List.of());
       }
 
       try (var section = writable.createSection(0x11223344_AABBCCDDL)) {

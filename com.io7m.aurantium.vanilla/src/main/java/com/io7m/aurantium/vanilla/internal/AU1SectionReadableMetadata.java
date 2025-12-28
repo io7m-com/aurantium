@@ -18,6 +18,7 @@ package com.io7m.aurantium.vanilla.internal;
 
 
 import com.io7m.aurantium.api.AUFileSectionDescription;
+import com.io7m.aurantium.api.AUMetadataValue;
 import com.io7m.aurantium.api.AUSectionReadableMetadataType;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.aurantium.vanilla.internal.json.AU1Mappers;
@@ -30,8 +31,8 @@ import tools.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.nio.channels.Channels;
 import java.nio.channels.SeekableByteChannel;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A readable metadata section.
@@ -60,7 +61,7 @@ public final class AU1SectionReadableMetadata
   }
 
   @Override
-  public Map<String, List<String>> metadata()
+  public List<AUMetadataValue> metadata()
     throws IOException
   {
     final var reader =
@@ -74,12 +75,19 @@ public final class AU1SectionReadableMetadata
     try (var bounded =
            new SubrangeSeekableByteChannel(baseChannel, 4L, size)) {
       try (var stream = Channels.newInputStream(bounded)) {
-        return mapper.readValue(
+        final var mapData = mapper.readValue(
           stream,
           new TypeReference<AU1Metadata>()
           {
           }
         ).metadata();
+        final var output = new ArrayList<AUMetadataValue>();
+        for (final var entry : mapData.entrySet()) {
+          for (final var value : entry.getValue()) {
+            output.add(new AUMetadataValue(entry.getKey(), value));
+          }
+        }
+        return List.copyOf(output);
       }
     }
   }

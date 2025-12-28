@@ -18,7 +18,6 @@ package com.io7m.aurantium.api;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The type of readable metadata sections.
@@ -33,6 +32,6 @@ public non-sealed interface AUSectionReadableMetadataType
    * @throws IOException On I/O errors
    */
 
-  Map<String, List<String>> metadata()
+  List<AUMetadataValue> metadata()
     throws IOException;
 }

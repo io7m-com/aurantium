@@ -26,6 +26,7 @@ import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUKeyAssignment;
 import com.io7m.aurantium.api.AUKeyAssignmentID;
 import com.io7m.aurantium.api.AUKeyAssignments;
+import com.io7m.aurantium.api.AUMetadataValue;
 import com.io7m.aurantium.api.AUSectionReadableMetadataType;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
@@ -168,17 +169,17 @@ public final class AUWriteSimpleAAMFlacShort
 
       try (var section = writable.createSectionMetadata()) {
         section.setMetadata(
-          ofEntries(
-            entry("key0", List.of("value0")),
-            entry("key1", List.of("value1")),
-            entry("key2", List.of("value2")),
-            entry("key3", List.of("value3")),
-            entry("key4", List.of("value4")),
-            entry("key5", List.of("value5")),
-            entry("key6", List.of("value6")),
-            entry("key7", List.of("value7")),
-            entry("key8", List.of("value8")),
-            entry("key9", List.of("value9"))
+          List.of(
+            new AUMetadataValue("key0", "value0"),
+            new AUMetadataValue("key1", "value1"),
+            new AUMetadataValue("key2", "value2"),
+            new AUMetadataValue("key3", "value3"),
+            new AUMetadataValue("key4", "value4"),
+            new AUMetadataValue("key5", "value5"),
+            new AUMetadataValue("key6", "value6"),
+            new AUMetadataValue("key7", "value7"),
+            new AUMetadataValue("key8", "value8"),
+            new AUMetadataValue("key9", "value9")
           )
         );
       }

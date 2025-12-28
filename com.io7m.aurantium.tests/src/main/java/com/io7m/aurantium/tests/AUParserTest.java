@@ -24,6 +24,7 @@ import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUIdentifiers;
 import com.io7m.aurantium.api.AUKeyAssignment;
 import com.io7m.aurantium.api.AUKeyAssignmentID;
+import com.io7m.aurantium.api.AUMetadataValue;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.aurantium.parser.api.AUParsers;
@@ -39,6 +40,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -238,17 +240,21 @@ public final class AUParserTest
           final var meta =
             section.metadata();
 
-          assertEquals("value0", meta.get("key0").get(0));
-          assertEquals("value1", meta.get("key1").get(0));
-          assertEquals("value2", meta.get("key2").get(0));
-          assertEquals("value3", meta.get("key3").get(0));
-          assertEquals("value4", meta.get("key4").get(0));
-          assertEquals("value5", meta.get("key5").get(0));
-          assertEquals("value6", meta.get("key6").get(0));
-          assertEquals("value7", meta.get("key7").get(0));
-          assertEquals("value8", meta.get("key8").get(0));
-          assertEquals("value9", meta.get("key9").get(0));
-          assertEquals(10, meta.size());
+          assertEquals(
+            List.of(
+              new AUMetadataValue("key0", "value0"),
+              new AUMetadataValue("key1", "value1"),
+              new AUMetadataValue("key2", "value2"),
+              new AUMetadataValue("key3", "value3"),
+              new AUMetadataValue("key4", "value4"),
+              new AUMetadataValue("key5", "value5"),
+              new AUMetadataValue("key6", "value6"),
+              new AUMetadataValue("key7", "value7"),
+              new AUMetadataValue("key8", "value8"),
+              new AUMetadataValue("key9", "value9")
+            ),
+            meta
+          );
 
           try (var ch = section.sectionDataChannel()) {
             assertEquals(240L, ch.size());

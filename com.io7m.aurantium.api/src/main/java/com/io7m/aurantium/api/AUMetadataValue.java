@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2025 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,24 +16,40 @@
 
 package com.io7m.aurantium.api;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Objects;
 
 /**
- * A writable metadata section.
+ * A metadata value.
+ *
+ * @param name  The name
+ * @param value The value
  */
 
-public non-sealed interface AUSectionWritableMetadataType
-  extends AUSectionWritableStandardType
+public record AUMetadataValue(
+  String name,
+  String value)
+  implements Comparable<AUMetadataValue>
 {
   /**
-   * Set the keys and values.
+   * A metadata value.
    *
-   * @param metadata The metadata
-   *
-   * @throws IOException On errors
+   * @param name  The name
+   * @param value The value
    */
 
-  void setMetadata(List<AUMetadataValue> metadata)
-    throws IOException;
+  public AUMetadataValue
+  {
+    Objects.requireNonNull(name, "Name");
+    Objects.requireNonNull(value, "Value");
+  }
+
+  @Override
+  public int compareTo(
+    final AUMetadataValue o)
+  {
+    return Comparator.comparing(AUMetadataValue::name)
+      .thenComparing(AUMetadataValue::value)
+      .compare(this, o);
+  }
 }

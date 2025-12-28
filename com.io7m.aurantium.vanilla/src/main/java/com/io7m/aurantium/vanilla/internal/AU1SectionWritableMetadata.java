@@ -16,6 +16,7 @@
 
 package com.io7m.aurantium.vanilla.internal;
 
+import com.io7m.aurantium.api.AUMetadataValue;
 import com.io7m.aurantium.api.AUSectionWritableMetadataType;
 import com.io7m.aurantium.api.AUSectionWritableType;
 import com.io7m.aurantium.vanilla.internal.json.AU1Mappers;
@@ -25,8 +26,8 @@ import com.io7m.jbssio.api.BSSWriterProviderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
@@ -63,10 +64,20 @@ public final class AU1SectionWritableMetadata
 
   @Override
   public void setMetadata(
-    final Map<String, List<String>> metadata)
+    final List<AUMetadataValue> metadata)
     throws IOException
   {
     Objects.requireNonNull(metadata, "metadata");
+
+    final var combined = new TreeMap<String, List<String>>();
+    for (final var element : metadata) {
+      var existing = combined.get(element.name());
+      if (existing == null) {
+        existing = new ArrayList<>();
+      }
+      combined.put(element.name(), existing);
+      existing.add(element.value());
+    }
 
     try (var channel = this.sectionDataChannel()) {
       final var targetURI = this.request().target();
@@ -76,7 +87,7 @@ public final class AU1SectionWritableMetadata
         final var e = this.expressions();
         final var mapper = AU1Mappers.mapper();
         final var data = mapper.writeValueAsBytes(
-          new AU1Metadata(AU1Mappers.SCHEMA_1, new TreeMap<>(metadata))
+          new AU1Metadata(AU1Mappers.SCHEMA_1, combined)
         );
         e.writeBytes(writer, "Data", data);
       }
