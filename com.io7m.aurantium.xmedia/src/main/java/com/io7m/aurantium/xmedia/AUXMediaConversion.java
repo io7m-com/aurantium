@@ -18,6 +18,7 @@ package com.io7m.aurantium.xmedia;
 
 import com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatStandard;
 import com.io7m.aurantium.api.AUAudioFormatType.AUAudioFormatUnknown;
+import com.io7m.aurantium.api.AUClipDeclaration;
 import com.io7m.aurantium.api.AUClipDescription;
 import com.io7m.aurantium.api.AUException;
 
@@ -44,6 +45,64 @@ public final class AUXMediaConversion
   /**
    * Create an audio stream of the given clip data.
    *
+   * @param declaration The clip declaration
+   * @param data        The data
+   *
+   * @return A stream
+   *
+   * @throws AUException On errors
+   */
+
+  public static AudioInputStream createAudioStreamOf(
+    final AUClipDeclaration declaration,
+    final SeekableByteChannel data)
+    throws AUException
+  {
+    Objects.requireNonNull(declaration, "Description");
+    Objects.requireNonNull(data, "Data");
+
+    return switch (declaration.format()) {
+      case final AUAudioFormatStandard fmt -> {
+        final Encoding encoding =
+          decideEncoding(declaration);
+
+        final boolean bigEndian =
+          switch (declaration.endianness()) {
+            case BIG_ENDIAN -> {
+              yield true;
+            }
+            case LITTLE_ENDIAN -> {
+              yield false;
+            }
+          };
+
+
+        final AudioFormat format =
+          new AudioFormat(
+            encoding,
+            (float) declaration.sampleRate(),
+            (int) declaration.sampleDepth(),
+            (int) declaration.channels(),
+            (int) declaration.frameSizeOctets(),
+            (float) declaration.sampleRate(),
+            bigEndian
+          );
+
+        yield new AudioInputStream(
+          Channels.newInputStream(data),
+          format,
+          declaration.frames()
+        );
+      }
+      case final AUAudioFormatUnknown fmt -> {
+        throw errorUnsupportedFormat(declaration, fmt);
+      }
+    };
+  }
+
+  /**
+   * Create an audio stream of the given clip data.
+   *
    * @param description The clip description
    * @param data        The data
    *
@@ -60,46 +119,25 @@ public final class AUXMediaConversion
     Objects.requireNonNull(description, "Description");
     Objects.requireNonNull(data, "Data");
 
-    return switch (description.format()) {
-      case final AUAudioFormatStandard fmt -> {
-        final Encoding encoding =
-          decideEncoding(description);
-
-        final boolean bigEndian =
-          switch (description.endianness()) {
-            case BIG_ENDIAN -> {
-              yield true;
-            }
-            case LITTLE_ENDIAN -> {
-              yield false;
-            }
-          };
-
-        final AudioFormat format =
-          new AudioFormat(
-            encoding,
-            (float) description.sampleRate(),
-            (int) description.sampleDepth(),
-            (int) description.channels(),
-            (int) description.frameSizeOctets(),
-            (float) description.sampleRate(),
-            bigEndian
-          );
-
-        yield new AudioInputStream(
-          Channels.newInputStream(data),
-          format,
-          description.frames()
-        );
-      }
-      case final AUAudioFormatUnknown fmt -> {
-        throw errorUnsupportedFormat(description, fmt);
-      }
-    };
+    return createAudioStreamOf(
+      new AUClipDeclaration(
+        description.id(),
+        description.name(),
+        description.format(),
+        description.sampleRate(),
+        description.sampleDepth(),
+        description.channels(),
+        description.endianness(),
+        description.hash(),
+        description.size(),
+        description.loopRange()
+      ),
+      data
+    );
   }
 
   private static Encoding decideEncoding(
-    final AUClipDescription description)
+    final AUClipDeclaration description)
     throws AUException
   {
     return switch (description.format()) {
@@ -126,7 +164,7 @@ public final class AUXMediaConversion
   }
 
   private static AUException errorUnsupportedFormat(
-    final AUClipDescription description,
+    final AUClipDeclaration description,
     final AUAudioFormatUnknown format)
   {
     return new AUException(

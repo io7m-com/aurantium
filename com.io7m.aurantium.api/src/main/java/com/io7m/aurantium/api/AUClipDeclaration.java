@@ -94,4 +94,40 @@ public record AUClipDeclaration(
       }
     });
   }
+
+  /**
+   * @return The number of frames implied by the clip description
+   */
+
+  public long frames()
+  {
+    return this.size / this.sampleSizeOctets();
+  }
+
+  /**
+   * @return The size of a single sample in octets
+   */
+
+  public long sampleSizeOctets()
+  {
+    return this.sampleDepth >>> 3L;
+  }
+
+  /**
+   * @return The size of a single frame in octets
+   */
+
+  public long frameSizeOctets()
+  {
+    return this.sampleSizeOctets() * this.channels;
+  }
+
+  /**
+   * @return The number of samples implied by the clip description
+   */
+
+  public long samples()
+  {
+    return this.frames() * this.channels;
+  }
 }
