@@ -102,9 +102,7 @@ public final class AUWriterTest
       final var readRequest0 =
         new AUParseRequest(
           chRead0,
-          fileSrc.toUri(),
-          1024L,
-          1024L
+          fileSrc.toUri()
         );
 
       final var parser0 =
@@ -158,9 +156,7 @@ public final class AUWriterTest
       final var readRequest1 =
         new AUParseRequest(
           chRead1,
-          fileOut.toUri(),
-          1024L,
-          1024L
+          fileOut.toUri()
         );
 
       final var parser1 =

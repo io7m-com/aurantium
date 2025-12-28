@@ -62,40 +62,6 @@ public interface AUParseRequestBuilderType
     URI inSource);
 
   /**
-   * @return The descriptor length limit
-   */
-
-  long descriptorLengthLimit();
-
-  /**
-   * Set the descriptor length limit.
-   *
-   * @param limit The limit
-   *
-   * @return this
-   */
-
-  AUParseRequestBuilderType setDescriptorLengthLimit(
-    long limit);
-
-  /**
-   * @return The maximum length of a key or value in metadata
-   */
-
-  long keyValueDatumLimit();
-
-  /**
-   * Set the maximum length of a key or value in metadata.
-   *
-   * @param limit The limit
-   *
-   * @return this
-   */
-
-  AUParseRequestBuilderType setKeyValueDatumLimit(
-    long limit);
-
-  /**
    * @return An immutable parse request
    */
 

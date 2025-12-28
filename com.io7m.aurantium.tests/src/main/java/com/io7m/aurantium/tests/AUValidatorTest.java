@@ -97,7 +97,7 @@ public final class AUValidatorTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile =
@@ -120,7 +120,7 @@ public final class AUValidatorTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile =
@@ -161,7 +161,7 @@ public final class AUValidatorTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile =
@@ -194,7 +194,7 @@ public final class AUValidatorTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile =
@@ -254,7 +254,7 @@ public final class AUValidatorTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile =

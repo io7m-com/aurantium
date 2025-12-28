@@ -51,19 +51,13 @@ public final class AUParseRequestTest
       AUParseRequest.builder(channel0, file0.toUri());
 
     builder.setChannel(channel1);
-    builder.setDescriptorLengthLimit(128L);
-    builder.setKeyValueDatumLimit(23L);
     builder.setSource(file1.toUri());
 
     assertEquals(file1.toUri(), builder.source());
     assertEquals(channel1, builder.channel());
-    assertEquals(23L, builder.keyValueDatumLimit());
-    assertEquals(128L, builder.descriptorLengthLimit());
 
     final var request = builder.build();
     assertEquals(file1.toUri(), request.source());
     assertEquals(channel1, request.channel());
-    assertEquals(23L, request.keyValueDatumLimit());
-    assertEquals(128L, request.descriptorLengthLimit());
   }
 }

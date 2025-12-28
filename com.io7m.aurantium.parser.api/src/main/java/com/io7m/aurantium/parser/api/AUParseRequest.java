@@ -25,23 +25,17 @@ import java.util.Objects;
  *
  * @param channel               The file channel
  * @param source                The data source
- * @param descriptorLengthLimit The maximum descriptor length
- * @param keyValueDatumLimit    The maximum value of a metadata key or value
  */
 
 public record AUParseRequest(
   SeekableByteChannel channel,
-  URI source,
-  long descriptorLengthLimit,
-  long keyValueDatumLimit)
+  URI source)
 {
   /**
    * A parse request.
    *
    * @param channel               The file channel
    * @param source                The data source
-   * @param descriptorLengthLimit The maximum descriptor length
-   * @param keyValueDatumLimit    The maximum value of a metadata key or value
    */
 
   public AUParseRequest
@@ -71,8 +65,6 @@ public record AUParseRequest(
   {
     private SeekableByteChannel channel;
     private URI source;
-    private long keyValueDatumLimit = 1_000_000L;
-    private long descriptorLengthLimit = 1024L;
 
     private Builder(
       final SeekableByteChannel inChannel,
@@ -113,41 +105,11 @@ public record AUParseRequest(
     }
 
     @Override
-    public long descriptorLengthLimit()
-    {
-      return this.descriptorLengthLimit;
-    }
-
-    @Override
-    public AUParseRequestBuilderType setDescriptorLengthLimit(
-      final long limit)
-    {
-      this.descriptorLengthLimit = limit;
-      return this;
-    }
-
-    @Override
-    public long keyValueDatumLimit()
-    {
-      return this.keyValueDatumLimit;
-    }
-
-    @Override
-    public AUParseRequestBuilderType setKeyValueDatumLimit(
-      final long limit)
-    {
-      this.keyValueDatumLimit = limit;
-      return this;
-    }
-
-    @Override
     public AUParseRequest build()
     {
       return new AUParseRequest(
         this.channel,
-        this.source,
-        this.descriptorLengthLimit,
-        this.keyValueDatumLimit
+        this.source
       );
     }
   }

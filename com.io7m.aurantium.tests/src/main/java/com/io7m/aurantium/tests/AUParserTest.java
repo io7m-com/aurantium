@@ -77,7 +77,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
@@ -290,7 +290,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
@@ -347,7 +347,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
@@ -499,7 +499,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       final var ex = Assertions.assertThrows(SIOException.class, () -> {
         this.parsers.createParser(request);
@@ -521,7 +521,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       final var ex = Assertions.assertThrows(SIOException.class, () -> {
         this.parsers.createParser(request);
@@ -543,7 +543,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         parser.execute();
