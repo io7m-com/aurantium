@@ -26,6 +26,7 @@ import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUKeyAssignment;
 import com.io7m.aurantium.api.AUKeyAssignmentID;
 import com.io7m.aurantium.api.AUKeyAssignments;
+import com.io7m.aurantium.api.AUMetadataValue;
 import com.io7m.aurantium.api.AUOctetOrder;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.api.AUWritableClipsType;
@@ -100,6 +101,7 @@ public final class AUWriteDemo3
 
       try (var section = writable.createSectionIdentifier()) {
         section.setIdentifier(new AUIdentifier(
+          new RDottedName("com.io7m.example_group"),
           new RDottedName("com.io7m.example"),
           new AUVersion(1, 0)
         ));
@@ -285,7 +287,7 @@ public final class AUWriteDemo3
 
       try (var section = writable.createSectionMetadata()) {
         section.setMetadata(
-          Map.of("title", List.of("Example Sample Map"))
+          List.of(new AUMetadataValue("title", "Example Sample Map"))
         );
       }
 

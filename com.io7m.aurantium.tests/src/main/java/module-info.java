@@ -29,21 +29,23 @@ open module com.io7m.aurantium.tests
   requires org.junit.platform.engine;
   requires org.junit.platform.launcher;
 
+  requires com.io7m.aurantium.api;
   requires com.io7m.aurantium.parser.api;
   requires com.io7m.aurantium.validation.api;
   requires com.io7m.aurantium.vanilla;
   requires com.io7m.aurantium.writer.api;
+  requires com.io7m.aurantium.xmedia;
 
   requires com.io7m.jbssio.api;
   requires com.io7m.jbssio.vanilla;
   requires com.io7m.jmulticlose.core;
   requires com.io7m.lanark.core;
+  requires com.io7m.seltzer.io;
   requires com.io7m.wendover.core;
+  requires java.desktop;
   requires net.jqwik.api;
   requires org.slf4j;
-  requires java.desktop;
-  requires com.io7m.aurantium.api;
-  requires com.io7m.seltzer.io;
+  requires org.apache.commons.io;
 
   exports com.io7m.aurantium.tests;
 }

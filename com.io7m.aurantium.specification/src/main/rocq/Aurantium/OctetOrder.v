@@ -14,9 +14,8 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Arith.PeanoNat.
-Require Import Coq.Lists.List.
-Require Import Coq.Unicode.Utf8_core.
+From Stdlib Require Import Arith.PeanoNat.
+From Stdlib Require Import Lists.List.
 
 Require Import Aurantium.Divisible8.
 Require Import Aurantium.Descriptor.
@@ -47,13 +46,13 @@ Definition octetIsExact (o : octet): Prop :=
   | OctRemain _ _ _ _ _ _ _ _ => False
   end.
 
-Lemma octetIsRemainderNotExact : forall (o : octet), octetIsRemainder o -> ¬octetIsExact o.
+Lemma octetIsRemainderNotExact : forall (o : octet), octetIsRemainder o -> ~octetIsExact o.
 Proof.
   intros o Hrem Hfalse.
   destruct o; contradiction.
 Qed.
 
-Lemma octetIsExactNotRemainder : forall (o : octet), octetIsExact o -> ¬octetIsRemainder o.
+Lemma octetIsExactNotRemainder : forall (o : octet), octetIsExact o -> ~octetIsRemainder o.
 Proof.
   intros o Hrem Hfalse.
   destruct o; contradiction.
@@ -109,7 +108,7 @@ Definition listInduction8 :
   (forall (b6 b5 b4 b3 b2 b1 b0    : A), P (b6 :: b5 :: b4 :: b3 :: b2 :: b1 :: b0 :: [])) ->
   (forall (b7 b6 b5 b4 b3 b2 b1 b0 : A) (rest : list A), P rest -> P (b7 :: b6 :: b5 :: b4 :: b3 :: b2 :: b1 :: b0 :: rest)) ->
   forall (L : list A), P L :=
-  λ A P P0 P1 P2 P3 P4 P5 P6 P7 P8,
+  (fun A P P0 P1 P2 P3 P4 P5 P6 P7 P8 =>
   fix f (l : list A) :=
     match l with
     | []                                                     => P0
@@ -121,7 +120,7 @@ Definition listInduction8 :
     | (x0 :: x1 :: x2 :: x3 :: x4 :: x5 :: [])               => P6 x0 x1 x2 x3 x4 x5
     | (x0 :: x1 :: x2 :: x3 :: x4 :: x5 :: x6 :: [])         => P7 x0 x1 x2 x3 x4 x5 x6
     | (x0 :: x1 :: x2 :: x3 :: x4 :: x5 :: x6 :: x7 :: rest) => P8 x0 x1 x2 x3 x4 x5 x6 x7 rest (f rest)
-    end.
+    end).
 
 Lemma app_non_empty : forall (A : Type) (xs : list A) (y : A),
   xs ++ [y] <> [].
@@ -134,7 +133,7 @@ Proof.
 Qed.
 
 Lemma app_list_implies_eq : forall (A : Type) (x y : A) (xs : list A),
-  xs ++ [x] = [y] -> xs = [] ∧ x = y.
+  xs ++ [x] = [y] -> xs = [] /\ x = y.
 Proof.
   intros A x y xs Happ.
   induction xs as [|z zs] eqn:Hxe.
@@ -158,11 +157,11 @@ Proof.
        = (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: []) ++ xs) as HlistEq
           by reflexivity.
   rewrite HlistEq.
-  rewrite app_length.
+  rewrite length_app.
   assert (length [n7; n6; n5; n4; n3; n2; n1; n0] = 8) as Hprefix8 by reflexivity.
   rewrite Hprefix8.
-  rewrite <- (Nat.add_mod_idemp_l 8 (length xs) 8 p8notZ).
-  rewrite (Nat.mod_same 8 p8notZ).
+  rewrite <- (Nat.Div0.add_mod_idemp_l 8 (length xs) 8).
+  rewrite (Nat.Div0.mod_same 8).
   rewrite (Nat.add_0_l).
   exact Hlen8.
 Qed.
@@ -176,11 +175,11 @@ Proof.
        = (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: []) ++ xs) as HlistEq
           by reflexivity.
   rewrite HlistEq in Hlen8.
-  rewrite app_length in Hlen8.
+  rewrite length_app in Hlen8.
   assert (length [n7; n6; n5; n4; n3; n2; n1; n0] = 8) as Hprefix8 by reflexivity.
   rewrite Hprefix8 in Hlen8.
-  rewrite <- (Nat.add_mod_idemp_l 8 (length xs) 8 p8notZ) in Hlen8.
-  rewrite (Nat.mod_same 8 p8notZ) in Hlen8.
+  rewrite <- (Nat.Div0.add_mod_idemp_l 8 (length xs) 8) in Hlen8.
+  rewrite (Nat.Div0.mod_same 8) in Hlen8.
   rewrite (Nat.add_0_l) in Hlen8.
   exact Hlen8.
 Qed.
@@ -223,7 +222,7 @@ Proof.
 Qed.
 
 Theorem octetsBigEndianLengthDivisibleNoRemainder : forall (b : list bit),
-  Forall octetIsExact (octetsBigEndian b) -> ¬ bitsOctetsHasRemainder (octetsBigEndian b).
+  Forall octetIsExact (octetsBigEndian b) -> ~ bitsOctetsHasRemainder (octetsBigEndian b).
 Proof.
   intros b HallExact.
   unfold octetsBigEndian.
@@ -250,28 +249,22 @@ Lemma mod_8_lt_0 : forall (m : nat),
   0 < m mod 8 -> 0 < (m + 8) mod 8.
 Proof.
   intros m Hlt.
-  rewrite (Nat.add_mod m 8 8).
-  rewrite (Nat.mod_same).
+  rewrite (Nat.Div0.add_mod m 8 8).
+  rewrite (Nat.Div0.mod_same).
   rewrite (Nat.add_0_r).
-  rewrite (Nat.mod_mod).
+  rewrite (Nat.Div0.mod_mod).
   exact Hlt.
-  discriminate.
-  discriminate.
-  discriminate.
 Qed.
 
 Lemma mod_8_lt_1 : forall (m : nat),
   0 < (m + 8) mod 8 -> 0 < m mod 8.
 Proof.
   intros m Hlt.
-  rewrite (Nat.add_mod m 8 8) in Hlt.
-  rewrite (Nat.mod_same)      in Hlt.
-  rewrite (Nat.add_0_r)       in Hlt.
-  rewrite (Nat.mod_mod)       in Hlt.
+  rewrite (Nat.Div0.add_mod m 8 8) in Hlt.
+  rewrite (Nat.Div0.mod_same)      in Hlt.
+  rewrite (Nat.add_0_r)            in Hlt.
+  rewrite (Nat.Div0.mod_mod)       in Hlt.
   exact Hlt.
-  discriminate.
-  discriminate.
-  discriminate.
 Qed.
 
 Lemma mod_8_lt : forall (m : nat),
@@ -283,7 +276,7 @@ Proof.
 Qed.
 
 Theorem octetsBigEndianLengthIndivisibleRemainder : forall (b : list bit),
-  0 < length b mod 8 -> ∃ o, In o (octetsBigEndian b) ∧ octetIsRemainder o.
+  0 < length b mod 8 -> exists o, In o (octetsBigEndian b) /\ octetIsRemainder o.
 Proof.
   intros b Hlength.
   induction b using listInduction8.
@@ -329,7 +322,7 @@ Proof.
       rewrite <- (mod_8_lt (length b)).
       exact Hlength.
     }
-    assert (∃ o : octet, In o (octetsBigEndian b) ∧ octetIsRemainder o) as HEx
+    assert (exists o : octet, In o (octetsBigEndian b) /\ octetIsRemainder o) as HEx
       by (apply (IHb Hlt)).
     destruct HEx as [ox [HoxIn HoxRem]].
     simpl.
@@ -341,11 +334,11 @@ Proof.
 Qed.
 
 Theorem octetsLittleEndianLengthIndivisibleRemainder : forall (b : list bit),
-  0 < length b mod 8 -> ∃ o, In o (octetsLittleEndian b) ∧ octetIsRemainder o.
+  0 < length b mod 8 -> exists o, In o (octetsLittleEndian b) /\ octetIsRemainder o.
 Proof.
   unfold octetsLittleEndian.
   intros b Hlen.
-  assert (∃ o, In o (octetsBigEndian b) ∧ octetIsRemainder o) as Hexists
+  assert (exists o, In o (octetsBigEndian b) /\ octetIsRemainder o) as Hexists
     by (apply (octetsBigEndianLengthIndivisibleRemainder b Hlen)).
   destruct Hexists as [ox [HoxIn HoxRem]].
   exists ox.
@@ -355,7 +348,7 @@ Proof.
   exact HoxRem.
 Qed.
 
-Require Import Coq.Strings.String.
+From Stdlib Require Import Strings.String.
 
 Local Open Scope string_scope.
 
@@ -369,3 +362,4 @@ Definition octetOrderDescribe (b : octetOrder) : descriptor :=
 Instance octetOrderDescribable : describable octetOrder := {
   descriptorOf f := octetOrderDescribe f
 }.
+

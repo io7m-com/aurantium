@@ -27,6 +27,7 @@ module com.io7m.aurantium.api
   requires com.io7m.jinterp.core;
   requires com.io7m.junsigned.core;
   requires com.io7m.lanark.core;
+  requires com.io7m.seltzer.api;
 
   exports com.io7m.aurantium.api;
 }

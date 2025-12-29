@@ -18,7 +18,6 @@ package com.io7m.aurantium.api;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A writable metadata section.
@@ -35,6 +34,6 @@ public non-sealed interface AUSectionWritableMetadataType
    * @throws IOException On errors
    */
 
-  void setMetadata(Map<String, List<String>> metadata)
+  void setMetadata(List<AUMetadataValue> metadata)
     throws IOException;
 }

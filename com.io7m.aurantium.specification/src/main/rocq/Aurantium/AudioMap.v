@@ -14,8 +14,8 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Lists.List.
-Require Import Coq.Init.Nat.
+From Stdlib Require Import Lists.List.
+From Stdlib Require Import Init.Nat.
 
 Import ListNotations.
 

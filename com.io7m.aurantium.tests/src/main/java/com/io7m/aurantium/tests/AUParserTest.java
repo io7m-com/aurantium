@@ -24,6 +24,7 @@ import com.io7m.aurantium.api.AUIdentifier;
 import com.io7m.aurantium.api.AUIdentifiers;
 import com.io7m.aurantium.api.AUKeyAssignment;
 import com.io7m.aurantium.api.AUKeyAssignmentID;
+import com.io7m.aurantium.api.AUMetadataValue;
 import com.io7m.aurantium.api.AUVersion;
 import com.io7m.aurantium.parser.api.AUParseRequest;
 import com.io7m.aurantium.parser.api.AUParsers;
@@ -39,6 +40,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -77,7 +79,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
@@ -94,6 +96,10 @@ public final class AUParserTest
 
           final AUIdentifier identifier = section.identifier();
           assertEquals(
+            "com.io7m.example_group",
+            identifier.group().value()
+          );
+          assertEquals(
             "com.io7m.example",
             identifier.name().value()
           );
@@ -103,7 +109,7 @@ public final class AUParserTest
           );
 
           try (var ch = section.sectionDataChannel()) {
-            assertEquals(32L, ch.size());
+            assertEquals(64L, ch.size());
           }
 
           assertEquals(
@@ -134,7 +140,7 @@ public final class AUParserTest
             assertEquals(
               new AUHashValue(
                 AUHashAlgorithm.HA_SHA256,
-                "b82485b383d706f0275c0c6ee8de62554458ec207cbf736b93c2c560ccc3a8fa"
+                "ab641038204da38e4160d2e4b0767d62843deae4f5d9181acf9ab2a6906c53aa"
               ),
               c.hash()
             );
@@ -157,7 +163,7 @@ public final class AUParserTest
             assertEquals(
               new AUHashValue(
                 AUHashAlgorithm.HA_SHA256,
-                "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+                "1e627b6efb7ebc5bc4dfcab8aaf673fb8b7a1b24f44f4b0374a2d4a4241aa865"
               ),
               c.hash()
             );
@@ -234,17 +240,21 @@ public final class AUParserTest
           final var meta =
             section.metadata();
 
-          assertEquals("value0", meta.get("key0").get(0));
-          assertEquals("value1", meta.get("key1").get(0));
-          assertEquals("value2", meta.get("key2").get(0));
-          assertEquals("value3", meta.get("key3").get(0));
-          assertEquals("value4", meta.get("key4").get(0));
-          assertEquals("value5", meta.get("key5").get(0));
-          assertEquals("value6", meta.get("key6").get(0));
-          assertEquals("value7", meta.get("key7").get(0));
-          assertEquals("value8", meta.get("key8").get(0));
-          assertEquals("value9", meta.get("key9").get(0));
-          assertEquals(10, meta.size());
+          assertEquals(
+            List.of(
+              new AUMetadataValue("key0", "value0"),
+              new AUMetadataValue("key1", "value1"),
+              new AUMetadataValue("key2", "value2"),
+              new AUMetadataValue("key3", "value3"),
+              new AUMetadataValue("key4", "value4"),
+              new AUMetadataValue("key5", "value5"),
+              new AUMetadataValue("key6", "value6"),
+              new AUMetadataValue("key7", "value7"),
+              new AUMetadataValue("key8", "value8"),
+              new AUMetadataValue("key9", "value9")
+            ),
+            meta
+          );
 
           try (var ch = section.sectionDataChannel()) {
             assertEquals(240L, ch.size());
@@ -286,7 +296,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
@@ -343,7 +353,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         final var auFile = parser.execute();
@@ -495,7 +505,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       final var ex = Assertions.assertThrows(SIOException.class, () -> {
         this.parsers.createParser(request);
@@ -517,7 +527,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       final var ex = Assertions.assertThrows(SIOException.class, () -> {
         this.parsers.createParser(request);
@@ -539,7 +549,7 @@ public final class AUParserTest
 
     try (var channel = FileChannel.open(file, READ)) {
       final var request =
-        new AUParseRequest(channel, file.toUri(), 1024L, 1024L);
+        new AUParseRequest(channel, file.toUri());
 
       try (var parser = this.parsers.createParser(request)) {
         parser.execute();

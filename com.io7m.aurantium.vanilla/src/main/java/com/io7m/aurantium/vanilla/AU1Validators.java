@@ -80,7 +80,8 @@ public final class AU1Validators implements AUValidatorFactoryType
     Objects.requireNonNull(request, "request");
     return new AU1Validator(
       new AU1ValidationErrors(request.source(), this.strings),
-      request.file()
+      request.file(),
+      request.source()
     );
   }
 }

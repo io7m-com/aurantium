@@ -14,11 +14,10 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.PArith.PArith.
-Require Import Coq.Arith.PeanoNat.
-Require Import Coq.Init.Nat.
-Require Import Coq.Lists.List.
-Require Import Coq.Unicode.Utf8_core.
+From Stdlib Require Import PArith.PArith.
+From Stdlib Require Import Arith.PeanoNat.
+From Stdlib Require Import Init.Nat.
+From Stdlib Require Import Lists.List.
 
 (* Set Mangle Names. *)
 
@@ -29,8 +28,8 @@ Definition divisible8 (x : nat) : Prop :=
 
 (** If _x_ and _y_ are divisible by _z_, then _x + y_ is also divisible by _z_. *)
 
-Theorem divisiblityNAdd : ∀ (x y z : nat),
-  0 ≠ z → x mod z = 0 → y mod z = 0 → (x + y) mod z = 0.
+Theorem divisiblityNAdd : forall (x y z : nat),
+  0 <> z -> x mod z = 0 -> y mod z = 0 -> (x + y) mod z = 0.
 Proof.
   intros x y z Hz Hx Hy.
   destruct y as [|y].
@@ -38,8 +37,7 @@ Proof.
     rewrite Nat.add_0_r; exact Hx.
     (* Otherwise, the following property always holds given that the divisor is ≠ 0. *)
     assert ((x mod z + S y) mod z = (x + S y) mod z) as Heq.
-      apply (Nat.add_mod_idemp_l x (S y) z).
-      apply (Nat.neq_sym 0 z Hz).
+      apply (Nat.Div0.add_mod_idemp_l x (S y) z).
     (* x mod z = 0 *)
     rewrite Hx in Heq.
     (* 0 + S y = S y *)
@@ -50,31 +48,31 @@ Qed.
 
 (** Divisibility is preserved over addition. *)
 
-Theorem divisibilityNFoldPlus : ∀ z xs,
-  0 ≠ z →
-    Forall (λ n, n mod z = 0) xs →
+Theorem divisibilityNFoldPlus : forall z xs,
+  0 <> z ->
+    Forall (fun n => n mod z = 0) xs ->
       (fold_right plus 0 xs) mod z = 0.
 Proof.
   intros z xs Hnz HforAll.
   induction xs as [|y ys].
-  - apply (Nat.mod_0_l z (Nat.neq_sym 0 z Hnz)).
+  - apply (Nat.Div0.mod_0_l z).
   - assert (fold_right add 0 (y :: ys) = y + fold_right add 0 ys) as Hfoldeq by reflexivity.
     rewrite Hfoldeq.
     assert (fold_right add 0 ys mod z = 0) as Hfoldeq2. {
       apply IHys.
-      apply (@Forall_inv_tail nat (λ n : nat, n mod z = 0) y ys HforAll).
+      apply (@Forall_inv_tail nat (fun n : nat => n mod z = 0) y ys HforAll).
     }
     rewrite divisiblityNAdd.
     reflexivity.
     exact Hnz.
-    apply (@Forall_inv nat (λ n : nat, n mod z = 0) y ys HforAll).
+    apply (@Forall_inv nat (fun n : nat => n mod z = 0) y ys HforAll).
     exact Hfoldeq2.
 Qed.
 
 (** Divisibility is preserved over addition. *)
 
-Theorem divisiblity8Add : ∀ (x y : nat),
-  divisible8 x → divisible8 y → divisible8 (x + y).
+Theorem divisiblity8Add : forall (x y : nat),
+  divisible8 x -> divisible8 y -> divisible8 (x + y).
 Proof.
   intros x y Hx Hy.
   unfold divisible8 in *.

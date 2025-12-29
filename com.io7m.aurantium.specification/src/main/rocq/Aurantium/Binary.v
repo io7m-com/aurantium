@@ -14,16 +14,16 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Arith.PeanoNat.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Init.Nat.
-Require Import Coq.Init.Byte.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Reals.Reals.
-Require Import Coq.Program.Basics.
+From Stdlib Require Import Arith.PeanoNat.
+From Stdlib Require Import Strings.String.
+From Stdlib Require Import Lists.List.
+From Stdlib Require Import Init.Nat.
+From Stdlib Require Import Init.Byte.
+From Stdlib Require Import Bool.Bool.
+From Stdlib Require Import Reals.Reals.
+From Stdlib Require Import Program.Basics.
 
-Require Import Psatz.
+From Stdlib Require Import Psatz.
 
 Require Import Aurantium.Alignment.
 Require Import Aurantium.Divisible8.
@@ -269,7 +269,7 @@ Proof.
     unfold asMultipleOf4.
     remember (asMultipleOf (Datatypes.length Hbbyte) 4 p0not4) as size eqn:Heqsize.
     rewrite Nat.add_comm.
-    rewrite <- (Nat.add_mod_idemp_l size 4 4 (Nat.neq_sym _ _ p0not4)).
+    rewrite <- (Nat.Div0.add_mod_idemp_l size 4 4).
     assert (size mod 4 = 0) as Hm0. {
       rewrite Heqsize.
       apply (asMultipleOfMod (Datatypes.length Hbbyte) 4 (p0not4)).
@@ -282,7 +282,7 @@ Proof.
     unfold asMultipleOf4.
     remember (asMultipleOf (Datatypes.length Hbutf) 4 p0not4) as size eqn:Heqsize.
     rewrite Nat.add_comm.
-    rewrite <- (Nat.add_mod_idemp_l size 4 4 (Nat.neq_sym _ _ p0not4)).
+    rewrite <- (Nat.Div0.add_mod_idemp_l size 4 4).
     assert (size mod 4 = 0) as Hm0. {
       rewrite Heqsize.
       apply (asMultipleOfMod (Datatypes.length Hbutf) 4 (p0not4)).
@@ -381,22 +381,20 @@ Proof.
   intros bs a Hnz.
   unfold binaryEvalPaddedBytes.
   destruct (Datatypes.length bs mod a) eqn:Hlen.
-  - rewrite map_length.
+  - rewrite length_map.
     exact Hlen.
-  - rewrite map_length.
-    rewrite app_length.
+  - rewrite length_map.
+    rewrite length_app.
     rewrite repeat_length.
     rewrite <- Hlen.
     remember (Datatypes.length bs) as x.
-    rewrite <- (Nat.add_mod_idemp_l x (a - x mod a) a).
+    rewrite <- (Nat.Div0.add_mod_idemp_l x (a - x mod a) a).
     assert ((x mod a + (a - x mod a)) = a) as Heqa. {
       rewrite (mod_opposition x a Hnz).
       reflexivity.
     }
     rewrite Heqa.
-    apply Nat.mod_same.
-    apply Nat.neq_sym; exact Hnz.
-    apply Nat.neq_sym; exact Hnz.
+    apply Nat.Div0.mod_same.
 Qed.
 
 Lemma repeat_eq : forall (A : Type) (P : A -> Prop) (n : nat) (x : A),
@@ -623,7 +621,7 @@ Proof.
     }
     assert (fold_right add 0 (map streamElementSize es) = length es) as HlenEq. {
       assert (length es = length (map streamElementSize es)) as HmapLen. {
-        rewrite map_length.
+        rewrite length_map.
         reflexivity.
       }
       rewrite HmapLen.
@@ -637,3 +635,4 @@ Proof.
     exact Hxsize.
     exact Hysize.
 Qed.
+

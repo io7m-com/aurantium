@@ -14,30 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Arith.PeanoNat.
-Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Init.Nat.
-Require Import Coq.Init.Byte.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Program.Basics.
-Require Import Coq.Unicode.Utf8_core.
+From Stdlib Require Import Arith.PeanoNat.
+From Stdlib Require Import Strings.String.
+From Stdlib Require Import Lists.List.
+From Stdlib Require Import Init.Nat.
+From Stdlib Require Import Init.Byte.
+From Stdlib Require Import Bool.Bool.
+From Stdlib Require Import Program.Basics.
 
 (** * Alignment *)
 
 (** Return _size_ scaled such that it is a multiple of _q_. *)
 
-Definition asMultipleOf (size q : nat) (Hnz : 0 ≠ q) : nat :=
+Definition asMultipleOf (size q : nat) (Hnz : 0 <> q) : nat :=
   let r := size / q in
     match Nat.ltb_spec0 r q with
     | ReflectT _ _ => (r + 1) * q
     | ReflectF _ _ => r * q
     end.
 
-Lemma p0not4 : 0 ≠ 4.
+Lemma p0not4 : 0 <> 4.
 Proof. discriminate. Qed.
 
-Lemma p0not16 : 0 ≠ 16.
+Lemma p0not16 : 0 <> 16.
 Proof. discriminate. Qed.
 
 (** Return _size_ scaled such that it is a multiple of 4. *)
@@ -52,12 +51,13 @@ Definition asMultipleOf16 (size : nat) : nat :=
 
 (** If _n_ is a multiple of _m_, then _n mod m = 0_. *)
 
-Lemma asMultipleOfMod : ∀ s q (Hneq : 0 ≠ q), (asMultipleOf s q Hneq) mod q = 0.
+Lemma asMultipleOfMod : forall s q (Hneq : 0 <> q), (asMultipleOf s q Hneq) mod q = 0.
 Proof.
   intros s q Hneq.
   unfold asMultipleOf.
   destruct (Nat.ltb_spec0 (s / q) q) as [Hlt|H1].
-  - apply (Nat.mod_mul (s / q + 1) q (Nat.neq_sym _ _ Hneq)).
-  - apply (Nat.mod_mul (s / q) q (Nat.neq_sym _ _ Hneq)).
+  - apply (Nat.Div0.mod_mul (s / q + 1) q).
+  - apply (Nat.Div0.mod_mul (s / q) q).
 Qed.
+
 

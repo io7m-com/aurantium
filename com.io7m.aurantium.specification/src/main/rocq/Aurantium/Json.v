@@ -14,9 +14,9 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Strings.String.
-Require Import Coq.Numbers.DecimalString.
-Require Import Coq.Lists.List.
+From Stdlib Require Import Strings.String.
+From Stdlib Require Import Numbers.DecimalString.
+From Stdlib Require Import Lists.List.
 
 Local Open Scope string_scope.
 
@@ -58,7 +58,7 @@ Inductive jsonToken : Set :=
   | JTString      : string -> jsonToken
   | JTObjectStart : jsonToken
   | JTObjectEnd   : jsonToken
-  | JTEquals      : jsonToken
+  | JTColon       : jsonToken
   | JTComma       : jsonToken
   | JTArrayStart  : jsonToken
   | JTArrayEnd    : jsonToken
@@ -103,7 +103,7 @@ Fixpoint jsonSerialize (j : json) : list jsonToken :=
   | JsonFloat         => [JTFloat]
   | JsonString s      => [JTString s]
   | JsonObject o      =>
-    let props := map (fun p => JTString (fst p) :: JTEquals :: jsonSerialize (snd p)) o in
+    let props := map (fun p => JTString (fst p) :: JTColon :: jsonSerialize (snd p)) o in
       JTObjectStart :: (jsonComma props) ++ [JTObjectEnd]
   | JsonArray a       =>
     let values := map jsonSerialize a in
@@ -120,7 +120,7 @@ Definition jsonStringOne (t : jsonToken) : string :=
   | JTString s    => """" ++ s ++ """"
   | JTObjectStart => "{"
   | JTObjectEnd   => "}"
-  | JTEquals      => "="
+  | JTColon       => ":"
   | JTComma       => ","
   | JTArrayStart  => "["
   | JTArrayEnd    => "]"

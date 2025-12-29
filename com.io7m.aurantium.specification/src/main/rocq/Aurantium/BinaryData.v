@@ -14,10 +14,9 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
-Require Import Coq.Lists.List.
-Require Import Coq.Unicode.Utf8_core.
+From Stdlib Require Import Strings.String.
+From Stdlib Require Import Strings.Ascii.
+From Stdlib Require Import Lists.List.
 
 Local Open Scope string_scope.
 
@@ -44,6 +43,7 @@ Definition binaryExpFileHeader : binaryExp :=
 (** The binary encoding of an identifier. *)
 Definition binaryIdentifier (i : identifier) : binaryExp :=
   BiRecord [
+    ("group",        utf8 (idGroup i));
     ("name",         utf8 (idName i));
     ("versionMajor", u32 (idVersionMajor i));
     ("versionMinor", u32 (idVersionMinor i))

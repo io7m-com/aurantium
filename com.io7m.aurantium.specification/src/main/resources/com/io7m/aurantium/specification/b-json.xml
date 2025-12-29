@@ -103,8 +103,8 @@
       character constant <Term type="expression">} U+007D</Term>.
     </Paragraph>
     <Paragraph>
-      An expression <Term type="expression">JTEquals</Term> represents a
-      character constant <Term type="expression">= U+003D</Term>.
+      An expression <Term type="expression">JTColon</Term> represents a
+      character constant <Term type="expression">: U+003A</Term>.
     </Paragraph>
     <Paragraph>
       An expression <Term type="expression">JTComma</Term> represents a

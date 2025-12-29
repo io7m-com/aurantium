@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-Require Import Coq.Lists.List.
+From Stdlib Require Import Lists.List.
 
 (** Return the set of elements that are in both _ea_ and _eb_, according to the 
     find function _f_. *)

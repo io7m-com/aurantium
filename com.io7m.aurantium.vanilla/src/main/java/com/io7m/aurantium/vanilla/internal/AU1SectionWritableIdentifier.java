@@ -73,6 +73,7 @@ public final class AU1SectionWritableIdentifier
                targetURI, channel, "identifier")) {
 
         final var e = this.expressions();
+        e.writeUTF8(writer, identifier.group().value());
         e.writeUTF8(writer, identifier.name().value());
         final var v = identifier.version();
         e.writeU32(writer, "major", toUnsignedLong(v.major()));

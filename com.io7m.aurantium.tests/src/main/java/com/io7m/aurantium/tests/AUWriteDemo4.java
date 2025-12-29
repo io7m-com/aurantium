@@ -86,6 +86,7 @@ public final class AUWriteDemo4
 
       try (var section = writable.createSectionIdentifier()) {
         section.setIdentifier(new AUIdentifier(
+          new RDottedName("com.io7m.example_group"),
           new RDottedName("com.io7m.example"),
           new AUVersion(23, 3)
         ));
@@ -107,7 +108,7 @@ public final class AUWriteDemo4
       }
 
       try (var section = writable.createSectionMetadata()) {
-        section.setMetadata(Map.of());
+        section.setMetadata(List.of());
       }
 
       try (var section = writable.createSection(0x11223344_AABBCCDDL)) {
