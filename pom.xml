@@ -11,7 +11,7 @@
 
   <groupId>com.io7m.aurantium</groupId>
   <artifactId>com.io7m.aurantium</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0-beta0002</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.aurantium</name>
@@ -35,7 +35,7 @@
     <io7m.workID>4440b069-8624-3c53-af55-820a50ce32e1</io7m.workID>
 
     <!-- Configuration. -->
-    <io7m.api.previousVersion>1.0.0-SNAPSHOT</io7m.api.previousVersion>
+    <io7m.api.previousVersion>1.0.0-beta0002</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>25</io7m.java.targetJavaVersion>
 
     <!-- io7m dependencies. -->
