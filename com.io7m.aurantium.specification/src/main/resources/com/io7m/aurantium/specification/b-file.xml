@@ -32,4 +32,11 @@
     for files targeting this version of the specification.
   </Paragraph>
 
+  <Paragraph id="b11dcf9a-0c83-4231-aed1-d122db7d273a">
+    The
+    <LinkExternal target="https://en.wikipedia.org/wiki/Media_type">media/MIME type</LinkExternal>
+    for <Term type="package">aurantium</Term> audio map files is
+    <Term type="constant">application/vnd.com.io7m.aurantium.sample_map</Term>.
+  </Paragraph>
+
 </Section>
